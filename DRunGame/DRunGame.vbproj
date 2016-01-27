@@ -105,12 +105,12 @@
     <Compile Include="Form1.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Game\DianosolaRun.vb" />
-    <Compile Include="Game\Objects\Class1.vb" />
+    <Compile Include="Game\DinosaurRun.vb" />
+    <Compile Include="Game\Objects\Dinosaur.vb" />
     <Compile Include="Game\Objects\Stone.vb" />
-    <Compile Include="Game\Objects\Earth.vb" />
+    <Compile Include="Game\Objects\GroundLand.vb" />
     <Compile Include="Game\Objects\Cloud.vb" />
-    <Compile Include="Game\Objects\xrzh.vb" />
+    <Compile Include="Game\Objects\Cactus.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -151,7 +151,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.VisualBasic_Framework\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+    <ProjectReference Include="..\..\..\Microsoft.VisualBasic_Framework\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
