@@ -51,6 +51,7 @@
             Call maps.BindMapping("1"c, Controls.Fire)
             Call maps.BindMapping("`"c, Controls.Menu)
             Call maps.BindMapping("p"c, Controls.Pause)
+            Call maps.BindMapping(vbCrLf, Controls.Ok)
 
             Return maps
         End Function

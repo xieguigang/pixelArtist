@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.GamePads
+﻿Imports Microsoft.VisualBasic.ComponentModel.DataSourceModel
+Imports Microsoft.VisualBasic.GamePads
 Imports Microsoft.VisualBasic.GamePads.Abstract
 Imports Microsoft.VisualBasic.GamePads.EngineParts
 
@@ -7,6 +8,7 @@ Imports Microsoft.VisualBasic.GamePads.EngineParts
 ''' </summary>
 Public MustInherit Class Engine : Implements IDisposable
     Implements IEnumerable(Of GraphicUnit)
+    Implements Microsoft.VisualBasic.ComponentModel.DataSourceModel.IObjectModel_Driver
 
     ''' <summary>
     ''' 基于GDI+的显示驱动模块
@@ -88,9 +90,9 @@ Public MustInherit Class Engine : Implements IDisposable
     ''' <summary>
     ''' 启动游戏引擎。请注意，线程会被阻塞在这里
     ''' </summary>
-    Public Sub Run()
+    Public Function Run() As Integer Implements IObjectModel_Driver.Run
         If Running Then
-            Return
+            Return 1
         Else
             _Running = True
         End If
@@ -101,7 +103,9 @@ Public MustInherit Class Engine : Implements IDisposable
             Call Threading.Thread.Sleep(1)
             Call __worldReacts()
         Loop
-    End Sub
+
+        Return 0
+    End Function
 
     ''' <summary>
     ''' 图像更新
@@ -115,6 +119,7 @@ Public MustInherit Class Engine : Implements IDisposable
 
     Public Sub Pause()
         _Running = False
+        Call Threading.Thread.Sleep(100) ' 休眠一段时间，等待引擎之中的图像更新线程和控制线程的退出
     End Sub
 
     Public Sub Start()
@@ -125,8 +130,21 @@ Public MustInherit Class Engine : Implements IDisposable
         Call DisplayDriver._list.Add(obj)
     End Sub
 
-    Sub Remove(obj As GraphicUnit)
-        Call DisplayDriver._list.Remove(obj)
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="obj"></param>
+    Sub Remove(obj As GraphicUnit, Optional throwEx As Boolean = False)
+        If obj Is Nothing Then
+            Dim ex As New Exception("GraphicUnit is nothing!")
+            Call App.LogException(ex)
+
+            If throwEx Then
+                Throw ex
+            End If
+        Else
+            Call DisplayDriver._list.Remove(obj)
+        End If
     End Sub
 
     ''' <summary>
@@ -155,8 +173,18 @@ Public MustInherit Class Engine : Implements IDisposable
     ''' </summary>
     Protected MustOverride Sub __GraphicsDeviceResize()
 
-    Public MustOverride Sub Reset()
-    Public MustOverride Sub Restart()
+    Public MustOverride Sub __reset()
+    Public MustOverride Sub __restart()
+
+    Public Sub Restart()
+        Call __restart()
+        Call Me.DriverRun
+    End Sub
+
+    Public Sub Reset()
+        Call __reset()
+        Call Me.DriverRun
+    End Sub
 
     Private Sub GraphicsDeviceResize() Handles _innerDevice.Resize
         _GraphicRegion = New Rectangle(New Point, _innerDevice.Size)

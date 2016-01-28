@@ -98,6 +98,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commons\Button.vb" />
     <Compile Include="Commons\Score.vb" />
     <Compile Include="Framework\Abstract\EngineParts.vb" />
     <Compile Include="Framework\Abstract\Score.vb" />

@@ -81,10 +81,10 @@ Public Class DinosaurRun : Inherits Engine
         MsgBox(x.ToString)
     End Sub
 
-    Public Overrides Sub Reset()
+    Public Overrides Sub __reset()
     End Sub
 
-    Public Overrides Sub Restart()
+    Public Overrides Sub __restart()
 
     End Sub
 End Class

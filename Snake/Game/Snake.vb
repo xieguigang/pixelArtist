@@ -8,22 +8,45 @@ Public Class Snake : Inherits GraphicUnit
             Return _direction
         End Get
         Set(value As Controls)
-            _direction = value
 
-            Select Case Direction
+            Dim pre = Direction
+
+            Select Case value
                 Case Controls.Down
+
+                    If pre = Controls.Up Then
+                        Return
+                    End If
+
                     dx = 0
                     dy = 1
                 Case Controls.Left
+
+                    If pre = Controls.Right Then
+                        Return
+                    End If
+
                     dx = -1
                     dy = 0
                 Case Controls.Right
+
+                    If pre = Controls.Left Then
+                        Return
+                    End If
+
                     dx = 1
                     dy = 0
                 Case Controls.Up
+
+                    If pre = Controls.Down Then
+                        Return
+                    End If
+
                     dx = 0
                     dy = -1
             End Select
+
+            _direction = value
         End Set
     End Property
 
@@ -34,6 +57,7 @@ Public Class Snake : Inherits GraphicUnit
     Dim dx As Integer = 0, dy As Integer = 1
 
     Public Sub init()
+        Call body.Clear()
         For i As Integer = 0 To 10
             Call body.Add(New Point(0, Location.Y - i * size.Height))
         Next
@@ -49,6 +73,21 @@ Public Class Snake : Inherits GraphicUnit
         Call body.Add(body.Last)
     End Sub
 
+    ''' <summary>
+    ''' 1-100
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property MoveSpeed As Double
+        Get
+            Return _speed * 100
+        End Get
+        Set(value As Double)
+            _speed = value / 100
+        End Set
+    End Property
+
+    Dim _speed As Double
+
     Public Overrides Sub Draw(ByRef g As GDIPlusDeviceHandle)
         SyncLock body
             For Each dot In body.Skip(1).ToArray
@@ -57,7 +96,7 @@ Public Class Snake : Inherits GraphicUnit
             Call g.FillRectangle(Brushes.Black, Head)
 
             Dim pre As Point = Location
-            Location = New Point(Location.X + dx * size.Width, Location.Y + dy * size.Height)
+            Location = New Point(Location.X + dx * size.Width * _speed, Location.Y + dy * size.Height * _speed)
 
             For i As Integer = 0 To body.Count - 1
                 Dim tmp As Point = body(i)
@@ -66,6 +105,24 @@ Public Class Snake : Inherits GraphicUnit
             Next
         End SyncLock
     End Sub
+
+    ''' <summary>
+    ''' 吃自己的身体？？
+    ''' </summary>
+    ''' <returns></returns>
+    Public Function EatSelf() As Boolean
+        SyncLock body
+            Dim hd = Head
+
+            For Each x In body.ToArray
+                If hd.Contains(x) Then
+                    Return True
+                End If
+            Next
+        End SyncLock
+
+        Return False
+    End Function
 
     Protected Overrides Function __getSize() As Size
         Return size

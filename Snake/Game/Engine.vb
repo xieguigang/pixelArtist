@@ -13,15 +13,20 @@ Public Class GameEngine : Inherits Engine
     End Sub
 
     Public Overrides Sub ClickObject(pos As Point, x As GraphicUnit)
-
+        If TypeOf x Is Button Then
+            Call Score.Reset
+            Call Reset()
+        End If
     End Sub
 
     Public Overrides Sub Invoke(control As Controls, raw As Char)
         Select Case control
             Case Controls.Up, Controls.Right, Controls.Left, Controls.Down
                 _snake.Direction = control
-            Case Controls.Fire
+            Case Controls.Ok
+                Call Restart()
             Case Controls.Pause
+                Call Pause()
             Case Controls.Menu
         End Select
     End Sub
@@ -34,9 +39,19 @@ Public Class GameEngine : Inherits Engine
             Call Beep()
         End If
 
-        If Not GraphicRegion.Contains(_snake.Head.Location) Then
-            ' 撞墙，Game Over
+        If Not GraphicRegion.Contains(_snake.Head.Location) OrElse
+            _snake.EatSelf Then            ' 撞墙或者吃掉自己的身体，Game Over
+
             Call Pause()
+
+            Dim g = _innerDevice.BackgroundImage.GdiFromImage
+            Dim l As Point = New Point((g.Width - My.Resources.Restart.Width) / 2, (g.Height - My.Resources.Restart.Height) / 2)
+            Dim button As New Button(My.Resources.Restart) With {.Location = l}
+
+            Call Me.Add(button)
+            Call button.Draw(g)
+
+            _innerDevice.BackgroundImage = g.ImageResource
         End If
     End Sub
 
@@ -56,6 +71,7 @@ Public Class GameEngine : Inherits Engine
         Call ControlMaps.DefaultMaps(Me.ControlsMap.ControlMaps)
 
         _snake.Location = Me.GraphicRegion.Center
+        _snake.MoveSpeed = 105
 
         Dim score As New Score With {.Location = New Point(10, 10)}
 
@@ -72,11 +88,17 @@ Public Class GameEngine : Inherits Engine
         Return True
     End Function
 
-    Public Overrides Sub Reset()
+    Public Overrides Sub __reset()
+        _snake.Location = Me.GraphicRegion.Center
+        Call _snake.init()
+        Call Me.Remove((From x In Me Where TypeOf x Is Food Select x).FirstOrDefault)
+        Call AddFood()
 
+        Call Me.Remove((From x In Me Where TypeOf x Is Button Select x).FirstOrDefault)
+        Call WinMM.PlaySound(App.HOME & "/title.wma")
     End Sub
 
-    Public Overrides Sub Restart()
+    Public Overrides Sub __restart()
 
     End Sub
 End Class
