@@ -1,19 +1,24 @@
 ﻿Namespace EngineParts
 
-    Public Enum Controls
+    Public Enum Controls As Integer
+
+        ''' <summary>
+        ''' 按键未绑定
+        ''' </summary>
+        NotBind = -100
 
 #Region "Direction Controls"
-        Up
-        Down
-        Left
-        Right
+        Up = 8
+        Down = 2
+        Left = 4
+        Right = 6
 #End Region
 
 #Region "Game Controls"
         ''' <summary>
         ''' 游戏暂停
         ''' </summary>
-        Pause
+        Pause = 100
         ''' <summary>
         ''' 确认
         ''' </summary>
@@ -29,12 +34,8 @@
 #End Region
 
 #Region "Game Actions"
-        Fire
+        Fire = 1000
         Jumps
-        ''' <summary>
-        ''' 按键未绑定
-        ''' </summary>
-        NotBind
 #End Region
     End Enum
 End Namespace

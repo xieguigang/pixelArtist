@@ -11,6 +11,10 @@ Namespace EngineParts
         Dim _actionCallback As Action(Of Controls, Char)
         Dim _clickObject As Action(Of Point, GraphicUnit)
 
+        ''' <summary>
+        ''' 输入映射，将键盘按键映射为游戏内部的动作信号
+        ''' </summary>
+        ''' <returns></returns>
         Public ReadOnly Property ControlMaps As ControlMaps = New ControlMaps
 
         Sub New(engine As Engine)
