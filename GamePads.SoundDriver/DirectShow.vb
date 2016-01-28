@@ -97,8 +97,15 @@ Public Module WinMM
     End Function
 
     Public Sub PlaySound(filename As String)
-        Dim Device As WinMM.DirectShow = New DirectShow
-        Call Device.RenderFile(filename)
-        Call Device.Play()
+        filename = FileIO.FileSystem.GetFileInfo(filename).FullName
+
+        Try
+            Dim Device As WinMM.DirectShow = New DirectShow
+            Call Device.RenderFile(filename)
+            Call Device.Play()
+        Catch ex As Exception
+            ex = New Exception(filename, ex)
+            Call MsgBox(ex.ToString, MsgBoxStyle.Critical, "Sound Driver Error!")
+        End Try
     End Sub
 End Module

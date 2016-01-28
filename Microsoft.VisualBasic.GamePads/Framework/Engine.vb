@@ -31,11 +31,7 @@ Public MustInherit Class Engine : Implements IDisposable
     ''' 图像的绘图区域
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property GraphicRegion As Size
-        Get
-            Return _innerDevice.Size
-        End Get
-    End Property
+    Public ReadOnly Property GraphicRegion As Rectangle
 
     ''' <summary>
     ''' 
@@ -47,6 +43,8 @@ Public MustInherit Class Engine : Implements IDisposable
         Me.ControlsMap = New Controller(Me)
         Me.DisplayDriver = New GraphicDevice(Me)
         Me.DisplayDriver.RefreshHz = 25
+
+        Call GraphicsDeviceResize()
     End Sub
 
     ''' <summary>
@@ -91,8 +89,13 @@ Public MustInherit Class Engine : Implements IDisposable
     ''' 启动游戏引擎。请注意，线程会被阻塞在这里
     ''' </summary>
     Public Sub Run()
-        _Running = True
-        Call Microsoft.VisualBasic.Parallel.Run(AddressOf __displayUpdates)
+        If Running Then
+            Return
+        Else
+            _Running = True
+        End If
+
+        Call Parallel.Run(AddressOf __displayUpdates)
 
         Do While Running
             Call Threading.Thread.Sleep(1)
@@ -108,6 +111,14 @@ Public MustInherit Class Engine : Implements IDisposable
             Call DisplayDriver.Updates()
             Call Threading.Thread.Sleep(DisplayDriver._sleep)
         Loop
+    End Sub
+
+    Public Sub Pause()
+        _Running = False
+    End Sub
+
+    Public Sub Start()
+        Call Parallel.Run(AddressOf Run)
     End Sub
 
     Sub Add(obj As GraphicUnit)
@@ -142,7 +153,12 @@ Public MustInherit Class Engine : Implements IDisposable
     ''' <summary>
     ''' 输出设备的绘图区域的大小发生了变化
     ''' </summary>
-    Protected MustOverride Sub GraphicsDeviceResize() Handles _innerDevice.Resize
+    Protected MustOverride Sub __GraphicsDeviceResize()
+
+    Private Sub GraphicsDeviceResize() Handles _innerDevice.Resize
+        _GraphicRegion = New Rectangle(New Point, _innerDevice.Size)
+        Call __GraphicsDeviceResize()
+    End Sub
 
     Public Iterator Function GetEnumerator() As IEnumerator(Of GraphicUnit) Implements IEnumerable(Of GraphicUnit).GetEnumerator
         For Each x In DisplayDriver._list.ToArray

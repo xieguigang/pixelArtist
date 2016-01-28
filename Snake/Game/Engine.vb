@@ -6,7 +6,7 @@ Imports Microsoft.VisualBasic.GamePads.SoundDriver
 
 Public Class GameEngine : Inherits Engine
 
-    Dim sanek As Snake = New Snake
+    Dim _snake As Snake = New Snake
 
     Sub New(device As DisplayPort)
         Call MyBase.New(device)
@@ -19,7 +19,7 @@ Public Class GameEngine : Inherits Engine
     Public Overrides Sub Invoke(control As Controls, raw As Char)
         Select Case control
             Case Controls.Up, Controls.Right, Controls.Left, Controls.Down
-                sanek.Direction = control
+                _snake.Direction = control
             Case Controls.Fire
             Case Controls.Pause
             Case Controls.Menu
@@ -27,15 +27,20 @@ Public Class GameEngine : Inherits Engine
     End Sub
 
     Protected Overrides Sub __worldReacts()
-        If sanek.Head.IntersectsWith(food.Region) Then
+        If _snake.Head.IntersectsWith(food.Region) Then
             Call Me.Remove(food)
             Call AddFood()
-            sanek.Append()
+            _snake.Append()
             Call Beep()
+        End If
+
+        If Not GraphicRegion.Contains(_snake.Head.Location) Then
+            ' 撞墙，Game Over
+            Call Pause()
         End If
     End Sub
 
-    Protected Overrides Sub GraphicsDeviceResize()
+    Protected Overrides Sub __GraphicsDeviceResize()
 
     End Sub
 
@@ -50,8 +55,7 @@ Public Class GameEngine : Inherits Engine
     Public Overrides Function Init() As Boolean
         Call ControlMaps.DefaultMaps(Me.ControlsMap.ControlMaps)
 
-        sanek.Location = Me.GraphicRegion.GetCenter
-
+        _snake.Location = Me.GraphicRegion.Center
 
         Dim score As New Score With {.Location = New Point(10, 10)}
 
@@ -59,11 +63,11 @@ Public Class GameEngine : Inherits Engine
 
         Me.Score = score
 
-        Call sanek.init()
-        Call Me.Add(sanek)
+        Call _snake.init()
+        Call Me.Add(_snake)
         Call AddFood()
 
-        Call WinMM.PlaySound("./background.mp3")
+        Call WinMM.PlaySound(App.HOME & "/title.wma")
 
         Return True
     End Function

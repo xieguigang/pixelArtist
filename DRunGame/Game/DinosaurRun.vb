@@ -57,7 +57,7 @@ Public Class DinosaurRun : Inherits Engine
         Next
     End Sub
 
-    Protected Overrides Sub GraphicsDeviceResize()
+    Protected Overrides Sub __GraphicsDeviceResize()
 
     End Sub
 
