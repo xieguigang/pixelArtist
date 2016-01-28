@@ -80,4 +80,11 @@ Public Class DinosaurRun : Inherits Engine
     Public Overrides Sub ClickObject(pos As Point, x As GraphicUnit)
         MsgBox(x.ToString)
     End Sub
+
+    Public Overrides Sub Reset()
+    End Sub
+
+    Public Overrides Sub Restart()
+
+    End Sub
 End Class

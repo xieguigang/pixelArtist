@@ -71,4 +71,12 @@ Public Class GameEngine : Inherits Engine
 
         Return True
     End Function
+
+    Public Overrides Sub Reset()
+
+    End Sub
+
+    Public Overrides Sub Restart()
+
+    End Sub
 End Class

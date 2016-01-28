@@ -155,6 +155,9 @@ Public MustInherit Class Engine : Implements IDisposable
     ''' </summary>
     Protected MustOverride Sub __GraphicsDeviceResize()
 
+    Public MustOverride Sub Reset()
+    Public MustOverride Sub Restart()
+
     Private Sub GraphicsDeviceResize() Handles _innerDevice.Resize
         _GraphicRegion = New Rectangle(New Point, _innerDevice.Size)
         Call __GraphicsDeviceResize()
