@@ -4,36 +4,67 @@ Imports Microsoft.VisualBasic.GamePads.EngineParts
 Public Class Snake : Inherits GraphicUnit
 
     Public Property Direction As Controls
+        Get
+            Return _direction
+        End Get
+        Set(value As Controls)
+            _direction = value
 
+            Select Case Direction
+                Case Controls.Down
+                    dx = 0
+                    dy = 1
+                Case Controls.Left
+                    dx = -1
+                    dy = 0
+                Case Controls.Right
+                    dx = 1
+                    dy = 0
+                Case Controls.Up
+                    dx = 0
+                    dy = -1
+            End Select
+        End Set
+    End Property
+
+    Dim _direction As Controls
     Dim body As New List(Of Point)
     Dim size As Size = New Size(10, 10)
 
-    Sub New()
-        For i As Integer = 0 To 5
-            Call body.Add(New Point(0, i - 1))
+    Dim dx As Integer = 0, dy As Integer = 1
+
+    Public Sub init()
+        For i As Integer = 0 To 10
+            Call body.Add(New Point(0, Location.Y - i * size.Height))
         Next
     End Sub
 
     Public ReadOnly Property Head As Rectangle
         Get
-            Return New Rectangle(Location, New Size(15, 15))
+            Return New Rectangle(Location, size)
         End Get
     End Property
 
+    Public Sub Append()
+        Call body.Add(body.Last)
+    End Sub
+
     Public Overrides Sub Draw(ByRef g As GDIPlusDeviceHandle)
-        For Each dot In body.Skip(1)
-            dot = New Point(Location.X + dot.X * size.Width, Location.Y + dot.Y * size.Height)
-            Call g.FillRectangle(Brushes.Gray, New Rectangle(dot, size))
-        Next
-        Call g.FillRectangle(Brushes.Black, Head)
+        SyncLock body
+            For Each dot In body.Skip(1).ToArray
+                Call g.FillRectangle(Brushes.Gray, New Rectangle(dot, size))
+            Next
+            Call g.FillRectangle(Brushes.Black, Head)
 
-        Select Case Direction
-            Case Controls.Down
+            Dim pre As Point = Location
+            Location = New Point(Location.X + dx * size.Width, Location.Y + dy * size.Height)
 
-            Case Controls.Left
-            Case Controls.Right
-            Case Controls.Up
-        End Select
+            For i As Integer = 0 To body.Count - 1
+                Dim tmp As Point = body(i)
+                body(i) = pre
+                pre = tmp
+            Next
+        End SyncLock
     End Sub
 
     Protected Overrides Function __getSize() As Size

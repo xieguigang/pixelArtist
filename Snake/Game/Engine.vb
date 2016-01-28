@@ -1,6 +1,8 @@
 ﻿Imports Microsoft.VisualBasic.GamePads
 Imports Microsoft.VisualBasic.GamePads.Abstract
+Imports Microsoft.VisualBasic.GamePads.Commons
 Imports Microsoft.VisualBasic.GamePads.EngineParts
+Imports Microsoft.VisualBasic.GamePads.SoundDriver
 
 Public Class GameEngine : Inherits Engine
 
@@ -25,17 +27,43 @@ Public Class GameEngine : Inherits Engine
     End Sub
 
     Protected Overrides Sub __worldReacts()
-
+        If sanek.Head.IntersectsWith(food.Region) Then
+            Call Me.Remove(food)
+            Call AddFood()
+            sanek.Append()
+            Call Beep()
+        End If
     End Sub
 
     Protected Overrides Sub GraphicsDeviceResize()
 
     End Sub
 
+    Dim food As Food
+
+    Private Sub AddFood()
+        food = New Food With {.Location = New Point(GraphicRegion.Width * RandomDouble(), GraphicRegion.Height * RandomDouble())}
+        Call Me.Add(food)
+        Score.Score += 1
+    End Sub
+
     Public Overrides Function Init() As Boolean
         Call ControlMaps.DefaultMaps(Me.ControlsMap.ControlMaps)
 
+        sanek.Location = Me.GraphicRegion.GetCenter
+
+
+        Dim score As New Score With {.Location = New Point(10, 10)}
+
+        Call Me.Add(score)
+
+        Me.Score = score
+
+        Call sanek.init()
         Call Me.Add(sanek)
+        Call AddFood()
+
+        Call WinMM.PlaySound("./background.mp3")
 
         Return True
     End Function

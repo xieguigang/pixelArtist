@@ -150,6 +150,10 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GamePads.SoundDriver\GamePads.SoundDriver.vbproj">
+      <Project>{822d0a37-7bb5-4ecb-acc8-8e38bdf1f063}</Project>
+      <Name>GamePads.SoundDriver</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.VisualBasic.GamePads\GamePads.vbproj">
       <Project>{636853f9-172e-46d1-b836-230d33a60340}</Project>
       <Name>GamePads</Name>
