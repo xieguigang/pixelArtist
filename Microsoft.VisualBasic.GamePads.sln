@@ -13,6 +13,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Snake", "Snake\Snake.vbproj
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "GamePads.SoundDriver", "GamePads.SoundDriver\GamePads.SoundDriver.vbproj", "{822D0A37-7BB5-4ECB-ACC8-8E38BDF1F063}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Tanks", "Tanks\Tanks.vbproj", "{9C54E069-F1E4-4E92-8766-7EA14E2745EB}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		..\..\Microsoft.VisualBasic_Framework\SharedProject.VB_FrameworkExtensions\SharedProject.VB_FrameworkExtensions.projitems*{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}*SharedItemsImports = 4
@@ -86,6 +88,18 @@ Global
 		{822D0A37-7BB5-4ECB-ACC8-8E38BDF1F063}.Release|x64.Build.0 = Release|Any CPU
 		{822D0A37-7BB5-4ECB-ACC8-8E38BDF1F063}.Release|x86.ActiveCfg = Release|x86
 		{822D0A37-7BB5-4ECB-ACC8-8E38BDF1F063}.Release|x86.Build.0 = Release|x86
+		{9C54E069-F1E4-4E92-8766-7EA14E2745EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C54E069-F1E4-4E92-8766-7EA14E2745EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C54E069-F1E4-4E92-8766-7EA14E2745EB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{9C54E069-F1E4-4E92-8766-7EA14E2745EB}.Debug|x64.Build.0 = Debug|Any CPU
+		{9C54E069-F1E4-4E92-8766-7EA14E2745EB}.Debug|x86.ActiveCfg = Debug|x86
+		{9C54E069-F1E4-4E92-8766-7EA14E2745EB}.Debug|x86.Build.0 = Debug|x86
+		{9C54E069-F1E4-4E92-8766-7EA14E2745EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C54E069-F1E4-4E92-8766-7EA14E2745EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C54E069-F1E4-4E92-8766-7EA14E2745EB}.Release|x64.ActiveCfg = Release|Any CPU
+		{9C54E069-F1E4-4E92-8766-7EA14E2745EB}.Release|x64.Build.0 = Release|Any CPU
+		{9C54E069-F1E4-4E92-8766-7EA14E2745EB}.Release|x86.ActiveCfg = Release|x86
+		{9C54E069-F1E4-4E92-8766-7EA14E2745EB}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

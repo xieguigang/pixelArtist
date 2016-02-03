@@ -4,7 +4,7 @@ Imports Microsoft.VisualBasic.GamePads.Commons
 Imports Microsoft.VisualBasic.GamePads.EngineParts
 Imports Microsoft.VisualBasic.GamePads.SoundDriver
 
-Public Class GameEngine : Inherits Engine
+Public Class GameEngine : Inherits GamePads.GameEngine
 
     Dim _snake As Snake = New Snake
 

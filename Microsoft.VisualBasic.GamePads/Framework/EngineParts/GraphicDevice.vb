@@ -21,7 +21,7 @@ Namespace EngineParts
 
         Friend _sleep As Integer
 
-        Sub New(engine As Engine)
+        Sub New(engine As GameEngine)
             Call MyBase.New(engine)
         End Sub
 

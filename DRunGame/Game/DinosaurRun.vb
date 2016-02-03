@@ -3,7 +3,7 @@ Imports Microsoft.VisualBasic.GamePads.Abstract
 Imports Microsoft.VisualBasic.GamePads.Commons
 Imports Microsoft.VisualBasic.GamePads.EngineParts
 
-Public Class DinosaurRun : Inherits Engine
+Public Class DinosaurRun : Inherits GameEngine
 
     ''' <summary>
     ''' 地平线的位置

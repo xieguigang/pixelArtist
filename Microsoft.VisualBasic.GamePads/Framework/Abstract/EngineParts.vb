@@ -2,9 +2,9 @@
 
     Public MustInherit Class EngineParts
 
-        Public ReadOnly Property Engine As Engine
+        Public ReadOnly Property Engine As GameEngine
 
-        Sub New(engine As Engine)
+        Sub New(engine As GameEngine)
             Me.Engine = engine
         End Sub
     End Class

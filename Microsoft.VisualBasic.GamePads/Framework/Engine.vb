@@ -6,9 +6,9 @@ Imports Microsoft.VisualBasic.GamePads.EngineParts
 ''' <summary>
 ''' 游戏引擎
 ''' </summary>
-Public MustInherit Class Engine : Implements IDisposable
+Public MustInherit Class GameEngine : Implements IDisposable
     Implements IEnumerable(Of GraphicUnit)
-    Implements Microsoft.VisualBasic.ComponentModel.DataSourceModel.IObjectModel_Driver
+    Implements IObjectModel_Driver
 
     ''' <summary>
     ''' 基于GDI+的显示驱动模块

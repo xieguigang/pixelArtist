@@ -17,7 +17,7 @@ Namespace EngineParts
         ''' <returns></returns>
         Public ReadOnly Property ControlMaps As ControlMaps = New ControlMaps
 
-        Sub New(engine As Engine)
+        Sub New(engine As GameEngine)
             Call MyBase.New(engine)
 
             _innerDevice = engine._innerDevice
