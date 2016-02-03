@@ -8,11 +8,17 @@ Imports OpenTK.Audio.OpenAL
 ''' <summary>
 ''' OpenAl Playback device
 ''' </summary>
-Public Class OpenALPlayback
-    Implements IDisposable
+Public Module OpenALPlayback
 
-    ' Loads a wave/riff audio file.
-    Public Shared Function LoadWave(stream As Stream, ByRef channels As Integer, ByRef bits As Integer, ByRef rate As Integer) As Byte()
+    ''' <summary>
+    ''' Loads a wave/riff audio file.
+    ''' </summary>
+    ''' <param name="stream"></param>
+    ''' <param name="channels"></param>
+    ''' <param name="bits"></param>
+    ''' <param name="rate"></param>
+    ''' <returns></returns>
+    Public Function LoadWave(stream As Stream, ByRef channels As Integer, ByRef bits As Integer, ByRef rate As Integer) As Byte()
         If stream Is Nothing Then
             Throw New ArgumentNullException("stream")
         End If
@@ -60,7 +66,7 @@ Public Class OpenALPlayback
         End Using
     End Function
 
-    Public Shared Function GetSoundFormat(channels As Integer, bits As Integer) As ALFormat
+    Public Function GetSoundFormat(channels As Integer, bits As Integer) As ALFormat
         Select Case channels
             Case 1
                 Return If(bits = 8, ALFormat.Mono8, ALFormat.Mono16)
@@ -71,78 +77,31 @@ Public Class OpenALPlayback
         End Select
     End Function
 
-    ReadOnly context As New AudioContext()
-
-    Public ReadOnly Property ALSourceState As ALSourceState
-
-    Dim _current As String
-
-    Public Overrides Function ToString() As String
-        Return $"[{ALSourceState.ToString}] //{_current}"
-    End Function
-
     ''' <summary>
-    ''' 不可以多线程使用
+    ''' 
     ''' </summary>
-    ''' <param name="filename"></param>
+    ''' <param name="filename">Only supports wav???</param>
     Public Sub PlaySound(filename As String)
-        Dim buffer As Integer = AL.GenBuffer()
-        Dim source As Integer = AL.GenSource()
-        Dim state As Integer
+        Using context As New AudioContext()
+            Dim buffer As Integer = AL.GenBuffer()
+            Dim source As Integer = AL.GenSource()
+            Dim state As Integer
+            Dim channels As Integer, bitsPerSample As Integer, sampleRate As Integer
+            Dim soundBuf As Byte() = LoadWave(File.Open(filename, FileMode.Open), channels, bitsPerSample, sampleRate)
 
-        _current = filename
+            Call AL.BufferData(buffer, GetSoundFormat(channels, bitsPerSample), soundBuf, soundBuf.Length, sampleRate)
+            Call AL.Source(source, ALSourcei.Buffer, buffer)
+            Call AL.SourcePlay(source)
 
-        Dim channels As Integer, bitsPerSample As Integer, sampleRate As Integer
-        Dim soundBuf As Byte() = LoadWave(File.Open(filename, FileMode.Open), channels, bitsPerSample, sampleRate)
+            ' Query the source to find out when it stops playing.
+            Do
+                Call Thread.Sleep(250)
+                Call AL.GetSource(source, ALGetSourcei.SourceState, state)
+            Loop While DirectCast(state, ALSourceState) = ALSourceState.Playing
 
-        Call AL.BufferData(buffer, GetSoundFormat(channels, bitsPerSample), soundBuf, soundBuf.Length, sampleRate)
-        Call AL.Source(source, ALSourcei.Buffer, buffer)
-        Call AL.SourcePlay(source)
-
-        ' Query the source to find out when it stops playing.
-        Do
-            Call Thread.Sleep(250)
-            Call AL.GetSource(source, ALGetSourcei.SourceState, state)
-
-            _ALSourceState = DirectCast(state, ALSourceState)
-        Loop While ALSourceState = ALSourceState.Playing
-
-        Call AL.SourceStop(source)
-        Call AL.DeleteSource(source)
-        Call AL.DeleteBuffer(buffer)
+            Call AL.SourceStop(source)
+            Call AL.DeleteSource(source)
+            Call AL.DeleteBuffer(buffer)
+        End Using
     End Sub
-
-#Region "IDisposable Support"
-    Private disposedValue As Boolean ' To detect redundant calls
-
-    ' IDisposable
-    Protected Overridable Sub Dispose(disposing As Boolean)
-        If Not Me.disposedValue Then
-            If disposing Then
-                ' TODO: dispose managed state (managed objects).
-                Call context.Dispose()
-
-            End If
-
-            ' TODO: free unmanaged resources (unmanaged objects) and override Finalize() below.
-            ' TODO: set large fields to null.
-        End If
-        Me.disposedValue = True
-    End Sub
-
-    ' TODO: override Finalize() only if Dispose(disposing As Boolean) above has code to free unmanaged resources.
-    'Protected Overrides Sub Finalize()
-    '    ' Do not change this code.  Put cleanup code in Dispose(disposing As Boolean) above.
-    '    Dispose(False)
-    '    MyBase.Finalize()
-    'End Sub
-
-    ' This code added by Visual Basic to correctly implement the disposable pattern.
-    Public Sub Dispose() Implements IDisposable.Dispose
-        ' Do not change this code.  Put cleanup code in Dispose(disposing As Boolean) above.
-        Dispose(True)
-        ' TODO: uncomment the following line if Finalize() is overridden above.
-        ' GC.SuppressFinalize(Me)
-    End Sub
-#End Region
-End Class
+End Module
