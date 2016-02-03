@@ -67,6 +67,8 @@ Public Class GameEngine : Inherits Engine
         Score.Score += 1
     End Sub
 
+    Dim sound As New libZPlay.ZPlay
+
     Public Overrides Function Init() As Boolean
         Call ControlMaps.DefaultMaps(Me.ControlsMap.ControlMaps)
 
@@ -83,7 +85,14 @@ Public Class GameEngine : Inherits Engine
         Call Me.Add(_snake)
         Call AddFood()
 
-        Call WinMM.PlaySound(App.HOME & "/title.wma")
+        Try
+            Call My.Resources.background.FlushStream(App.HOME & "/background.mp3")
+        Catch ex As Exception
+
+        End Try
+
+        Call sound.OpenFile(App.HOME & "/background.mp3")
+        Call sound.StartPlayback()
 
         Return True
     End Function
@@ -95,7 +104,6 @@ Public Class GameEngine : Inherits Engine
         Call AddFood()
 
         Call Me.Remove((From x In Me Where TypeOf x Is Button Select x).FirstOrDefault)
-        Call WinMM.PlaySound(App.HOME & "/title.wma")
     End Sub
 
     Public Overrides Sub __restart()
