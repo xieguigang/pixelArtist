@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.ComponentModel.Collection
 Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.GamePads
+Imports Microsoft.VisualBasic.Linq
 
 Module LearnPlayGame
 
@@ -41,15 +42,21 @@ Module LearnPlayGame
         Dim rand As New Random(Now.Second + Now.Hour + Now.Minute)
 
         ' init randonm control
-        Call learn.Add(__inputs(New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), Controls.Up, size), {1.0R, 0R, 0R, 0R})
-        Call learn.Add(__inputs(New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), Controls.Right, size), {0R, 0R, 0R, 1.0R})
-        Call learn.Add(__inputs(New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), Controls.Left, size), {0R, 0R, 1.0R, .0R})
-        Call learn.Add(__inputs(New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), Controls.Down, size), {0R, 1.0R, 0R, 0R})
-        Call learn.Add(__inputs(New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), Controls.Left, size), {0R, 0R, 0R, 1.0R})
-        Call learn.Train()
+        'Call learn.Add(__inputs(New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), Controls.Up, size), {1.0R, 0R, 0R, 0R})
+        'Call learn.Add(__inputs(New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), Controls.Right, size), {0R, 0R, 0R, 1.0R})
+        'Call learn.Add(__inputs(New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), Controls.Left, size), {0R, 0R, 1.0R, .0R})
+        'Call learn.Add(__inputs(New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), Controls.Down, size), {0R, 1.0R, 0R, 0R})
+        'Call learn.Add(__inputs(New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), Controls.Left, size), {0R, 0R, 0R, 1.0R})
+        'Call learn.Add(__inputs(New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), Controls.Up, size), {1.0R, 0R, 0R, 0R})
+        'Call learn.Add(__inputs(New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), Controls.Right, size), {0R, 0R, 0R, 1.0R})
+        'Call learn.Add(__inputs(New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), Controls.Left, size), {0R, 0R, 1.0R, .0R})
+        'Call learn.Add(__inputs(New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), Controls.Down, size), {0R, 1.0R, 0R, 0R})
+        'Call learn.Add(__inputs(New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), New Point(rand.Next(0, size.Width), rand.Next(0, size.Height)), Controls.Left, size), {0R, 0R, 0R, 1.0R})
+        'Call learn.Train()
         Call "Init network with randomize inputs...".__DEBUG_ECHO
 
-        Dim errControls As New CapacityQueue(Of NeuralNetwork.DataSet)(6) ' assume that the last 6 operation makes the game over
+        '   Dim errControls As New CapacityQueue(Of NeuralNetwork.DataSet)(6) ' assume that the last 6 operation makes the game over
+        Dim list As New List(Of NeuralNetwork.DataSet)
 
         For i As Integer = 0 To games - 1
             Do While Not game.GameOver
@@ -59,40 +66,47 @@ Module LearnPlayGame
                 Call out.GetJson.__DEBUG_ECHO
 
                 game.Invoke(GetController(out))
-                errControls += New NeuralNetwork.DataSet(input, out)
+                list += New NeuralNetwork.DataSet(input, out)
 
-                Threading.Thread.Sleep(10)
+                Threading.Thread.Sleep(100)
             Loop
+
+            Dim ggg = (From x In list.AsParallel Select sid = x.Targets.GetJson, x Group By sid Into Group).ToArray
+            If ggg.Length > 1 Then
+                For Each x In (From nn In ggg Let xxx = nn.Group.ToArray Where xxx.Length <= 2 Select xxx.ToArray(Function(xxxxxx) xxxxxx.x)).MatrixAsIterator
+                    ' Dim d As Controls = GetController(x.Targets)
+                    ' Dim head As New Point(x.Values(0), x.Values(1))
+                    ' Dim food As New Point(x.Values(2), x.Values(3))
+
+                    ' Dim c As Controls = head.Position(food)
+
+                    '   up, down, Left, Right  5, 6, 7, 8
+                    'If x.Values(5) <= 2 Then
+                    '    c = Controls.Down
+                    'End If
+                    'If x.Values(6) <= 2 Then
+                    '    c = Controls.Up
+                    'End If
+                    'If x.Values(7) <= 2 Then
+                    '    c = Controls.Right
+                    'End If
+                    'If x.Values(8) <= 2 Then
+                    '    c = Controls.Left
+                    'End If
+
+                    Call learn.Add(x)
+                Next
+
+            End If
+
+
+            Call "Learning.....".__DEBUG_ECHO
+            Call learn.Train()
+            '  Call errControls.Clear()
+
             ' AI snake dead then restart the game playing and continute learning
             Call game.Reset()
             Call $"Games {i}".__DEBUG_ECHO
-
-            ' corrects errors
-            For Each x In errControls
-                Dim d As Controls = GetController(x.Targets)
-                Dim head As New Point(x.Values(0), x.Values(1))
-                Dim food As New Point(x.Values(2), x.Values(3))
-
-                Dim c As Controls = head.Position(food)
-
-                'up, down, left, right  5,6,7,8
-                If x.Values(5) <= 2 Then
-                    c = Controls.Down
-                End If
-                If x.Values(6) <= 2 Then
-                    c = Controls.Up
-                End If
-                If x.Values(7) <= 2 Then
-                    c = Controls.Right
-                End If
-                If x.Values(8) <= 2 Then
-                    c = Controls.Left
-                End If
-
-                Call learn.Corrects(x, getOutput(c), False)
-            Next
-
-            Call learn.Train()
         Next
     End Sub
 
@@ -105,15 +119,18 @@ Module LearnPlayGame
     End Function
 
     Private Function GetController(out As Double()) As Controls
-        If out(0) > 0.5 Then
-            Return Controls.Up
-        ElseIf out(1) > 0.5 Then
-            Return Controls.Down
-        ElseIf out(2) > 0.5 Then
-            Return Controls.Left
-        ElseIf out(3) > 0.5 Then
-            Return Controls.Right
-        End If
+        Dim ind As Integer = out.MaxInd
+
+        Select Case ind
+            Case 0
+                Return Controls.Up
+            Case 1
+                Return Controls.Down
+            Case 2
+                Return Controls.Left
+            Case 3
+                Return Controls.Right
+        End Select
 
         Return Controls.Left
     End Function

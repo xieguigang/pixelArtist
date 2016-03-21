@@ -17,21 +17,34 @@ Public Module Extensions
     ''' <param name="a"></param>
     ''' <param name="b"></param>
     ''' <returns></returns>
-    <Extension> Public Function Position(a As Point, b As Point) As Controls
-        Dim result As Controls = Controls.NotBind
+    <Extension> Public Function Position(a As Point, b As Point, Optional max As Boolean = False) As Controls
+        Dim v, h As Controls
+        Dim dv, dh As Integer
 
         If b.X > a.X Then
-            result = result Or Controls.Right
+            h = Controls.Right
         ElseIf b.X < a.X Then
-            result = result Or Controls.Left
+            h = Controls.Left
         End If
+
+        dh = Math.Abs(a.X - b.X)
 
         If b.Y > a.Y Then
-            result = result Or Controls.Down
+            v = Controls.Down
         ElseIf b.Y < a.Y Then
-            result = result Or Controls.Up
+            v = Controls.Up
         End If
 
-        Return result
+        dv = Math.Abs(a.Y - b.Y)
+
+        If max Then
+            If dh > dv Then
+                Return h
+            Else
+                Return v
+            End If
+        Else
+            Return h Or v
+        End If
     End Function
 End Module

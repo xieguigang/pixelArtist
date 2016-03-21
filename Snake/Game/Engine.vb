@@ -36,7 +36,7 @@ Public Class GameEngine : Inherits GamePads.GameEngine
         End Select
     End Sub
 
-    Public Property GameOver As Boolean
+    Public Property GameOver As Boolean = False
 
     Protected Overrides Sub __worldReacts()
         If _snake.Head.IntersectsWith(food.Region) Then

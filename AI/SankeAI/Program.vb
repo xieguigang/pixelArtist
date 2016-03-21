@@ -2,7 +2,7 @@
 
     Sub Main()
 
-        Call LearnPlayGame.LearnPlay(100)
+        Call LearnPlayGame.LearnPlay(5000)
         Pause()
     End Sub
 End Module

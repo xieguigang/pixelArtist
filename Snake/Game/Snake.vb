@@ -9,8 +9,7 @@ Public Class Snake : Inherits GraphicUnit
             Return _direction
         End Get
         Set(value As Controls)
-
-
+            Call __setDirection(value)
         End Set
     End Property
 
