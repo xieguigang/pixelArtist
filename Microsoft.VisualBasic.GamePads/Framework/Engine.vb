@@ -97,7 +97,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
             _Running = True
         End If
 
-        Call Parallel.Run(AddressOf __displayUpdates)
+        Call Parallel.RunTask(AddressOf __displayUpdates)
 
         Do While Running
             Call Threading.Thread.Sleep(1)
@@ -123,7 +123,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
     End Sub
 
     Public Sub Start()
-        Call Parallel.Run(AddressOf Run)
+        Call Parallel.RunTask(AddressOf Run)
     End Sub
 
     Sub Add(obj As GraphicUnit)

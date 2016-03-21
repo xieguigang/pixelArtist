@@ -8,6 +8,6 @@ Public Class Form1
         display.Dock = DockStyle.Fill
         display.Engine = New GameEngine(display)
         display.Engine.Init()
-        Call Microsoft.VisualBasic.Parallel.Run(AddressOf display.Engine.Run)
+        Call Microsoft.VisualBasic.Parallel.RunTask(AddressOf display.Engine.Run)
     End Sub
 End Class

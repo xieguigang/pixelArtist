@@ -211,7 +211,7 @@ Namespace libZPlay
 
 #Region "Error handling"
         Public Function GetError() As String
-            Return Marshal.PtrToStringUni(zplay_GetErrorW(objptr))
+            Return System.Runtime.InteropServices.Marshal.PtrToStringUni(zplay_GetErrorW(objptr))
         End Function
 
 
@@ -477,13 +477,13 @@ Namespace libZPlay
         Public Function LoadID3(Id3Version As TID3Version, ByRef Info As TID3Info) As Boolean
             Dim tmp As TID3Info_Internal
             If zplay_LoadID3W(objptr, CInt(Fix(Id3Version)), tmp) = 1 Then
-                Info.Album = Marshal.PtrToStringUni(tmp.Album)
-                Info.Artist = Marshal.PtrToStringUni(tmp.Artist)
-                Info.Comment = Marshal.PtrToStringUni(tmp.Comment)
-                Info.Genre = Marshal.PtrToStringUni(tmp.Genre)
-                Info.Title = Marshal.PtrToStringUni(tmp.Title)
-                Info.Track = Marshal.PtrToStringUni(tmp.Track)
-                Info.Year = Marshal.PtrToStringUni(tmp.Year)
+                Info.Album = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Album)
+                Info.Artist = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Artist)
+                Info.Comment = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Comment)
+                Info.Genre = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Genre)
+                Info.Title = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Title)
+                Info.Track = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Track)
+                Info.Year = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Year)
                 Return True
             Else
                 Return False
@@ -494,20 +494,20 @@ Namespace libZPlay
             Dim tmp As TID3InfoEx_Internal
 
             If zplay_LoadID3ExW(objptr, tmp, 0) = 1 Then
-                Info.Album = Marshal.PtrToStringUni(tmp.Album)
-                Info.Artist = Marshal.PtrToStringUni(tmp.Artist)
-                Info.Comment = Marshal.PtrToStringUni(tmp.Comment)
-                Info.Genre = Marshal.PtrToStringUni(tmp.Genre)
-                Info.Title = Marshal.PtrToStringUni(tmp.Title)
-                Info.Track = Marshal.PtrToStringUni(tmp.Track)
-                Info.Year = Marshal.PtrToStringUni(tmp.Year)
+                Info.Album = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Album)
+                Info.Artist = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Artist)
+                Info.Comment = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Comment)
+                Info.Genre = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Genre)
+                Info.Title = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Title)
+                Info.Track = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Track)
+                Info.Year = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Year)
 
-                Info.AlbumArtist = Marshal.PtrToStringUni(tmp.AlbumArtist)
-                Info.Composer = Marshal.PtrToStringUni(tmp.Composer)
-                Info.OriginalArtist = Marshal.PtrToStringUni(tmp.OriginalArtist)
-                Info.Copyright = Marshal.PtrToStringUni(tmp.Copyright)
-                Info.Encoder = Marshal.PtrToStringUni(tmp.Encoder)
-                Info.Publisher = Marshal.PtrToStringUni(tmp.Publisher)
+                Info.AlbumArtist = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.AlbumArtist)
+                Info.Composer = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Composer)
+                Info.OriginalArtist = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.OriginalArtist)
+                Info.Copyright = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Copyright)
+                Info.Encoder = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Encoder)
+                Info.Publisher = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Publisher)
                 Info.BPM = tmp.BPM
                 Info.Picture.PicturePresent = False
 
@@ -515,12 +515,12 @@ Namespace libZPlay
                     Try
                         If tmp.PicturePresent = 1 Then
                             Dim stream_data(CInt(tmp.PictureDataSize)) As Byte
-                            Marshal.Copy(tmp.PictureData, stream_data, 0, tmp.PictureDataSize)
+                            System.Runtime.InteropServices.Marshal.Copy(tmp.PictureData, stream_data, 0, tmp.PictureDataSize)
                             Info.Picture.BitStream = New System.IO.MemoryStream
                             Info.Picture.BitStream.Write(stream_data, 0, tmp.PictureDataSize)
                             Info.Picture.Bitmap = New Bitmap(Info.Picture.BitStream)
                             Info.Picture.PictureType = tmp.PictureType
-                            Info.Picture.Description = Marshal.PtrToStringUni(tmp.Description)
+                            Info.Picture.Description = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Description)
                             Info.Picture.PicturePresent = True
                         Else
                             Info.Picture.Bitmap = New Bitmap(1, 1)
@@ -540,13 +540,13 @@ Namespace libZPlay
         Public Function LoadFileID3(FileName As String, Format As TStreamFormat, Id3Version As TID3Version, ByRef Info As TID3Info) As Boolean
             Dim tmp As TID3Info_Internal
             If zplay_LoadFileID3W(objptr, FileName, CInt(Format), CInt(Fix(Id3Version)), tmp) = 1 Then
-                Info.Album = Marshal.PtrToStringUni(tmp.Album)
-                Info.Artist = Marshal.PtrToStringUni(tmp.Artist)
-                Info.Comment = Marshal.PtrToStringUni(tmp.Comment)
-                Info.Genre = Marshal.PtrToStringUni(tmp.Genre)
-                Info.Title = Marshal.PtrToStringUni(tmp.Title)
-                Info.Track = Marshal.PtrToStringUni(tmp.Track)
-                Info.Year = Marshal.PtrToStringUni(tmp.Year)
+                Info.Album = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Album)
+                Info.Artist = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Artist)
+                Info.Comment = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Comment)
+                Info.Genre = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Genre)
+                Info.Title = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Title)
+                Info.Track = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Track)
+                Info.Year = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Year)
                 Return True
             Else
                 Return False
@@ -560,20 +560,20 @@ Namespace libZPlay
             Dim tmp As TID3InfoEx_Internal
 
             If zplay_LoadFileID3ExW(objptr, FileName, CInt(Format), tmp, 0) = 1 Then
-                Info.Album = Marshal.PtrToStringUni(tmp.Album)
-                Info.Artist = Marshal.PtrToStringUni(tmp.Artist)
-                Info.Comment = Marshal.PtrToStringUni(tmp.Comment)
-                Info.Genre = Marshal.PtrToStringUni(tmp.Genre)
-                Info.Title = Marshal.PtrToStringUni(tmp.Title)
-                Info.Track = Marshal.PtrToStringUni(tmp.Track)
-                Info.Year = Marshal.PtrToStringUni(tmp.Year)
+                Info.Album = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Album)
+                Info.Artist = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Artist)
+                Info.Comment = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Comment)
+                Info.Genre = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Genre)
+                Info.Title = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Title)
+                Info.Track = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Track)
+                Info.Year = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Year)
 
-                Info.AlbumArtist = Marshal.PtrToStringUni(tmp.AlbumArtist)
-                Info.Composer = Marshal.PtrToStringUni(tmp.Composer)
-                Info.OriginalArtist = Marshal.PtrToStringUni(tmp.OriginalArtist)
-                Info.Copyright = Marshal.PtrToStringUni(tmp.Copyright)
-                Info.Encoder = Marshal.PtrToStringUni(tmp.Encoder)
-                Info.Publisher = Marshal.PtrToStringUni(tmp.Publisher)
+                Info.AlbumArtist = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.AlbumArtist)
+                Info.Composer = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Composer)
+                Info.OriginalArtist = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.OriginalArtist)
+                Info.Copyright = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Copyright)
+                Info.Encoder = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Encoder)
+                Info.Publisher = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Publisher)
                 Info.BPM = tmp.BPM
 
                 Info.Picture.PicturePresent = False
@@ -581,12 +581,12 @@ Namespace libZPlay
                     Try
                         If tmp.PicturePresent = 1 Then
                             Dim stream_data(CInt(tmp.PictureDataSize)) As Byte
-                            Marshal.Copy(tmp.PictureData, stream_data, 0, tmp.PictureDataSize)
+                            System.Runtime.InteropServices.Marshal.Copy(tmp.PictureData, stream_data, 0, tmp.PictureDataSize)
                             Info.Picture.BitStream = New System.IO.MemoryStream
                             Info.Picture.BitStream.Write(stream_data, 0, tmp.PictureDataSize)
                             Info.Picture.Bitmap = New Bitmap(Info.Picture.BitStream)
                             Info.Picture.PictureType = tmp.PictureType
-                            Info.Picture.Description = Marshal.PtrToStringUni(tmp.Description)
+                            Info.Picture.Description = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Description)
                             Info.Picture.PicturePresent = True
                         Else
                             Info.Picture.Bitmap = New Bitmap(1, 1)
@@ -699,7 +699,7 @@ Namespace libZPlay
             info.SamplingRate = tmp.SamplingRate
             info.VBR = tmp.VBR
             info.Length = tmp.Length
-            info.Description = Marshal.PtrToStringUni(tmp.Description)
+            info.Description = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.Description)
 
         End Sub
 
@@ -731,7 +731,7 @@ Namespace libZPlay
             Info.ManufacturerID = tmp.ManufacturerID
             Info.ProductID = tmp.ProductID
             Info.Support = tmp.Support
-            Info.ProductName = Marshal.PtrToStringUni(tmp.ProductName)
+            Info.ProductName = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.ProductName)
             Return True
         End Function
 
@@ -754,7 +754,7 @@ Namespace libZPlay
             Info.Formats = tmp.Formats
             Info.ManufacturerID = tmp.ManufacturerID
             Info.ProductID = tmp.ProductID
-            Info.ProductName = Marshal.PtrToStringUni(tmp.ProductName)
+            Info.ProductName = System.Runtime.InteropServices.Marshal.PtrToStringUni(tmp.ProductName)
             Return True
         End Function
 

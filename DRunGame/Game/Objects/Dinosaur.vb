@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.GamePads
+﻿Imports Microsoft.VisualBasic.ComponentModel.DataStructures
+Imports Microsoft.VisualBasic.GamePads
 Imports Microsoft.VisualBasic.GamePads.Abstract
 
 Public Class Dinosaur : Inherits GraphicUnit

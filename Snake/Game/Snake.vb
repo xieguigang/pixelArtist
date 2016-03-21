@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.GamePads.Abstract
 Imports Microsoft.VisualBasic.GamePads.EngineParts
+Imports Microsoft.VisualBasic
 
 Public Class Snake : Inherits GraphicUnit
 

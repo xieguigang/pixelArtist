@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.GamePads.Abstract
 Imports Microsoft.VisualBasic.GamePads.Commons
 Imports Microsoft.VisualBasic.GamePads.EngineParts
+Imports Microsoft.VisualBasic
 
 Public Class DinosaurRun : Inherits GameEngine
 
