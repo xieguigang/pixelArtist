@@ -4,6 +4,7 @@ Imports Microsoft.VisualBasic.GamePads.EngineParts
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic
 Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.ComponentModel.Collection
 
 Module LearnPlayGame
 
@@ -46,6 +47,8 @@ Module LearnPlayGame
         Call learn.Train()
         Call "Init network with randomize inputs...".__DEBUG_ECHO
 
+        Dim errControls As New CapacityQueue(Of NeuralNetwork.DataSet)(5) ' assume that the last 5 operation makes the game over
+
         For i As Integer = 0 To games - 1
             Do While Not game.GameOver
                 Dim input As Double() = __inputs(game.Snake.Head.Location, game.food.Location, game.Snake.Direction, size)
@@ -53,23 +56,35 @@ Module LearnPlayGame
 
                 Call out.GetJson.__DEBUG_ECHO
 
-                If out(0) > 0.5 Then
-                    Call game.Invoke(Controls.Up)
-                ElseIf out(1) > 0.5 Then
-                    Call game.Invoke(Controls.Down)
-                ElseIf out(2) > 0.5 Then
-                    Call game.Invoke(Controls.Left)
-                ElseIf out(3) > 0.5 Then
-                    Call game.Invoke(Controls.Right)
-                End If
+                game.Invoke(GetController(out))
+                errControls += New NeuralNetwork.DataSet(input, out)
 
                 Threading.Thread.Sleep(10)
             Loop
             ' AI snake dead then restart the game playing and continute learning
             Call game.Reset()
             Call $"Games {i}".__DEBUG_ECHO
+
+            ' corrects errors
+            For Each x In errControls
+                Call learn.Corrects()
+            Next
         Next
     End Sub
+
+    Private Function GetController(out As Double()) As Controls
+        If out(0) > 0.5 Then
+            Return Controls.Up
+        ElseIf out(1) > 0.5 Then
+            Return Controls.Down
+        ElseIf out(2) > 0.5 Then
+            Return Controls.Left
+        ElseIf out(3) > 0.5 Then
+            Return Controls.Right
+        End If
+
+        Return Controls.Left
+    End Function
 
     Private Function __inputs(head As Point, food As Point, direct As Controls, size As Size) As Double()
         Dim p As New List(Of Double)
