@@ -47,4 +47,23 @@ Public Module Extensions
             Return h Or v
         End If
     End Function
+
+    Public Function PointTo(a As Point, b As Point, d As Controls, Optional max As Boolean = False) As Boolean
+        Dim pos As Controls = Position(a, b, max)
+
+        If pos.HasFlag(Controls.Down) <> d.HasFlag(Controls.Down) Then
+            Return False
+        End If
+        If pos.HasFlag(Controls.Left) <> d.HasFlag(Controls.Left) Then
+            Return False
+        End If
+        If pos.HasFlag(Controls.Right) <> d.HasFlag(Controls.Right) Then
+            Return False
+        End If
+        If pos.HasFlag(Controls.Up) <> d.HasFlag(Controls.Up) Then
+            Return False
+        End If
+
+        Return True
+    End Function
 End Module

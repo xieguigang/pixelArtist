@@ -40,6 +40,10 @@ Public Class GameEngine : Inherits GamePads.GameEngine
 
     Protected Overrides Sub __worldReacts()
         If _snake.Head.IntersectsWith(food.Region) Then
+            If Not ScoreCallback Is Nothing Then
+                Call ScoreCallback()(food.Location)
+            End If
+
             Call Me.Remove(food)
             Call AddFood()
             _snake.Append()
@@ -69,6 +73,8 @@ Public Class GameEngine : Inherits GamePads.GameEngine
     End Sub
 
     Public ReadOnly Property food As Food
+
+    Public Property ScoreCallback As Action(Of Point)
 
     Private Sub AddFood()
         _food = New Food With {.Location = New Point(GraphicRegion.Width * RandomDouble(), GraphicRegion.Height * RandomDouble())}
