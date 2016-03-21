@@ -10,46 +10,70 @@ Public Class Snake : Inherits GraphicUnit
         End Get
         Set(value As Controls)
 
-            Dim pre = Direction
 
-            Select Case value
-                Case Controls.Down
-
-                    If pre = Controls.Up Then
-                        Return
-                    End If
-
-                    dx = 0
-                    dy = 1
-                Case Controls.Left
-
-                    If pre = Controls.Right Then
-                        Return
-                    End If
-
-                    dx = -1
-                    dy = 0
-                Case Controls.Right
-
-                    If pre = Controls.Left Then
-                        Return
-                    End If
-
-                    dx = 1
-                    dy = 0
-                Case Controls.Up
-
-                    If pre = Controls.Down Then
-                        Return
-                    End If
-
-                    dx = 0
-                    dy = -1
-            End Select
-
-            _direction = value
         End Set
     End Property
+
+    Private Sub __setDirection(value As Controls)
+        Dim pre = Direction
+
+        Select Case value
+            Case Controls.Down
+
+                If pre = Controls.Up Then
+                    Return
+                End If
+
+                dx = 0
+                dy = 1
+            Case Controls.Left
+
+                If pre = Controls.Right Then
+                    Return
+                End If
+
+                dx = -1
+                dy = 0
+            Case Controls.Right
+
+                If pre = Controls.Left Then
+                    Return
+                End If
+
+                dx = 1
+                dy = 0
+            Case Controls.Up
+
+                If pre = Controls.Down Then
+                    Return
+                End If
+
+                dx = 0
+                dy = -1
+
+            Case Else
+
+                Dim dd As Controls = Controls.NotBind
+
+                If value.HasFlag(Controls.Up) Then
+                    dd = Controls.Up
+                ElseIf value.HasFlag(Controls.Down) Then
+                    dd = Controls.Down
+                ElseIf value.HasFlag(Controls.Left) Then
+                    dd = Controls.Left
+                ElseIf value.HasFlag(Controls.Right) Then
+                    dd = Controls.Right
+                End If
+
+                If dd = Controls.NotBind Then
+                    Return
+                Else
+                    Call __setDirection(dd)
+                End If
+        End Select
+
+        _direction = value
+    End Sub
 
     Dim _direction As Controls
     Dim body As New List(Of Point)

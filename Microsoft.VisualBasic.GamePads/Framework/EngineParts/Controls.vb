@@ -5,13 +5,13 @@
         ''' <summary>
         ''' 按键未绑定
         ''' </summary>
-        NotBind = -100
+        NotBind = 0
 
 #Region "Direction Controls"
-        Up = 8
-        Down = 2
-        Left = 4
-        Right = 6
+        Up = 2
+        Down = 4
+        Left = 8
+        Right = 16
 #End Region
 
 #Region "Game Controls"
