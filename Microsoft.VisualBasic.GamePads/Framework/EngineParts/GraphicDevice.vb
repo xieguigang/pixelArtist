@@ -7,7 +7,7 @@ Namespace EngineParts
         Protected Friend ReadOnly _list As New List(Of GraphicUnit)
 
         ''' <summary>
-        ''' 图像的刷新频率，单位为Hz
+        ''' Graphics refresh rate, Hz.(图像的刷新频率，单位为Hz)
         ''' </summary>
         ''' <returns></returns>
         Public Property RefreshHz As Integer
@@ -20,6 +20,16 @@ Namespace EngineParts
         End Property
 
         Friend _sleep As Integer
+
+        ''' <summary>
+        ''' The size of the graphics region
+        ''' </summary>
+        ''' <returns></returns>
+        Public ReadOnly Property DeviceSize As Size
+            Get
+                Return Engine._innerDevice.Size
+            End Get
+        End Property
 
         Sub New(engine As GameEngine)
             Call MyBase.New(engine)

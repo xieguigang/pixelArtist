@@ -16,7 +16,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
     ''' <returns></returns>
     Public ReadOnly Property DisplayDriver As GraphicDevice
     ''' <summary>
-    ''' 输入设备，包括鼠标与键盘的输入的捕捉
+    ''' Controller device of the game play engine.(输入设备，包括鼠标与键盘的输入的捕捉)
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property ControlsMap As Controller
@@ -157,6 +157,15 @@ Public MustInherit Class GameEngine : Implements IDisposable
     ''' <param name="control"></param>
     ''' <param name="raw"></param>
     Public MustOverride Sub Invoke(control As EngineParts.Controls, raw As Char)
+
+    ''' <summary>
+    ''' Null raw char
+    ''' </summary>
+    ''' <param name="control"></param>
+    Public Sub Invoke(control As EngineParts.Controls)
+        Call Invoke(control, NIL)
+    End Sub
+
     ''' <summary>
     ''' 初始化游戏引擎
     ''' </summary>

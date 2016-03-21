@@ -6,6 +6,12 @@ Imports Microsoft.VisualBasic.GamePads.SoundDriver
 
 Public Class GameEngine : Inherits GamePads.GameEngine
 
+    Public ReadOnly Property Snake As Snake
+        Get
+            Return _snake
+        End Get
+    End Property
+
     Dim _snake As Snake = New Snake
 
     Sub New(device As DisplayPort)
@@ -14,7 +20,6 @@ Public Class GameEngine : Inherits GamePads.GameEngine
 
     Public Overrides Sub ClickObject(pos As Point, x As GraphicUnit)
         If TypeOf x Is Button Then
-            Call Score.Reset
             Call Reset()
         End If
     End Sub
@@ -30,6 +35,8 @@ Public Class GameEngine : Inherits GamePads.GameEngine
             Case Controls.Menu
         End Select
     End Sub
+
+    Public Property GameOver As Boolean
 
     Protected Overrides Sub __worldReacts()
         If _snake.Head.IntersectsWith(food.Region) Then
@@ -51,6 +58,8 @@ Public Class GameEngine : Inherits GamePads.GameEngine
             Call Me.Add(button)
             Call button.Draw(g)
 
+            GameOver = True
+
             _innerDevice.BackgroundImage = g.ImageResource
         End If
     End Sub
@@ -59,10 +68,10 @@ Public Class GameEngine : Inherits GamePads.GameEngine
 
     End Sub
 
-    Dim food As Food
+    Public ReadOnly Property food As Food
 
     Private Sub AddFood()
-        food = New Food With {.Location = New Point(GraphicRegion.Width * RandomDouble(), GraphicRegion.Height * RandomDouble())}
+        _food = New Food With {.Location = New Point(GraphicRegion.Width * RandomDouble(), GraphicRegion.Height * RandomDouble())}
         Call Me.Add(food)
         Score.Score += 1
     End Sub
@@ -104,6 +113,9 @@ Public Class GameEngine : Inherits GamePads.GameEngine
         Call AddFood()
 
         Call Me.Remove((From x In Me Where TypeOf x Is Button Select x).FirstOrDefault)
+        Call Score.Reset
+
+        GameOver = False
     End Sub
 
     Public Overrides Sub __restart()

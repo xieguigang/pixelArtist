@@ -16,6 +16,7 @@ Namespace EngineParts
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property ControlMaps As ControlMaps = New ControlMaps
+        Public Property Enable As Boolean = True
 
         Sub New(engine As GameEngine)
             Call MyBase.New(engine)
@@ -26,14 +27,22 @@ Namespace EngineParts
         End Sub
 
         Private Sub _innerDevice_KeyPress(sender As Object, e As KeyPressEventArgs) Handles _innerDevice.KeyPress
+            If Not Enable Then
+                Return
+            End If
+
             Dim key As Char = e.KeyChar
             Dim action = ControlMaps.GetMapAction(key)
             Call _actionCallback.BeginInvoke(action, key, Nothing, Nothing)
         End Sub
 
         Private Sub _innerDevice_MouseClick(sender As Object, e As MouseEventArgs) Handles _innerDevice.MouseClick
+            If Not Enable Then
+                Return
+            End If
+
             Dim pos As Point = e.Location
-            Dim LQuery = (From x In Engine.AsParallel Select __invokeClick(x, pos)).ToArray
+            Call (From x In Engine.AsParallel Select __invokeClick(x, pos)).ToArray
         End Sub
 
         Private Function __invokeClick(x As GraphicUnit, pos As Point) As Boolean
