@@ -18,8 +18,11 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
     End Property
 
     Sub New(game As Snake.GameEngine)
-        Call MyBase.New(New QState)
+        Call MyBase.New(New QState(game))
         Me.game = game
+        game.GameOverCallback = Sub(engine)
+                                    Call engine.Reset()
+                                End Sub
     End Sub
 
     Protected Overrides Sub __init()
@@ -31,7 +34,10 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
     End Sub
 
     Protected Overrides Sub __run(Q As QTable(Of GameControl), i As Integer)
-        Dim action = Q.NextAction(_stat.Current)
-        Call game.Invoke(CType(action, Controls))
+        Dim action = CType(Q.NextAction(_stat.Current), Controls)
+        Call game.Invoke(action)
+        Call _stat.SetState(_stat.GetNextState(action))
+        Call _stat.Current.__DEBUG_ECHO
+        Call Threading.Thread.Sleep(15)
     End Sub
 End Class

@@ -64,6 +64,10 @@ Public Class GameEngine : Inherits GamePads.GameEngine
 
             GameOver = True
 
+            If Not GameOverCallback Is Nothing Then
+                Call GameOverCallback()(Me)
+            End If
+
             _innerDevice.BackgroundImage = g.ImageResource
         End If
     End Sub

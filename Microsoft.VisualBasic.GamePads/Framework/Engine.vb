@@ -35,6 +35,8 @@ Public MustInherit Class GameEngine : Implements IDisposable
     ''' <returns></returns>
     Public ReadOnly Property GraphicRegion As Rectangle
 
+    Public Property GameOverCallback As Action(Of GameEngine)
+
     ''' <summary>
     ''' 
     ''' </summary>
@@ -190,6 +192,9 @@ Public MustInherit Class GameEngine : Implements IDisposable
         Call Me.DriverRun
     End Sub
 
+    ''' <summary>
+    ''' Usually call this method after game over and restart the game.
+    ''' </summary>
     Public Sub Reset()
         Call __reset()
         Call Me.DriverRun
