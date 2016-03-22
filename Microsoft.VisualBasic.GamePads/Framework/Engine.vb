@@ -128,15 +128,17 @@ Public MustInherit Class GameEngine : Implements IDisposable
         Call Parallel.RunTask(AddressOf Run)
     End Sub
 
-    Sub Add(obj As GraphicUnit)
-        Call DisplayDriver._list.Add(obj)
+    Public Sub Add(obj As GraphicUnit)
+        SyncLock DisplayDriver._list
+            Call DisplayDriver._list.Add(obj)
+        End SyncLock
     End Sub
 
     ''' <summary>
     ''' 
     ''' </summary>
     ''' <param name="obj"></param>
-    Sub Remove(obj As GraphicUnit, Optional throwEx As Boolean = False)
+    Public Sub Remove(obj As GraphicUnit, Optional throwEx As Boolean = False)
         If obj Is Nothing Then
             Dim ex As New Exception("GraphicUnit is nothing!")
             Call App.LogException(ex)
@@ -145,7 +147,11 @@ Public MustInherit Class GameEngine : Implements IDisposable
                 Throw ex
             End If
         Else
-            Call DisplayDriver._list.Remove(obj)
+            SyncLock DisplayDriver._list
+                If DisplayDriver._list.Contains(obj) Then
+                    Call DisplayDriver._list.Remove(obj)
+                End If
+            End SyncLock
         End If
     End Sub
 
@@ -200,9 +206,13 @@ Public MustInherit Class GameEngine : Implements IDisposable
         Call Me.DriverRun
     End Sub
 
+    Public Property DeviceResizeEnable As Boolean = False
+
     Private Sub GraphicsDeviceResize() Handles _innerDevice.Resize
-        _GraphicRegion = New Rectangle(New Point, _innerDevice.Size)
-        Call __GraphicsDeviceResize()
+        If DeviceResizeEnable Then
+            _GraphicRegion = New Rectangle(New Point, _innerDevice.Size)
+            Call __GraphicsDeviceResize()
+        End If
     End Sub
 
     Public Iterator Function GetEnumerator() As IEnumerator(Of GraphicUnit) Implements IEnumerable(Of GraphicUnit).GetEnumerator

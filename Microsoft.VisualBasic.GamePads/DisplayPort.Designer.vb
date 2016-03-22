@@ -29,6 +29,7 @@ Partial Class DisplayPort
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoValidate = System.Windows.Forms.AutoValidate.Disable
+        Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
         Me.DoubleBuffered = True
         Me.Name = "DisplayPort"
         Me.Size = New System.Drawing.Size(573, 421)
