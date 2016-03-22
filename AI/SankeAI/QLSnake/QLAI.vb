@@ -24,7 +24,9 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
         game.GameOverCallback = Sub(engine)
                                     Call engine.Reset()
                                     Call Q.UpdateQvalue(GoalPenalty, _stat.Current)
-                                    Call Q.GetJson.SaveTo(App.AppSystemTemp & $"/{Now.ToString.NormalizePathString}.json")
+                                    SyncLock Q
+                                        Call New QModel(Q).GetJson.SaveTo(App.AppSystemTemp & $"/{Now.ToString.NormalizePathString}.json")
+                                    End SyncLock
                                 End Sub
     End Sub
 
