@@ -119,7 +119,11 @@ Public Class GameEngine : Inherits GamePads.GameEngine
     Public Overrides Sub __reset()
         _snake.Location = Me.GraphicRegion.Center
         Call _snake.init()
-        Call Me.Remove((From x In Me Where TypeOf x Is Food Select x).FirstOrDefault)
+
+        For Each x In (From o In Me Where TypeOf o Is Food Select o)
+            Call Me.Remove(x)
+        Next
+
         Call AddFood()
 
         Call Me.Remove((From x In Me Where TypeOf x Is Button Select x).FirstOrDefault)
