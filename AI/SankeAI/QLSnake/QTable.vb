@@ -1,4 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.DataMining.Framework.QLearning
+Imports Microsoft.VisualBasic.GamePads.EngineParts
+Imports Microsoft.VisualBasic.Language
 Imports SankeAI
 
 ''' <summary>

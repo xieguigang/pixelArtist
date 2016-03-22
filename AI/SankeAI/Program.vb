@@ -12,9 +12,9 @@ Module Program
         Dim q As New QLAI(game.GameEngine)
         game.GameEngine.ControlsMap.Enable = False
 
-        Call q.RunLearningLoop(200, Function(n) New QTable(n) With {.ExplorationChance = 0.25})
+        Call q.RunLearningLoop(Integer.MaxValue)
 
-        Call LearnPlayGame.LearnPlay(5000)
+        '   Call LearnPlayGame.LearnPlay(5000)
         Pause()
     End Sub
 

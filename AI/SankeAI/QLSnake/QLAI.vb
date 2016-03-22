@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.GamePads.EngineParts
 Imports Microsoft.VisualBasic.DataMining.Framework.QLearning
+Imports Microsoft.VisualBasic.Serialization
 
 Public Class QLAI : Inherits QLearning(Of GameControl)
 
@@ -18,10 +19,12 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
     End Property
 
     Sub New(game As Snake.GameEngine)
-        Call MyBase.New(New QState(game))
+        Call MyBase.New(New QState(game), Function(n) New QTable(n))
         Me.game = game
         game.GameOverCallback = Sub(engine)
                                     Call engine.Reset()
+                                    Call Q.UpdateQvalue(GoalPenalty, _stat.Current)
+                                    Call Q.GetJson.SaveTo(App.AppSystemTemp & $"/{Now.ToString.NormalizePathString}.json")
                                 End Sub
     End Sub
 
@@ -33,11 +36,26 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
 
     End Sub
 
-    Protected Overrides Sub __run(Q As QTable(Of GameControl), i As Integer)
-        Dim action = CType(Q.NextAction(_stat.Current), Controls)
+    Protected Overrides Sub __run(i As Integer)
+        Dim index As Integer = Q.NextAction(_stat.Current)
+        Dim action As Controls
+
+        Select Case index
+            Case 0
+                action = Controls.Up
+            Case 1
+                action = Controls.Down
+            Case 2
+                action = Controls.Left
+            Case 3
+                action = Controls.Right
+            Case Else
+                action = Controls.NotBind
+        End Select
+
         Call game.Invoke(action)
         Call _stat.SetState(_stat.GetNextState(action))
         Call _stat.Current.__DEBUG_ECHO
-        Call Threading.Thread.Sleep(15)
+        Call Threading.Thread.Sleep(50)
     End Sub
 End Class
