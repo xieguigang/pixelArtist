@@ -44,7 +44,9 @@ Namespace EngineParts
             End SyncLock
 
             For Each x As GraphicUnit In source
-                Call x.Draw(g)
+                SyncLock x
+                    Call x.Draw(g)
+                End SyncLock
             Next
 
             Engine._innerDevice.BackgroundImage = g.ImageResource

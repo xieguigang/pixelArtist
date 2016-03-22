@@ -39,6 +39,7 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
     End Sub
 
     Protected Overrides Sub __run(i As Integer)
+        Dim pre = Distance(game.Snake.Location, game.food.Location)
         Dim index As Integer = Q.NextAction(_stat.Current)
         Dim action As Controls
 
@@ -56,8 +57,17 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
         End Select
 
         Call game.Invoke(action)
+
         Call _stat.SetState(_stat.GetNextState(action))
         Call _stat.Current.__DEBUG_ECHO
-        Call Threading.Thread.Sleep(50)
+        Call Threading.Thread.Sleep(100)
+
+        Dim now = Distance(game.Snake.Location, game.food.Location)
+
+        If now < pre Then  ' 与前一个状态相比距离变小了，则奖励
+            Call Q.UpdateQvalue(GoalRewards / 2, _stat.Current)
+        Else
+            Call Q.UpdateQvalue(GoalPenalty / 2, _stat.Current)
+        End If
     End Sub
 End Class

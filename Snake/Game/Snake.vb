@@ -94,7 +94,9 @@ Public Class Snake : Inherits GraphicUnit
     End Property
 
     Public Sub Append()
-        Call body.Add(body.Last)
+        SyncLock body
+            Call body.Add(body.Last)
+        End SyncLock
     End Sub
 
     ''' <summary>
