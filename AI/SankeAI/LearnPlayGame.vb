@@ -1,5 +1,5 @@
 ﻿Imports System.Drawing
-Imports Microsoft.VisualBasic.DataVisualization.DataMining.Framework
+Imports Microsoft.VisualBasic.DataMining.Framework
 Imports Microsoft.VisualBasic.GamePads.EngineParts
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic
