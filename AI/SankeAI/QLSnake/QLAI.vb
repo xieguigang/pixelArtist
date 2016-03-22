@@ -28,8 +28,13 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
                                     SyncLock Q
                                         Call New QModel(Q).GetJson.SaveTo(App.AppSystemTemp & $"/{Now.ToString.NormalizePathString}.json")
                                     End SyncLock
+
+                                    Call dump.Dump(Q, nnn.MoveNext)
+                                    Call dump.Save(App.AppSystemTemp & "/QLearning.Csv")
                                 End Sub
     End Sub
+
+    Dim nnn As Integer
 
     Protected Overrides Sub __init()
 
@@ -38,8 +43,7 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
     Dim dump As New QTableDump
 
     Protected Overrides Sub __reset(i As Integer)
-        Call dump.Dump(Q, i)
-        Call dump.Save(App.AppSystemTemp & "/QLearning.Csv")
+
     End Sub
 
     Protected Overrides Sub __run(i As Integer)
@@ -70,6 +74,7 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
 
         If now < pre Then  ' 与前一个状态相比距离变小了，则奖励
             Call Q.UpdateQvalue(GoalRewards / 2, _stat.Current)
+            Call Console.WriteLine("+")
         Else
             Call Q.UpdateQvalue(GoalPenalty / 2, _stat.Current)
         End If
