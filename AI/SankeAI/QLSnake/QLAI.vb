@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.GamePads.EngineParts
 Imports Microsoft.VisualBasic.DataMining.Framework.QLearning
 Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.DataMining.Framework.QLearning.DataModel
 
 Public Class QLAI : Inherits QLearning(Of GameControl)
 
@@ -34,8 +35,11 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
 
     End Sub
 
-    Protected Overrides Sub __reset(i As Integer)
+    Dim dump As New QTableDump
 
+    Protected Overrides Sub __reset(i As Integer)
+        Call dump.Dump(Q, i)
+        Call dump.Save(App.AppSystemTemp & "/QLearning.Csv")
     End Sub
 
     Protected Overrides Sub __run(i As Integer)
