@@ -26,11 +26,11 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
                                     Call engine.Reset()
                                     Call Q.UpdateQvalue(GoalPenalty, _stat.Current)
                                     SyncLock Q
-                                        Call New QModel(Q).GetJson.SaveTo(App.AppSystemTemp & $"/{Now.ToString.NormalizePathString}.json")
+                                        '    Call New QModel(Q).GetJson.SaveTo(App.AppSystemTemp & $"/{Now.ToString.NormalizePathString}.json")
                                     End SyncLock
 
-                                    Call dump.Dump(Q, nnn.MoveNext)
-                                    Call dump.Save(App.AppSystemTemp & "/QLearning.Csv")
+                                    ' Call dump.Dump(Q, nnn.MoveNext)
+                                    '  Call dump.Save(App.AppSystemTemp & "/QLearning.Csv")
                                 End Sub
     End Sub
 
