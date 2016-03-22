@@ -525,12 +525,12 @@ Namespace libZPlay
                         Else
                             Info.Picture.Bitmap = New Bitmap(1, 1)
                         End If
-                        Return True
-
                     Catch
                         Info.Picture.PicturePresent = False
                     End Try
                 End If
+
+                Return True
             Else
                 Return False
             End If

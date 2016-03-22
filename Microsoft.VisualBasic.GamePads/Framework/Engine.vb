@@ -48,7 +48,8 @@ Public MustInherit Class GameEngine : Implements IDisposable
         Me.DisplayDriver = New GraphicDevice(Me)
         Me.DisplayDriver.RefreshHz = 25
 
-        Call GraphicsDeviceResize()
+        Call GraphicsDeviceResize()  ' 默认是禁用自动调整大小的
+        _GraphicRegion = New Rectangle(New Point, _innerDevice.Size) ' 初始化绘图设备的大小
     End Sub
 
     ''' <summary>
@@ -103,7 +104,11 @@ Public MustInherit Class GameEngine : Implements IDisposable
 
         Do While Running
             Call Threading.Thread.Sleep(1)
-            Call __worldReacts()
+            Try
+                Call __worldReacts()
+            Catch ex As Exception
+                Call App.LogException(ex)
+            End Try
         Loop
 
         Return 0
