@@ -14,7 +14,6 @@ Module Program
 
         Call q.RunLearningLoop(Integer.MaxValue)
 
-        '   Call LearnPlayGame.LearnPlay(5000)
         Pause()
     End Sub
 

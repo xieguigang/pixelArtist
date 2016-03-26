@@ -7,6 +7,10 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
 
     Dim game As Snake.GameEngine
 
+    ''' <summary>
+    ''' Only 4 direction output: UP, DOWN, LEFT, RIGHT arrows
+    ''' </summary>
+    ''' <returns></returns>
     Public Overrides ReadOnly Property ActionRange As Integer
         Get
             Return 4
