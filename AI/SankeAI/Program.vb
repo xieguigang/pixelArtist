@@ -12,6 +12,7 @@ Module Program
         Dim q As New QLAI(game.GameEngine)
         game.GameEngine.ControlsMap.Enable = False
 
+        Call RunTask(AddressOf New Form1 With {.Table = q.QTable}.ShowDialog)
         Call q.RunLearningLoop(Integer.MaxValue)
 
         Pause()
