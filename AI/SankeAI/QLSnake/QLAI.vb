@@ -29,8 +29,11 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
         End Get
     End Property
 
-    Sub New(game As Snake.GameEngine)
-        Call MyBase.New(New QState(game), Function(n) New QTable(n))
+    Sub New(game As Snake.GameEngine, model As QModel)
+        Call MyBase.New(New QState(game),
+                        [If](Of Func(Of Integer, QTable))(model Is Nothing,
+                                                          Function(n) New QTable(n),
+                                                          Function(n) New QTable(model)))
         Me.game = game
         game.GameOverCallback = Sub(engine)
                                     Call engine.Reset()
@@ -58,6 +61,7 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
 
     Protected Overrides Sub __run(i As Integer)
         Dim pre = Distance(game.Snake.Location, game.food.Location)
+        Call _stat.SetState(_stat.GetNextState(Nothing))
         Dim index As Integer = Q.NextAction(_stat.Current)
         Dim preAction = _stat.Current
         Dim action As Controls
@@ -77,7 +81,7 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
 
         Call game.Invoke(action)
 
-        Call _stat.SetState(_stat.GetNextState(action))
+
         Call _stat.Current.__DEBUG_ECHO
         Call Threading.Thread.Sleep(100)
 

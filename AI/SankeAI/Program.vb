@@ -1,21 +1,10 @@
-﻿Imports Microsoft.VisualBasic.Parallel
+﻿
 
 
 Module Program
 
-    Sub Main()
-
-        Dim game = New Snake.Form1
-        Call RunTask(AddressOf game.ShowDialog)
-        Call Threading.Thread.Sleep(2000)
-
-        Dim q As New QLAI(game.GameEngine)
-        game.GameEngine.ControlsMap.Enable = False
-
-        Call RunTask(AddressOf New Form1 With {.Table = q.QTable}.ShowDialog)
-        Call q.RunLearningLoop(Integer.MaxValue)
-
-        Pause()
-    End Sub
-
+    Public Function Main() As Integer
+        Return GetType(CLI).RunCLI(App.CommandLine, AddressOf CLI.RunFresh)
+    End Function
 End Module
+
