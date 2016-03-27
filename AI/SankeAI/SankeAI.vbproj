@@ -143,7 +143,7 @@
     </Compile>
     <Compile Include="QLSnake\QTable.vb" />
     <Compile Include="QLSnake\QState.vb" />
-    <Compile Include="QLSnake\QLAI.vb" />
+    <Compile Include="QLSnake\QL_AI.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

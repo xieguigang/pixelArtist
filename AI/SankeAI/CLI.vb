@@ -25,10 +25,10 @@ Module CLI
         Call RunTask(AddressOf game.ShowDialog)
         Call Threading.Thread.Sleep(2000)
 
-        Dim q As New QLAI(game.GameEngine, ai)
+        Dim q As New QL_AI(game.GameEngine, ai)
         game.GameEngine.ControlsMap.Enable = False
 
-        Call RunTask(AddressOf New Form1 With {.Table = q.QTable}.ShowDialog)
+        Call RunTask(AddressOf New Form1 With {.Table = q.Q}.ShowDialog)
         Call q.RunLearningLoop(Integer.MaxValue)
 
         Pause()

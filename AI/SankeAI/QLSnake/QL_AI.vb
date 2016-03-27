@@ -3,7 +3,7 @@ Imports Microsoft.VisualBasic.DataMining.Framework.QLearning
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.DataMining.Framework.QLearning.DataModel
 
-Public Class QLAI : Inherits QLearning(Of GameControl)
+Public Class QL_AI : Inherits QLearning(Of GameControl)
 
     Dim _snakeGame As Snake.GameEngine
 
@@ -58,8 +58,9 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
     End Sub
 
     Protected Overrides Sub __run(i As Integer)
-        Dim pre = Distance(_snakeGame.Snake.Location, _snakeGame.food.Location)
+        Dim pre = Distance(_snakeGame.Snake.Location, _snakeGame.food.Location) ' Get environment state as input
         Call _stat.SetState(_stat.GetNextState(Nothing))
+
         Dim index As Integer = Q.NextAction(_stat.Current)
         Dim preAction = _stat.Current
         Dim action As Controls
