@@ -28,9 +28,10 @@ Partial Class Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(896, 579)
+        Me.ClientSize = New System.Drawing.Size(897, 496)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.Name = "Form1"
-        Me.Text = "Form1"
+        Me.Text = "The Snake"
         Me.ResumeLayout(False)
 
     End Sub

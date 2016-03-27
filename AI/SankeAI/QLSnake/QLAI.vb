@@ -5,7 +5,7 @@ Imports Microsoft.VisualBasic.DataMining.Framework.QLearning.DataModel
 
 Public Class QLAI : Inherits QLearning(Of GameControl)
 
-    Dim game As Snake.GameEngine
+    Dim _snakeGame As Snake.GameEngine
 
     ''' <summary>
     ''' Only 4 direction output: UP, DOWN, LEFT, RIGHT arrows
@@ -19,13 +19,7 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
 
     Public Overrides ReadOnly Property GoalReached As Boolean
         Get
-            Return game.food.Region.Contains(game.Snake.Location)
-        End Get
-    End Property
-
-    Public ReadOnly Property QTable As QTable
-        Get
-            Return Q
+            Return _snakeGame.EatFood
         End Get
     End Property
 
@@ -34,7 +28,7 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
                         [If](Of Func(Of Integer, QTable))(model Is Nothing,
                                                           Function(n) New QTable(n),
                                                           Function(n) New QTable(model)))
-        Me.game = game
+        Me._snakeGame = game
         game.GameOverCallback = Sub(engine)
                                     Call engine.Reset()
                                     Call Q.UpdateQvalue(GoalPenalty, _stat.Current)
@@ -60,7 +54,7 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
     End Sub
 
     Protected Overrides Sub __run(i As Integer)
-        Dim pre = Distance(game.Snake.Location, game.food.Location)
+        Dim pre = Distance(_snakeGame.Snake.Location, _snakeGame.food.Location)
         Call _stat.SetState(_stat.GetNextState(Nothing))
         Dim index As Integer = Q.NextAction(_stat.Current)
         Dim preAction = _stat.Current
@@ -79,13 +73,13 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
                 action = Controls.NotBind
         End Select
 
-        Call game.Invoke(action)
+        Call _snakeGame.Invoke(action)
 
 
         Call _stat.Current.__DEBUG_ECHO
         Call Threading.Thread.Sleep(100)
 
-        Dim now = Distance(game.Snake.Location, game.food.Location)
+        Dim now = Distance(_snakeGame.Snake.Location, _snakeGame.food.Location)
 
         If now < pre Then  ' 与前一个状态相比距离变小了，则奖励
             Call Q.UpdateQvalue(GoalRewards, preAction)

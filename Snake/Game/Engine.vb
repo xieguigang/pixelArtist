@@ -38,8 +38,14 @@ Public Class GameEngine : Inherits GamePads.GameEngine
 
     Public Property GameOver As Boolean = False
 
+    Public ReadOnly Property EatFood As Boolean
+        Get
+            Return _snake.Head.IntersectsWith(food.Region)
+        End Get
+    End Property
+
     Protected Overrides Sub __worldReacts()
-        If _snake.Head.IntersectsWith(food.Region) Then
+        If EatFood Then
             If Not ScoreCallback Is Nothing Then
                 Call ScoreCallback()(food.Location)
             End If
