@@ -23,25 +23,29 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
         End Get
     End Property
 
-    Sub New(game As Snake.GameEngine, model As QModel)
-        Call MyBase.New(New QState(game),
-                        [If](Of Func(Of Integer, QTable))(model Is Nothing,
-                                                          Function(n) New QTable(n),
-                                                          Function(n) New QTable(model)))
-        Me._snakeGame = game
-        game.GameOverCallback = Sub(engine)
-                                    Call engine.Reset()
-                                    Call Q.UpdateQvalue(GoalPenalty, _stat.Current)
-                                    SyncLock Q
-                                        '    Call New QModel(Q).GetJson.SaveTo(App.AppSystemTemp & $"/{Now.ToString.NormalizePathString}.json")
-                                    End SyncLock
+    Private Shared Function __getQTable(model As QModel) As Func(Of Integer, QTable)
+        If model Is Nothing Then
+            Return Function(n) New QTable(n)
+        Else
+            Return Function(n) New QTable(model)
+        End If
+    End Function
 
-                                    ' Call dump.Dump(Q, nnn.MoveNext)
-                                    '  Call dump.Save(App.AppSystemTemp & "/QLearning.Csv")
-                                End Sub
+    Sub New(game As Snake.GameEngine, model As QModel)
+        Call MyBase.New(New QState(game), __getQTable(model))
+
+        Me._snakeGame = game
+        Me._snakeGame.GameOverCallback = AddressOf __gameOver
     End Sub
 
-    Dim nnn As Integer
+    Private Sub __gameOver(engine As Snake.GameEngine)
+        Call engine.Reset()
+        Call Q.UpdateQvalue(GoalPenalty, _stat.Current)
+
+        SyncLock Q
+            Call New QModel(Q).GetJson.SaveTo(App.AppSystemTemp & $"/{Now.ToString.NormalizePathString}.json")
+        End SyncLock
+    End Sub
 
     Protected Overrides Sub __init()
 
