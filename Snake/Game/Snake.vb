@@ -4,46 +4,46 @@ Imports Microsoft.VisualBasic
 
 Public Class Snake : Inherits GraphicUnit
 
-    Public Property Direction As Controls
+    Public Property Direction As GamePads.EngineParts.Controls
         Get
             Return _direction
         End Get
-        Set(value As Controls)
+        Set(value As GamePads.EngineParts.Controls)
             Call __setDirection(value)
         End Set
     End Property
 
-    Private Sub __setDirection(value As Controls)
+    Private Sub __setDirection(value As GamePads.EngineParts.Controls)
         Dim pre = Direction
 
         Select Case value
-            Case Controls.Down
+            Case GamePads.EngineParts.Controls.Down
 
-                If pre = Controls.Up Then
+                If pre = GamePads.EngineParts.Controls.Up Then
                     Return
                 End If
 
                 dx = 0
                 dy = 1
-            Case Controls.Left
+            Case GamePads.EngineParts.Controls.Left
 
-                If pre = Controls.Right Then
+                If pre = GamePads.EngineParts.Controls.Right Then
                     Return
                 End If
 
                 dx = -1
                 dy = 0
-            Case Controls.Right
+            Case GamePads.EngineParts.Controls.Right
 
-                If pre = Controls.Left Then
+                If pre = GamePads.EngineParts.Controls.Left Then
                     Return
                 End If
 
                 dx = 1
                 dy = 0
-            Case Controls.Up
+            Case GamePads.EngineParts.Controls.Up
 
-                If pre = Controls.Down Then
+                If pre = GamePads.EngineParts.Controls.Down Then
                     Return
                 End If
 
@@ -52,19 +52,19 @@ Public Class Snake : Inherits GraphicUnit
 
             Case Else
 
-                Dim dd As Controls = Controls.NotBind
+                Dim dd As GamePads.EngineParts.Controls = GamePads.EngineParts.Controls.NotBind
 
-                If value.HasFlag(Controls.Up) Then
-                    dd = Controls.Up
-                ElseIf value.HasFlag(Controls.Down) Then
-                    dd = Controls.Down
-                ElseIf value.HasFlag(Controls.Left) Then
-                    dd = Controls.Left
-                ElseIf value.HasFlag(Controls.Right) Then
-                    dd = Controls.Right
+                If value.HasFlag(GamePads.EngineParts.Controls.Up) Then
+                    dd = GamePads.EngineParts.Controls.Up
+                ElseIf value.HasFlag(GamePads.EngineParts.Controls.Down) Then
+                    dd = GamePads.EngineParts.Controls.Down
+                ElseIf value.HasFlag(GamePads.EngineParts.Controls.Left) Then
+                    dd = GamePads.EngineParts.Controls.Left
+                ElseIf value.HasFlag(GamePads.EngineParts.Controls.Right) Then
+                    dd = GamePads.EngineParts.Controls.Right
                 End If
 
-                If dd = Controls.NotBind Then
+                If dd = GamePads.EngineParts.Controls.NotBind Then
                     Return
                 Else
                     Call __setDirection(dd)
@@ -74,7 +74,7 @@ Public Class Snake : Inherits GraphicUnit
         _direction = value
     End Sub
 
-    Dim _direction As Controls
+    Dim _direction As GamePads.EngineParts.Controls
     Dim body As New List(Of Point)
     Dim size As Size = New Size(10, 10)
 

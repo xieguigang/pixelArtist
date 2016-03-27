@@ -17,22 +17,22 @@ Public Module Extensions
     ''' <param name="a"></param>
     ''' <param name="b"></param>
     ''' <returns></returns>
-    <Extension> Public Function Position(a As Point, b As Point, Optional max As Boolean = False) As Controls
-        Dim v, h As Controls
+    <Extension> Public Function Position(a As Point, b As Point, Optional max As Boolean = False) As EngineParts.Controls
+        Dim v, h As EngineParts.Controls
         Dim dv, dh As Integer
 
         If b.X > a.X Then
-            h = Controls.Right
+            h = EngineParts.Controls.Right
         ElseIf b.X < a.X Then
-            h = Controls.Left
+            h = EngineParts.Controls.Left
         End If
 
         dh = Math.Abs(a.X - b.X)
 
         If b.Y > a.Y Then
-            v = Controls.Down
+            v = EngineParts.Controls.Down
         ElseIf b.Y < a.Y Then
-            v = Controls.Up
+            v = EngineParts.Controls.Up
         End If
 
         dv = Math.Abs(a.Y - b.Y)
@@ -48,19 +48,19 @@ Public Module Extensions
         End If
     End Function
 
-    Public Function PointTo(a As Point, b As Point, d As Controls, Optional max As Boolean = False) As Boolean
-        Dim pos As Controls = Position(a, b, max)
+    Public Function PointTo(a As Point, b As Point, d As EngineParts.Controls, Optional max As Boolean = False) As Boolean
+        Dim pos As EngineParts.Controls = Position(a, b, max)
 
-        If pos.HasFlag(Controls.Down) <> d.HasFlag(Controls.Down) Then
+        If pos.HasFlag(EngineParts.Controls.Down) <> d.HasFlag(EngineParts.Controls.Down) Then
             Return False
         End If
-        If pos.HasFlag(Controls.Left) <> d.HasFlag(Controls.Left) Then
+        If pos.HasFlag(EngineParts.Controls.Left) <> d.HasFlag(EngineParts.Controls.Left) Then
             Return False
         End If
-        If pos.HasFlag(Controls.Right) <> d.HasFlag(Controls.Right) Then
+        If pos.HasFlag(EngineParts.Controls.Right) <> d.HasFlag(EngineParts.Controls.Right) Then
             Return False
         End If
-        If pos.HasFlag(Controls.Up) <> d.HasFlag(Controls.Up) Then
+        If pos.HasFlag(EngineParts.Controls.Up) <> d.HasFlag(EngineParts.Controls.Up) Then
             Return False
         End If
 

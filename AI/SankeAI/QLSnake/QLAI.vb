@@ -88,7 +88,7 @@ Public Class QLAI : Inherits QLearning(Of GameControl)
         Dim now = Distance(game.Snake.Location, game.food.Location)
 
         If now < pre Then  ' 与前一个状态相比距离变小了，则奖励
-            Call Q.UpdateQvalue(GoalRewards / 2, preAction)
+            Call Q.UpdateQvalue(GoalRewards, preAction)
             Call Console.WriteLine("+")
         Else
             Call Q.UpdateQvalue(GoalPenalty / 2, preAction)
