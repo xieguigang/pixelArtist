@@ -65,22 +65,23 @@ Public Class GameEngine : Inherits GamePads.GameEngine
                 Call Pause()
             End If
 
-            Dim g = _innerDevice.BackgroundImage.GdiFromImage
-            SyncLock My.Resources.Restart
-                Dim l As Point = New Point((g.Width - My.Resources.Restart.Width) / 2, (g.Height - My.Resources.Restart.Height) / 2)
-                Dim button As New Button(My.Resources.Restart) With {.Location = l}
+            Using g As GDIPlusDeviceHandle = _innerDevice.BackgroundGraphics
+                SyncLock My.Resources.Restart
+                    Dim l As Point = New Point((g.Width - My.Resources.Restart.Width) / 2, (g.Height - My.Resources.Restart.Height) / 2)
+                    Dim button As New Button(My.Resources.Restart) With {.Location = l}
 
-                Call Me.Add(button)
-                Call button.Draw(g)
-            End SyncLock
+                    Call Me.Add(button)
+                    Call button.Draw(g)
+                End SyncLock
 
-            GameOver = True
+                GameOver = True
 
-            If Not GameOverCallback Is Nothing Then
-                Call GameOverCallback()(Me)
-            End If
+                If Not GameOverCallback Is Nothing Then
+                    Call GameOverCallback()(Me)
+                End If
 
-            _innerDevice.BackgroundImage = g.ImageResource
+                _innerDevice.BackgroundImage = g.ImageResource
+            End Using
         End If
     End Sub
 

@@ -27,7 +27,9 @@ Namespace EngineParts
         ''' <returns></returns>
         Public ReadOnly Property DeviceSize As Size
             Get
-                Return Engine._innerDevice.Size
+                SyncLock Engine._innerDevice
+                    Return Engine._innerDevice.Size
+                End SyncLock
             End Get
         End Property
 
@@ -36,20 +38,21 @@ Namespace EngineParts
         End Sub
 
         Public Sub Updates()
-            Dim g As GDIPlusDeviceHandle = Engine._innerDevice.Size.CreateGDIDevice
-            Dim source As GraphicUnit()
+            Using g As GDIPlusDeviceHandle = DeviceSize.CreateGDIDevice
+                Dim source As GraphicUnit()
 
-            SyncLock _list
-                source = _list.ToArray
-            End SyncLock
-
-            For Each x As GraphicUnit In source
-                SyncLock x
-                    Call x.Draw(g)
+                SyncLock _list
+                    source = _list.ToArray
                 End SyncLock
-            Next
 
-            Engine._innerDevice.BeginInvoke(Sub() Engine._innerDevice.BackgroundImage = g.ImageResource)
+                For Each x As GraphicUnit In source
+                    SyncLock x
+                        Call x.Draw(g)
+                    End SyncLock
+                Next
+
+                Engine._innerDevice.BackgroundImage = g.ImageResource
+            End Using
         End Sub
     End Class
 End Namespace

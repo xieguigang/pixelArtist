@@ -103,17 +103,14 @@ Public MustInherit Class GameEngine : Implements IDisposable
             _Running = True
         End If
 
+        _innerDevice.BackgroundImage = Nothing
         ___displayDriver = New UpdateThread(DisplayDriver._sleep, AddressOf DisplayDriver.Updates)
         ___displayDriver.Start()
         '  Call Parallel.RunTask(AddressOf __displayUpdates)
 
         Do While Running
             Call Threading.Thread.Sleep(1)
-            Try
-                Call __worldReacts()
-            Catch ex As Exception
-                Call App.LogException(ex)
-            End Try
+            Call __worldReacts()
         Loop
 
         Call ___displayDriver.Stop()
@@ -126,12 +123,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
     ''' </summary>
     Private Sub __displayUpdates()
         Do While Running
-            Try
-                Call DisplayDriver.Updates()
-            Catch ex As Exception
-                Call App.LogException(ex)
-            End Try
-
+            Call DisplayDriver.Updates()
             Call Threading.Thread.Sleep(DisplayDriver._sleep)
         Loop
     End Sub
