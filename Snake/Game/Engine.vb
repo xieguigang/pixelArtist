@@ -66,13 +66,11 @@ Public Class GameEngine : Inherits GamePads.GameEngine
             End If
 
             Using g As GDIPlusDeviceHandle = _innerDevice.BackgroundGraphics
-                SyncLock My.Resources.Restart
-                    Dim l As Point = New Point((g.Width - My.Resources.Restart.Width) / 2, (g.Height - My.Resources.Restart.Height) / 2)
-                    Dim button As New Button(My.Resources.Restart) With {.Location = l}
+                Dim l As Point = New Point((g.Width - My.Resources.Restart.Width) / 2, (g.Height - My.Resources.Restart.Height) / 2)
+                Dim button As New Button(My.Resources.Restart) With {.Location = l}
 
-                    Call Me.Add(button)
-                    Call button.Draw(g)
-                End SyncLock
+                Call Me.Add(button)
+                Call button.Draw(g)
 
                 GameOver = True
 

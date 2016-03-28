@@ -27,7 +27,6 @@ Partial Class Form1
         '
         'DisplayPort1
         '
-        Me.DisplayPort1.AutoValidate = System.Windows.Forms.AutoValidate.Disable
         Me.DisplayPort1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DisplayPort1.Engine = Nothing
         Me.DisplayPort1.Location = New System.Drawing.Point(0, 0)

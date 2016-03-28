@@ -91,7 +91,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
         Return True
     End Function
 
-    Dim ___displayDriver As UpdateThread
+    ' Dim ___displayDriver As UpdateThread
 
     ''' <summary>
     ''' 启动游戏引擎。请注意，线程会被阻塞在这里
@@ -103,17 +103,22 @@ Public MustInherit Class GameEngine : Implements IDisposable
             _Running = True
         End If
 
-        _innerDevice.BackgroundImage = Nothing
-        ___displayDriver = New UpdateThread(DisplayDriver._sleep, AddressOf DisplayDriver.Updates)
-        ___displayDriver.Start()
-        '  Call Parallel.RunTask(AddressOf __displayUpdates)
+        ' _innerDevice.BackgroundImage = Nothing
+        '  ___displayDriver = New UpdateThread(DisplayDriver._sleep, AddressOf DisplayDriver.Updates)
+        ' ___displayDriver.Start()
+        Call Parallel.RunTask(AddressOf __displayUpdates)
 
         Do While Running
             Call Threading.Thread.Sleep(1)
-            Call __worldReacts()
+            Try
+                Call __worldReacts()
+            Catch ex As Exception
+                Call App.LogException(ex)
+                Throw ex
+            End Try
         Loop
 
-        Call ___displayDriver.Stop()
+        ' Call ___displayDriver.Stop()
 
         Return 0
     End Function
