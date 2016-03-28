@@ -3,6 +3,11 @@ Imports Microsoft.VisualBasic.DataMining.Framework.QLearning.DataModel
 Imports Microsoft.VisualBasic.Parallel
 Imports Microsoft.VisualBasic.Serialization
 
+
+
+''' <summary>
+''' CLI not working on the Form thread, not sure why??
+''' </summary>
 Module CLI
 
     <ExportAPI("/start", Usage:="/start /load <ai_path.json/xml> [/xml]")>
@@ -22,16 +27,18 @@ Module CLI
 
     Public Function Run(ai As QModel) As Integer
         Dim game = New Snake.Form1
-        game.InitCallback = Sub()
-                                Dim q As New QL_AI(game.GameEngine, ai)
-                                game.GameEngine.ControlsMap.Enable = False
-                                game.GameEngine.PauseEnable = False
 
-                                Call RunTask(AddressOf New Form1 With {.Table = q.Q}.ShowDialog)
-                                Call RunTask(Sub() q.RunLearningLoop(Integer.MaxValue))
-                            End Sub
-        Call game.ShowDialog()
+        Call RunTask(AddressOf game.ShowDialog)
 
+        Do While game.GameEngine Is Nothing OrElse game.GameEngine.Running = False
+            Threading.Thread.Sleep(1)
+        Loop
+
+        Dim q As New QL_AI(game.GameEngine, ai)
+        game.GameEngine.ControlsMap.Enable = False
+
+        Call RunTask(AddressOf New Form1 With {.Table = q.Q}.ShowDialog)
+        Call q.RunLearningLoop(Integer.MaxValue)
         Return 0
     End Function
 

@@ -2,7 +2,6 @@
 Imports Microsoft.VisualBasic.GamePads
 Imports Microsoft.VisualBasic.GamePads.Abstract
 Imports Microsoft.VisualBasic.GamePads.EngineParts
-Imports Microsoft.VisualBasic.Parallel.Tasks
 
 ''' <summary>
 ''' 游戏引擎
@@ -39,7 +38,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
     Public Property GameOverCallback As Action(Of GameEngine)
 
     ''' <summary>
-    '''
+    ''' 
     ''' </summary>
     ''' <param name="Display">将输出的图像数据定向到这个输出设备之上</param>
     Sub New(Display As DisplayPort)
@@ -91,8 +90,6 @@ Public MustInherit Class GameEngine : Implements IDisposable
         Return True
     End Function
 
-    ' Dim ___displayDriver As UpdateThread
-
     ''' <summary>
     ''' 启动游戏引擎。请注意，线程会被阻塞在这里
     ''' </summary>
@@ -103,9 +100,6 @@ Public MustInherit Class GameEngine : Implements IDisposable
             _Running = True
         End If
 
-        ' _innerDevice.BackgroundImage = Nothing
-        '  ___displayDriver = New UpdateThread(DisplayDriver._sleep, AddressOf DisplayDriver.Updates)
-        ' ___displayDriver.Start()
         Call Parallel.RunTask(AddressOf __displayUpdates)
 
         Do While Running
@@ -114,11 +108,8 @@ Public MustInherit Class GameEngine : Implements IDisposable
                 Call __worldReacts()
             Catch ex As Exception
                 Call App.LogException(ex)
-                Throw ex
             End Try
         Loop
-
-        ' Call ___displayDriver.Stop()
 
         Return 0
     End Function
@@ -149,7 +140,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
     End Sub
 
     ''' <summary>
-    '''
+    ''' 
     ''' </summary>
     ''' <param name="obj"></param>
     Public Sub Remove(obj As GraphicUnit, Optional throwEx As Boolean = False)

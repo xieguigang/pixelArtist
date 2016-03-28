@@ -44,8 +44,6 @@ Public Class GameEngine : Inherits GamePads.GameEngine
         End Get
     End Property
 
-    Public Property PauseEnable As Boolean = True
-
     Protected Overrides Sub __worldReacts()
         If EatFood Then
             If Not ScoreCallback Is Nothing Then
@@ -61,25 +59,22 @@ Public Class GameEngine : Inherits GamePads.GameEngine
         If Not GraphicRegion.Contains(_snake.Head.Location) OrElse
             _snake.EatSelf Then            ' 撞墙或者吃掉自己的身体，Game Over
 
-            If PauseEnable Then
-                Call Pause()
+            Call Pause()
+
+            Dim g = _innerDevice.BackgroundImage.GdiFromImage
+            Dim l As Point = New Point((g.Width - My.Resources.Restart.Width) / 2, (g.Height - My.Resources.Restart.Height) / 2)
+            Dim button As New Button(My.Resources.Restart) With {.Location = l}
+
+            Call Me.Add(button)
+            Call button.Draw(g)
+
+            GameOver = True
+
+            If Not GameOverCallback Is Nothing Then
+                Call GameOverCallback()(Me)
             End If
 
-            Using g As GDIPlusDeviceHandle = _innerDevice.BackgroundGraphics
-                Dim l As Point = New Point((g.Width - My.Resources.Restart.Width) / 2, (g.Height - My.Resources.Restart.Height) / 2)
-                Dim button As New Button(My.Resources.Restart) With {.Location = l}
-
-                Call Me.Add(button)
-                Call button.Draw(g)
-
-                GameOver = True
-
-                If Not GameOverCallback Is Nothing Then
-                    Call GameOverCallback()(Me)
-                End If
-
-                _innerDevice.BackgroundImage = g.ImageResource
-            End Using
+            _innerDevice.BackgroundImage = g.ImageResource
         End If
     End Sub
 

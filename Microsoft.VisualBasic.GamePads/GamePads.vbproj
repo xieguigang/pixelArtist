@@ -178,7 +178,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Project1.ico" />
-    <None Include="Resources\ErrorImage.png" />
     <None Include="Resources\walk2.png" />
     <None Include="Resources\walk1.png" />
   </ItemGroup>

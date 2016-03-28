@@ -20,7 +20,7 @@ Partial Class Form1
     Private components As System.ComponentModel.IContainer
 
     'NOTE: The following procedure is required by the Windows Form Designer
-    'It can be modified using the Windows Form Designer.
+    'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
@@ -30,6 +30,7 @@ Partial Class Form1
         '
         'DisplayPort1
         '
+        Me.DisplayPort1.AutoValidate = System.Windows.Forms.AutoValidate.Disable
         Me.DisplayPort1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.DisplayPort1.Engine = Nothing
         Me.DisplayPort1.Location = New System.Drawing.Point(0, 0)

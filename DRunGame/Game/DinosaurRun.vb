@@ -18,9 +18,9 @@ Public Class DinosaurRun : Inherits GameEngine
         Call MyBase.New(Display)
     End Sub
 
-    Public Overrides Sub Invoke(control As GamePads.EngineParts.Controls, raw As Char)
+    Public Overrides Sub Invoke(control As Controls, raw As Char)
         Select Case control
-            Case GamePads.EngineParts.Controls.Jumps : Call _dinosaur.Jump()
+            Case Controls.Jumps : Call _dinosaur.Jump()
         End Select
     End Sub
 
