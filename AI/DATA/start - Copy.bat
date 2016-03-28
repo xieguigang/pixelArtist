@@ -1,0 +1,1 @@
+SnakeAI /start /load "E:\VB_GamePads\AI\DATA\snake_QL_AI.json"

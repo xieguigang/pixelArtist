@@ -92,5 +92,9 @@ Public Class QL_AI : Inherits QLearning(Of GameControl)
         Else
             Call Q.UpdateQvalue(GoalPenalty / 2, preAction)
         End If
+
+        If Not _snakeGame.Running Then
+            Call _snakeGame.Reset()
+        End If
     End Sub
 End Class

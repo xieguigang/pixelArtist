@@ -38,7 +38,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
     Public Property GameOverCallback As Action(Of GameEngine)
 
     ''' <summary>
-    ''' 
+    '''
     ''' </summary>
     ''' <param name="Display">将输出的图像数据定向到这个输出设备之上</param>
     Sub New(Display As DisplayPort)
@@ -140,7 +140,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
     End Sub
 
     ''' <summary>
-    ''' 
+    '''
     ''' </summary>
     ''' <param name="obj"></param>
     Public Sub Remove(obj As GraphicUnit, Optional throwEx As Boolean = False)
