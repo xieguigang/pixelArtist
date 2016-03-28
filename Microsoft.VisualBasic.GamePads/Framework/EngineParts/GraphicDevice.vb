@@ -35,7 +35,7 @@ Namespace EngineParts
             Call MyBase.New(engine)
         End Sub
 
-        Public Function Updates() As Image
+        Public Sub Updates()
             Dim g As GDIPlusDeviceHandle = Engine._innerDevice.Size.CreateGDIDevice
             Dim source As GraphicUnit()
 
@@ -49,9 +49,7 @@ Namespace EngineParts
                 End SyncLock
             Next
 
-            Engine._innerDevice.BackgroundImage = g.ImageResource
-
-            Return g.ImageResource
-        End Function
+            Engine._innerDevice.BeginInvoke(Sub() Engine._innerDevice.BackgroundImage = g.ImageResource)
+        End Sub
     End Class
 End Namespace

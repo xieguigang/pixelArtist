@@ -22,16 +22,15 @@ Module CLI
 
     Public Function Run(ai As QModel) As Integer
         Dim game = New Snake.Form1
-        Call RunTask(AddressOf game.ShowDialog)
-        Call Threading.Thread.Sleep(2000)
+        game.InitCallback = Sub()
+                                Dim q As New QL_AI(game.GameEngine, ai)
+                                game.GameEngine.ControlsMap.Enable = False
+                                game.GameEngine.PauseEnable = False
 
-        Dim q As New QL_AI(game.GameEngine, ai)
-        game.GameEngine.ControlsMap.Enable = False
-
-        Call RunTask(AddressOf New Form1 With {.Table = q.Q}.ShowDialog)
-        Call q.RunLearningLoop(Integer.MaxValue)
-
-        Pause()
+                                Call RunTask(AddressOf New Form1 With {.Table = q.Q}.ShowDialog)
+                                Call RunTask(Sub() q.RunLearningLoop(Integer.MaxValue))
+                            End Sub
+        Call game.ShowDialog()
 
         Return 0
     End Function

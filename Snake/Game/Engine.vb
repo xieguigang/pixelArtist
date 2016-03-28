@@ -44,6 +44,8 @@ Public Class GameEngine : Inherits GamePads.GameEngine
         End Get
     End Property
 
+    Public Property PauseEnable As Boolean = True
+
     Protected Overrides Sub __worldReacts()
         If EatFood Then
             If Not ScoreCallback Is Nothing Then
@@ -59,14 +61,18 @@ Public Class GameEngine : Inherits GamePads.GameEngine
         If Not GraphicRegion.Contains(_snake.Head.Location) OrElse
             _snake.EatSelf Then            ' 撞墙或者吃掉自己的身体，Game Over
 
-            Call Pause()
+            If PauseEnable Then
+                Call Pause()
+            End If
 
             Dim g = _innerDevice.BackgroundImage.GdiFromImage
-            Dim l As Point = New Point((g.Width - My.Resources.Restart.Width) / 2, (g.Height - My.Resources.Restart.Height) / 2)
-            Dim button As New Button(My.Resources.Restart) With {.Location = l}
+            SyncLock My.Resources.Restart
+                Dim l As Point = New Point((g.Width - My.Resources.Restart.Width) / 2, (g.Height - My.Resources.Restart.Height) / 2)
+                Dim button As New Button(My.Resources.Restart) With {.Location = l}
 
-            Call Me.Add(button)
-            Call button.Draw(g)
+                Call Me.Add(button)
+                Call button.Draw(g)
+            End SyncLock
 
             GameOver = True
 
