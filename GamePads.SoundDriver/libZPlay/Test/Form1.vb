@@ -1,4 +1,8 @@
-﻿Public Class Form1
+﻿Imports libZPlay.App
+Imports libZPlay.InternalTypes
+Imports Microsoft.VisualBasic.Serialization
+
+Public Class Form1
     Public Sub New()
 
         ' This call is required by the designer.
@@ -13,7 +17,13 @@
 
         Me.BackgroundImage = play.AlbumArt
 
-        Call play.Play()
+        ticks = play.Play()
 
     End Sub
+
+    Private Sub ticks_Tick(sender As MediaPlayer, cur As TStreamTime, p As Double) Handles ticks.Tick
+        Call Me.Invoke(Sub() Text = $"[{Math.Round(p * 100, 2)}%] " & cur.GetJson)
+    End Sub
+
+    Dim WithEvents ticks As TickEvent
 End Class

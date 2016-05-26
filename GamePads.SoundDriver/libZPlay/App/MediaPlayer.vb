@@ -24,6 +24,7 @@ Namespace App
         ''' Gets the playback position of the current media file
         ''' </summary>
         ''' <returns></returns>
+        ''' <remarks></remarks>
         Public ReadOnly Property CurrentPosition As TStreamTime
             Get
                 Dim time As New TStreamTime
@@ -41,6 +42,7 @@ Namespace App
         End Property
 
         Public ReadOnly Property PlaybackURI As String
+        Public ReadOnly Property StreamInfo As TStreamInfo
 
         Public ReadOnly Property status As TStreamStatus
             Get
@@ -50,6 +52,14 @@ Namespace App
             End Get
         End Property
 
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="uri"></param>
+        ''' <param name="format"></param>
+        ''' <param name="autoStart"></param>
+        ''' <returns></returns>
+        ''' <remarks>除了一些需要实时进行更新的数据，所有的静态的信息都是在这里一次性的完成读取操作的</remarks>
         Public Function PlayBack(uri As String,
                                  Optional format As TStreamFormat = TStreamFormat.sfAutodetect,
                                  Optional autoStart As Boolean = False) As Boolean
@@ -58,8 +68,10 @@ Namespace App
                 ' 成功的话则开始获取文件的标签信息
                 _ID3v2 = New TID3InfoEx
                 _PlaybackURI = uri
+                _StreamInfo = New TStreamInfo
 
                 Call __api.LoadID3Ex(_ID3v2, True)
+                Call __api.GetStreamInfo(_StreamInfo)
 
                 If autoStart Then
                     Call Play()

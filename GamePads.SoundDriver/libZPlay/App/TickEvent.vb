@@ -8,8 +8,20 @@ Namespace App
         ReadOnly __player As MediaPlayer
         ReadOnly _timer As New UpdateThread(PerSecond, AddressOf __triggerEvent)
 
-        Public Event Tick(sender As MediaPlayer, cur As TStreamTime)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="sender"></param>
+        ''' <param name="cur"></param>
+        ''' <param name="progress">进度条的百分比</param>
+        Public Event Tick(sender As MediaPlayer, cur As TStreamTime, progress As Double)
         Public Event StateValidate(sender As MediaPlayer, stat As TStreamStatus)
+
+        Public ReadOnly Property StreamInfo As TStreamInfo
+            Get
+                Return __player.StreamInfo
+            End Get
+        End Property
 
         Sub New(api As MediaPlayer)
             __player = api
@@ -19,7 +31,9 @@ Namespace App
         Const PerSecond As Integer = 1000
 
         Private Sub __triggerEvent()
-            RaiseEvent Tick(__player, __player.CurrentPosition)
+            Dim cur As TStreamTime = __player.CurrentPosition
+            Dim progress As Double = cur.ms / __player.StreamInfo.Length.ms
+            RaiseEvent Tick(__player, cur, progress)
         End Sub
 
 #Region "IDisposable Support"
