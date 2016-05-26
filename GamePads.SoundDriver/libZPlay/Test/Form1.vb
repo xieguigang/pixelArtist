@@ -13,5 +13,7 @@
 
         Me.BackgroundImage = play.AlbumArt
 
+        Call play.Play()
+
     End Sub
 End Class

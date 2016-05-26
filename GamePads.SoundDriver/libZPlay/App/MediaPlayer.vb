@@ -40,16 +40,40 @@ Namespace App
             End Get
         End Property
 
-        Public Function PlayBack(uri As String, Optional format As TStreamFormat = TStreamFormat.sfAutodetect) As Boolean
+        Public ReadOnly Property PlaybackURI As String
+
+        Public ReadOnly Property status As TStreamStatus
+            Get
+                Dim s As New TStreamStatus
+                Call __api.GetStatus(s)
+                Return s
+            End Get
+        End Property
+
+        Public Function PlayBack(uri As String,
+                                 Optional format As TStreamFormat = TStreamFormat.sfAutodetect,
+                                 Optional autoStart As Boolean = False) As Boolean
+
             If __api.OpenFile(uri, TStreamFormat.sfAutodetect) Then
                 ' 成功的话则开始获取文件的标签信息
                 _ID3v2 = New TID3InfoEx
+                _PlaybackURI = uri
+
                 Call __api.LoadID3Ex(_ID3v2, True)
+
+                If autoStart Then
+                    Call Play()
+                End If
             Else
                 Return False
             End If
 
             Return True
+        End Function
+
+        Public Function Play() As TickEvent
+            Call __api.StartPlayback()
+            Return New TickEvent(Me)
         End Function
 
 #Region "IDisposable Support"
