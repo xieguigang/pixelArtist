@@ -1,11 +1,136 @@
-﻿
-Imports System
+﻿Imports System
 Imports System.Runtime.InteropServices
 Imports System.Drawing
 
-Namespace libZPlay.ComponentModel
+Namespace InternalTypes
 
 #Region "Structure and Enum"
+
+    <StructLayout(LayoutKind.Explicit, CharSet:=CharSet.Unicode)>
+    Public Structure TStreamInfo_Internal
+        <FieldOffset(0)>
+        Public SamplingRate As Integer
+        <FieldOffset(4)>
+        Public ChannelNumber As Integer
+        <FieldOffset(8)>
+        Public VBR As Boolean
+        <FieldOffset(12)>
+        Public Bitrate As Integer
+        <FieldOffset(16)>
+        Public Length As TStreamTime
+        <FieldOffset(44)>
+        Public Description As IntPtr
+    End Structure
+
+    <StructLayout(LayoutKind.Explicit, CharSet:=CharSet.Unicode)>
+    Public Structure TWaveOutInfo_Internal
+        <FieldOffset(0)>
+        Public ManufacturerID As UInteger
+        <FieldOffset(4)>
+        Public ProductID As UInteger
+        <FieldOffset(8)>
+        Public DriverVersion As UInteger
+        <FieldOffset(12)>
+        Public Formats As UInteger
+        <FieldOffset(16)>
+        Public Channels As UInteger
+        <FieldOffset(20)>
+        Public Support As UInteger
+        <FieldOffset(24)>
+        Public ProductName As IntPtr
+    End Structure
+
+    <StructLayout(LayoutKind.Explicit, CharSet:=CharSet.Unicode)>
+    Public Structure TWaveInInfo_Internal
+        <FieldOffset(0)>
+        Public ManufacturerID As UInteger
+        <FieldOffset(4)>
+        Public ProductID As UInteger
+        <FieldOffset(8)>
+        Public DriverVersion As UInteger
+        <FieldOffset(12)>
+        Public Formats As UInteger
+        <FieldOffset(16)>
+        Public Channels As UInteger
+        <FieldOffset(20)>
+        Public ProductName As IntPtr
+    End Structure
+
+    <StructLayout(LayoutKind.Explicit, CharSet:=CharSet.Unicode)>
+    Public Structure TID3Info_Internal
+        <FieldOffset(0)>
+        Public Title As IntPtr
+        <FieldOffset(4)>
+        Public Artist As IntPtr
+        <FieldOffset(8)>
+        Public Album As IntPtr
+        <FieldOffset(12)>
+        Public Year As IntPtr
+        <FieldOffset(16)>
+        Public Comment As IntPtr
+        <FieldOffset(20)>
+        Public Track As IntPtr
+        <FieldOffset(24)>
+        Public Genre As IntPtr
+    End Structure
+
+
+    <StructLayout(LayoutKind.Explicit, CharSet:=CharSet.Unicode)>
+    Public Structure TID3InfoEx_Internal
+        <FieldOffset(0)>
+        Public Title As IntPtr
+        <FieldOffset(4)>
+        Public Artist As IntPtr
+        <FieldOffset(8)>
+        Public Album As IntPtr
+        <FieldOffset(12)>
+        Public Year As IntPtr
+        <FieldOffset(16)>
+        Public Comment As IntPtr
+        <FieldOffset(20)>
+        Public Track As IntPtr
+        <FieldOffset(24)>
+        Public Genre As IntPtr
+        <FieldOffset(28)>
+        Public AlbumArtist As IntPtr
+        <FieldOffset(32)>
+        Public Composer As IntPtr
+        <FieldOffset(36)>
+        Public OriginalArtist As IntPtr
+        <FieldOffset(40)>
+        Public Copyright As IntPtr
+        <FieldOffset(44)>
+        Public URL As IntPtr
+        <FieldOffset(48)>
+        Public Encoder As IntPtr
+        <FieldOffset(52)>
+        Public Publisher As IntPtr
+        <FieldOffset(56)>
+        Public BPM As Integer
+        <FieldOffset(60)>
+        Public PicturePresent As Integer
+        <FieldOffset(64)>
+        Public CanDrawPicture As Integer
+        <FieldOffset(68)>
+        Public MIMEType As IntPtr
+        <FieldOffset(72)>
+        Public PictureType As Integer
+        <FieldOffset(76)>
+        Public Description As IntPtr
+        <FieldOffset(80)>
+        Public PictureData As IntPtr
+        <FieldOffset(84)>
+        Public PictureDataSize As Integer
+        <FieldOffset(88)>
+        Public hBitmap As IntPtr
+        <FieldOffset(92)>
+        Public Width As Integer
+        <FieldOffset(96)>
+        Public Height As Integer
+        <FieldOffset(356)>
+        Public reserved As IntPtr
+    End Structure
+
     Public Delegate Function TCallbackFunc(objptr As UInteger, user_data As Integer, msg As TCallbackMessage, param1 As UInteger, param2 As UInteger) As Integer
 
     Public Enum TSettingID As Integer
