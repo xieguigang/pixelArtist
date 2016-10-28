@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.GamePads
 Imports Microsoft.VisualBasic.GamePads.Abstract
+Imports Microsoft.VisualBasic.Imaging
 
 ''' <summary>
 ''' 仙人掌
@@ -7,7 +8,7 @@ Imports Microsoft.VisualBasic.GamePads.Abstract
 Public Class Cactus : Inherits GraphicUnit
 
     Public Overrides Sub Draw(ByRef g As GDIPlusDeviceHandle)
-        Call g.Gr_Device.DrawImageUnscaled(My.Resources.xrzh, Location)
+        Call g.Graphics.DrawImageUnscaled(My.Resources.xrzh, Location)
         Location = New Point(Location.X - 5, Location.Y)
     End Sub
 

@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.GamePads.Abstract
+Imports Microsoft.VisualBasic.Imaging
 
 Public Class Stone : Inherits GraphicUnit
 
@@ -13,19 +14,19 @@ Public Class Stone : Inherits GraphicUnit
 
         Dim gr = size.CreateGDIDevice(Color.Transparent)
 
-        Call gr.Gr_Device.DrawLine(Pens.Black, New Point(x, y), New Point(x + width, y))
+        Call gr.Graphics.DrawLine(Pens.Black, New Point(x, y), New Point(x + width, y))
 
         For i As Integer = 0 To dots
             x = size.Width * RandomDouble()
             y = size.Height * RandomDouble()
-            Call gr.Gr_Device.DrawLine(Pens.Black, New Point(x, y), New Point(x + 1, y))
+            Call gr.Graphics.DrawLine(Pens.Black, New Point(x, y), New Point(x + 1, y))
         Next
 
         res = gr.ImageResource
     End Sub
 
     Public Overrides Sub Draw(ByRef g As GDIPlusDeviceHandle)
-        Call g.Gr_Device.DrawImageUnscaled(res, Location)
+        Call g.Graphics.DrawImageUnscaled(res, Location)
         Location = New Point(Location.X - 3, Location.Y)
     End Sub
 

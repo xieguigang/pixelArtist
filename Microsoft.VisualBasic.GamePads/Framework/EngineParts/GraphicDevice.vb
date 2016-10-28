@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.GamePads.Abstract
+Imports Microsoft.VisualBasic.Imaging
 
 Namespace EngineParts
 

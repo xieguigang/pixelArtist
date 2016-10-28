@@ -1,5 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.GamePads
 Imports Microsoft.VisualBasic.GamePads.Abstract
+Imports Microsoft.VisualBasic.Imaging
 
 Public Class GroundLand : Inherits GraphicUnit
 
@@ -10,7 +11,7 @@ Public Class GroundLand : Inherits GraphicUnit
     End Sub
 
     Public Overrides Sub Draw(ByRef g As GDIPlusDeviceHandle)
-        Call g.Gr_Device.DrawLine(Pens.Black, Location, New Point(__getWidth(), Location.Y))
+        Call g.Graphics.DrawLine(Pens.Black, Location, New Point(__getWidth(), Location.Y))
     End Sub
 
     Protected Overrides Function __getSize() As Size

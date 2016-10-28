@@ -1,4 +1,6 @@
-﻿Namespace Abstract
+﻿Imports Microsoft.VisualBasic.Imaging
+
+Namespace Abstract
 
     Public MustInherit Class GraphicUnit
 

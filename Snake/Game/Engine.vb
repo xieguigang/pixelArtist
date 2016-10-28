@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.GamePads.Abstract
 Imports Microsoft.VisualBasic.GamePads.Commons
 Imports Microsoft.VisualBasic.GamePads.EngineParts
 Imports Microsoft.VisualBasic.GamePads.SoundDriver
+Imports Microsoft.VisualBasic.Imaging
 
 Public Class GameEngine : Inherits GamePads.GameEngine
 
@@ -92,7 +93,7 @@ Public Class GameEngine : Inherits GamePads.GameEngine
         Score.Score += 1
     End Sub
 
-    Dim sound As New libZPlay.ZPlay
+    Dim sound As New ZPlay
 
     Public Overrides Function Init() As Boolean
         Call ControlMaps.DefaultMaps(Me.ControlsMap.ControlMaps)

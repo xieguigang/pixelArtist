@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.GamePads.Abstract
+Imports Microsoft.VisualBasic.Imaging
 
 Namespace Commons
 
@@ -15,7 +16,7 @@ Namespace Commons
         Public Overrides Sub Draw(ByRef g As GDIPlusDeviceHandle)
             SyncLock g
                 SyncLock UI
-                    Call g.Gr_Device.DrawImageUnscaled(UI, Location)
+                    Call g.Graphics.DrawImageUnscaled(UI, Location)
                 End SyncLock
             End SyncLock
         End Sub

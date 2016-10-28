@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.DataStructures
 Imports Microsoft.VisualBasic.GamePads
 Imports Microsoft.VisualBasic.GamePads.Abstract
+Imports Microsoft.VisualBasic.Imaging
 
 Public Class Dinosaur : Inherits GraphicUnit
 
@@ -14,7 +15,7 @@ Public Class Dinosaur : Inherits GraphicUnit
     Public Overrides Sub Draw(ByRef g As GDIPlusDeviceHandle)
         Dim res As Image = images.GET
         size = res.Size
-        Call g.Gr_Device.DrawImageUnscaled(res, Location)
+        Call g.Graphics.DrawImageUnscaled(res, Location)
     End Sub
 
     Dim jumps As Boolean
