@@ -48,6 +48,7 @@ Public Class QL_AI : Inherits QLearning(Of GameControl)
 
         Me._snakeGame = game
         Me._snakeGame.GameOverCallback = AddressOf __gameOver
+        Me._snakeGame.CrossBodyEnable = True
     End Sub
 
     Private Sub __gameOver(engine As Snake.GameEngine)

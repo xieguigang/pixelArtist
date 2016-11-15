@@ -1,1 +1,1 @@
-"E:\VB_GamePads\AI\SankeAI\bin\x86\Release\SnakeAI.exe" /start /load "E:\VB_GamePads\AI\DATA\snake_QL_AI.json"
+"./bin/SnakeAI.exe" /start /load "./snake_QL_AI.json"

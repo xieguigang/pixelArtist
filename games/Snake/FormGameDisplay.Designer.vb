@@ -24,13 +24,14 @@ Partial Class FormGameDisplay
     Private Sub InitializeComponent()
         Me.SuspendLayout()
         '
-        'Form1
+        'FormGameDisplay
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(896, 579)
-        Me.Name = "Form1"
-        Me.Text = "Form1"
+        Me.ClientSize = New System.Drawing.Size(896, 534)
+        Me.Name = "FormGameDisplay"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.Text = "Snake GamePlay"
         Me.ResumeLayout(False)
 
     End Sub

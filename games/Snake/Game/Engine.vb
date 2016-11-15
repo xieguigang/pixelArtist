@@ -64,6 +64,12 @@ Public Class GameEngine : Inherits GamePads.GameEngine
         End Get
     End Property
 
+    ''' <summary>
+    ''' Enable the snake its head can cross its body?
+    ''' </summary>
+    ''' <returns></returns>
+    Public Property CrossBodyEnable As Boolean = False
+
     Protected Overrides Sub __worldReacts()
         If EatFood Then
             If Not ScoreCallback Is Nothing Then
@@ -76,8 +82,8 @@ Public Class GameEngine : Inherits GamePads.GameEngine
             Call Beep()
         End If
 
-        If Not GraphicRegion.Contains(_snake.Head.Location) OrElse
-            _snake.EatSelf Then            ' 撞墙或者吃掉自己的身体，Game Over
+        If Not GraphicRegion.Contains(_snake.Head.Location) OrElse ' If the snake head is outside the screen or cross its body
+            (Not CrossBodyEnable AndAlso _snake.EatSelf) Then    ' 撞墙或者吃掉自己的身体，Game Over
 
             Call Pause()
 
