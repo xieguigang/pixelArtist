@@ -18,3 +18,4 @@ For correctly initialize the sound driver, you must change the solution CPU type
 ###### Screenshots
 
 ![](./images/screenshot.bmp)
+![](./AI/QL_AI/demo.png)
