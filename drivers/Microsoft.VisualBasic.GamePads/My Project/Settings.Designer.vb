@@ -42,12 +42,12 @@ Namespace My
                 
 #If _MyType = "WindowsForms" Then
                If Not addedHandler Then
-                    SyncLock addedHandlerLockObject
+                     addedHandlerLockObject
                         If Not addedHandler Then
                             AddHandler My.Application.Shutdown, AddressOf AutoSaveSettings
                             addedHandler = True
                         End If
-                    End SyncLock
+                    End 
                 End If
 #End If
                 Return defaultInstance

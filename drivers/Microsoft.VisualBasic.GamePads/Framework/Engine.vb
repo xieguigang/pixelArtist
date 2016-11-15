@@ -24,7 +24,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
     ''' <summary>
     ''' 内部的显示输出设备
     ''' </summary>
-    Protected Friend WithEvents _innerDevice As DisplayPort
+    Protected Friend WithEvents display As DisplayPort
 
     Protected ReadOnly _rnd As New Random(100)
 
@@ -45,7 +45,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
     ''' Output the game image to this screen.(将输出的图像数据定向到这个输出设备之上)
     ''' </param>
     Sub New(Display As DisplayPort)
-        Me._innerDevice = Display ' 有些模块是需要这个来触发事件的，所以这个必须要在第一个赋值，否则组件初始化的都是Nothing
+        Me.display = Display ' 有些模块是需要这个来触发事件的，所以这个必须要在第一个赋值，否则组件初始化的都是Nothing
 
         Me.ControlsMap = New Controller(Me)
         Me.DisplayDriver = New GraphicDevice(Me)
@@ -53,7 +53,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
 
         Call GraphicsDeviceResize()  ' 默认是禁用自动调整大小的
 
-        _GraphicRegion = New Rectangle(New Point, _innerDevice.Size) ' 初始化绘图设备的大小
+        _GraphicRegion = New Rectangle(New Point, Me.display.Size) ' 初始化绘图设备的大小
     End Sub
 
     ''' <summary>
@@ -125,10 +125,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
     ''' </summary>
     Private Sub __displayUpdates()
         Do While Running
-            SyncLock DisplayDriver
-                Call DisplayDriver.Updates()
-            End SyncLock
-
+            Call DisplayDriver.Updates()
             Call Threading.Thread.Sleep(DisplayDriver._sleep)
         Loop
     End Sub
@@ -143,9 +140,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
     End Sub
 
     Public Sub Add(obj As GraphicUnit)
-        SyncLock DisplayDriver._list
-            Call DisplayDriver._list.Add(obj)
-        End SyncLock
+        Call DisplayDriver._list.Add(obj)
     End Sub
 
     ''' <summary>
@@ -161,11 +156,9 @@ Public MustInherit Class GameEngine : Implements IDisposable
                 Throw ex
             End If
         Else
-            SyncLock DisplayDriver._list
-                If DisplayDriver._list.Contains(obj) Then
-                    Call DisplayDriver._list.Remove(obj)
-                End If
-            End SyncLock
+            If DisplayDriver._list.Contains(obj) Then
+                Call DisplayDriver._list.Remove(obj)
+            End If
         End If
     End Sub
 
@@ -178,7 +171,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
     ''' </summary>
     ''' <param name="control"></param>
     ''' <param name="raw"></param>
-    Public MustOverride Sub Invoke(control As EngineParts.Controls, raw As Char)
+    Public MustOverride Sub Invoke(control As Controls, raw As Char)
 
     ''' <summary>
     ''' Null raw char
@@ -222,9 +215,9 @@ Public MustInherit Class GameEngine : Implements IDisposable
 
     Public Property DeviceResizeEnable As Boolean = False
 
-    Private Sub GraphicsDeviceResize() Handles _innerDevice.Resize
+    Private Sub GraphicsDeviceResize() Handles display.Resize
         If DeviceResizeEnable Then
-            _GraphicRegion = New Rectangle(New Point, _innerDevice.Size)
+            _GraphicRegion = New Rectangle(New Point, display.Size)
             Call __GraphicsDeviceResize()
         End If
     End Sub

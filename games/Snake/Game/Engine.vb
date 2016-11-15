@@ -87,7 +87,7 @@ Public Class GameEngine : Inherits GamePads.GameEngine
 
             Call Pause()
 
-            Dim g = _innerDevice.BackgroundImage.GdiFromImage
+            Dim g = display.BackgroundImage.GdiFromImage
             Dim l As New Point With {
                 .X = (g.Width - My.Resources.Restart.Width) / 2,
                 .Y = (g.Height - My.Resources.Restart.Height) / 2
@@ -105,7 +105,7 @@ Public Class GameEngine : Inherits GamePads.GameEngine
                 Call GameOverCallback()(Me)
             End If
 
-            _innerDevice.BackgroundImage = g.ImageResource
+            display.BackgroundImage = g.ImageResource
         End If
     End Sub
 

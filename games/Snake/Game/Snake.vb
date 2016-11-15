@@ -124,7 +124,10 @@ Public Class Snake : Inherits GraphicUnit
             Call g.FillRectangle(Brushes.Black, Head)
 
             Dim pre As Point = Location
-            Location = New Point(Location.X + dx * size.Width * _speed, Location.Y + dy * size.Height * _speed)
+            Location = New Point With {
+                .X = Location.X + dx * size.Width * _speed,
+                .Y = Location.Y + dy * size.Height * _speed
+            }
 
             For i As Integer = 0 To body.Count - 1
                 Dim tmp As Point = body(i)
@@ -140,7 +143,7 @@ Public Class Snake : Inherits GraphicUnit
     ''' <returns></returns>
     Public Function EatSelf() As Boolean
         SyncLock body
-            Dim hd = Head
+            Dim hd As Rectangle = Head
 
             For Each x In body.ToArray
                 If hd.Contains(x) Then

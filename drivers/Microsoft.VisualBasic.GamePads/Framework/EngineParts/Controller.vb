@@ -23,7 +23,7 @@ Namespace EngineParts
         Sub New(engine As GameEngine)
             Call MyBase.New(engine)
 
-            _innerDevice = engine._innerDevice
+            _innerDevice = engine.display
             _actionCallback = AddressOf engine.Invoke
             _clickObject = AddressOf engine.ClickObject
         End Sub

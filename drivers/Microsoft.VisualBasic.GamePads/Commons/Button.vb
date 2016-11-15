@@ -8,17 +8,11 @@ Namespace Commons
         Dim UI As Image
 
         Sub New(ui As Image)
-            SyncLock ui
-                Me.UI = DirectCast(New Bitmap(ui).Clone, Bitmap)
-            End SyncLock
+            Me.UI = DirectCast(New Bitmap(ui).Clone, Bitmap)
         End Sub
 
         Public Overrides Sub Draw(ByRef g As GDIPlusDeviceHandle)
-            SyncLock g
-                SyncLock UI
-                    Call g.Graphics.DrawImageUnscaled(UI, Location)
-                End SyncLock
-            End SyncLock
+            Call g.Graphics.DrawImageUnscaled(UI, Location)
         End Sub
 
         Protected Overrides Function __getSize() As Size
