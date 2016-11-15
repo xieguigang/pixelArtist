@@ -24,6 +24,11 @@ Namespace Abstract
 
         Protected MustOverride Function __getSize() As Size
 
-        Public MustOverride Sub Draw(ByRef g As GDIPlusDeviceHandle)
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="g"></param>
+        ''' <param name="size">Graphics device size</param>
+        Public MustOverride Sub Draw(ByRef g As Graphics, size As Size)
     End Class
 End Namespace

@@ -345,7 +345,7 @@ Namespace libZPlay
                     New TStreamTime With {.hms = New TStreamHMSTime},
                     TTimeFormat.tfHMS,
                     info.Length,
-                    UInteger.MaxValue, True)
+                    UInteger.MaxValue, False)
             End If
 
             Return b

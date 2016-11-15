@@ -54,6 +54,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
         Call GraphicsDeviceResize()  ' 默认是禁用自动调整大小的
 
         _GraphicRegion = New Rectangle(New Point, Me.display.Size) ' 初始化绘图设备的大小
+        Display.__updateDriver = AddressOf _DisplayDriver.Updates
     End Sub
 
     ''' <summary>
@@ -125,7 +126,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
     ''' </summary>
     Private Sub __displayUpdates()
         Do While Running
-            Call DisplayDriver.Updates()
+            Call display.Invalidate()
             Call Threading.Thread.Sleep(DisplayDriver._sleep)
         Loop
     End Sub

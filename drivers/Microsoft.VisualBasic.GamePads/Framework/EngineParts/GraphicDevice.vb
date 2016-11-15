@@ -36,25 +36,20 @@ Namespace EngineParts
             Call MyBase.New(engine)
         End Sub
 
-        Public Function Updates() As Image
-            Using g As GDIPlusDeviceHandle = DeviceSize.CreateGDIDevice
-                Dim source As GraphicUnit()
+        Public Sub Updates(g As Graphics, size As Size)
+            Dim source As GraphicUnit()
 
-                SyncLock _list
-                    source = _list.ToArray
-                End SyncLock
+            SyncLock _list
+                source = _list.ToArray
+            End SyncLock
 
-                For Each x As GraphicUnit In source
-                    Call x.Draw(g)
-                Next
+            For Each x As GraphicUnit In source
+                Call x.Draw(g, size)
+            Next
 
-                If Not Engine.display.BackgroundImage Is Nothing Then
-                    Engine.display.BackgroundImage.Dispose()
-                End If
-                Engine.display.BackgroundImage = g.ImageResource
-
-                Return g.ImageResource
-            End Using
-        End Function
+            If Not Engine.display.BackgroundImage Is Nothing Then
+                Engine.display.BackgroundImage.Dispose()
+            End If
+        End Sub
     End Class
 End Namespace

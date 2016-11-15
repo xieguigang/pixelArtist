@@ -11,8 +11,8 @@ Namespace Commons
             Me.UI = DirectCast(New Bitmap(ui).Clone, Bitmap)
         End Sub
 
-        Public Overrides Sub Draw(ByRef g As GDIPlusDeviceHandle)
-            Call g.Graphics.DrawImageUnscaled(UI, Location)
+        Public Overrides Sub Draw(ByRef g As Graphics, rect As Size)
+            Call g.DrawImageUnscaled(UI, Location)
         End Sub
 
         Protected Overrides Function __getSize() As Size

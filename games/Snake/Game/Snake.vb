@@ -116,7 +116,7 @@ Public Class Snake : Inherits GraphicUnit
 
     Dim _speed As Double
 
-    Public Overrides Sub Draw(ByRef g As GDIPlusDeviceHandle)
+    Public Overrides Sub Draw(ByRef g As Graphics, rect As Size)
         SyncLock body
             For Each dot In body.Skip(1).ToArray
                 Call g.FillRectangle(Brushes.Gray, New Rectangle(dot, size))

@@ -90,25 +90,28 @@ Public Class GameEngine : Inherits GamePads.GameEngine
 
             Call Pause()
 
-            Dim g = display.BackgroundImage.GdiFromImage
-            Dim l As New Point With {
-                .X = (g.Width - My.Resources.Restart.Width) / 2,
-                .Y = (g.Height - My.Resources.Restart.Height) / 2
-            }
-            Dim button As New Button(My.Resources.Restart) With {
-                .Location = l
-            }
+            SyncLock display.BackgroundImage
+                Using g = display.BackgroundImage.GdiFromImage
+                    Dim l As New Point With {
+                        .X = (g.Width - My.Resources.Restart.Width) / 2,
+                        .Y = (g.Height - My.Resources.Restart.Height) / 2
+                    }
+                    Dim button As New Button(My.Resources.Restart) With {
+                        .Location = l
+                    }
 
-            Call Me.Add(button)
-            Call button.Draw(g)
+                    Call Me.Add(button)
+                    Call button.Draw(g.Graphics, GraphicRegion.Size)
 
-            GameOver = True
+                    GameOver = True
 
-            If Not GameOverCallback Is Nothing Then
-                Call GameOverCallback()(Me)
-            End If
+                    If Not GameOverCallback Is Nothing Then
+                        Call GameOverCallback()(Me)
+                    End If
 
-            display.BackgroundImage = g.ImageResource
+                    display.BackgroundImage = g.ImageResource
+                End Using
+            End SyncLock
         End If
     End Sub
 

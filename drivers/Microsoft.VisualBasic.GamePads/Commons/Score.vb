@@ -12,11 +12,11 @@ Namespace Commons
 
         ReadOnly Font As New Font("Tahoma", 16, FontStyle.Bold)
 
-        Public Overrides Sub Draw(ByRef g As GDIPlusDeviceHandle)
+        Public Overrides Sub Draw(ByRef g As Graphics, rect As Size)
             Dim s As String = "HI  " & ZeroFill(Highest, 5)
-            Dim sz = g.Graphics.MeasureString(s, Font)
-            Call g.Graphics.DrawString(s, Font, Brushes.Gray, Location)
-            Call g.Graphics.DrawString(ZeroFill(Current, 5), Font, Brushes.Black, New Point(Location.X + 10 + sz.Width, Location.Y))
+            Dim sz = g.MeasureString(s, Font)
+            Call g.DrawString(s, Font, Brushes.Gray, Location)
+            Call g.DrawString(ZeroFill(Current, 5), Font, Brushes.Black, New Point(Location.X + 10 + sz.Width, Location.Y))
         End Sub
 
         Protected Overrides Function __getSize() As Size
