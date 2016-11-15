@@ -4,6 +4,11 @@ Imports Microsoft.VisualBasic.GamePads.EngineParts
 
 Public Module Extensions
 
+    <Extension>
+    Public Function Centre(rect As Rectangle) As Point
+        Return New Point With {.X = rect.Width / 2, .Y = rect.Height / 2}
+    End Function
+
     <Extension> Public Sub Reset(ByRef score As IScore)
         If score.Score > score.Highest Then
             score.Highest = score.Score

@@ -136,7 +136,7 @@ Public Class GameEngine : Inherits GamePads.GameEngine
     Public Overrides Function Init() As Boolean
         Call ControlMaps.DefaultMaps(Me.ControlsMap.ControlMaps)
 
-        _snake.Location = Me.GraphicRegion.Centre
+        _snake.Location = Me.GraphicRegion.Center
         _snake.MoveSpeed = 105
 
         Dim score As New Score With {
