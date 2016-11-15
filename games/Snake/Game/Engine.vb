@@ -2,7 +2,7 @@
 Imports Microsoft.VisualBasic.GamePads.Abstract
 Imports Microsoft.VisualBasic.GamePads.Commons
 Imports Microsoft.VisualBasic.GamePads.EngineParts
-Imports Microsoft.VisualBasic.GamePads.SoundDriver
+Imports Microsoft.VisualBasic.GamePads.SoundDriver.libZPlay
 Imports Microsoft.VisualBasic.Imaging
 
 Public Class GameEngine : Inherits GamePads.GameEngine

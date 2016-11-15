@@ -1,6 +1,6 @@
 ﻿Imports QuartzTypeLib
 
-Public Module WinMM
+Namespace DirectShow
 
     ''' <summary>
     ''' DirectShow组件的抽象接口，整个播放器的核心部件
@@ -85,27 +85,33 @@ Public Module WinMM
     End Class
 
     ''' <summary>
-    ''' 将数字转化为mm:ss的时间格式
+    ''' DirectShow driver
     ''' </summary>
-    ''' <param name="intTime"></param>
-    ''' <returns></returns>
-    Public Function Int2_strTime(intTime As Integer) As String
-        Dim mm As Integer = Int(intTime \ 60)
-        Dim ss As Integer = intTime Mod 60
+    Public Module WinMM
 
-        Return mm.ToString + ":" + Format(ss, "00").ToString
-    End Function
+        ''' <summary>
+        ''' 将数字转化为mm:ss的时间格式
+        ''' </summary>
+        ''' <param name="intTime"></param>
+        ''' <returns></returns>
+        Public Function Int2_strTime(intTime As Integer) As String
+            Dim mm As Integer = Int(intTime \ 60)
+            Dim ss As Integer = intTime Mod 60
 
-    Public Sub PlaySound(filename As String)
-        filename = FileIO.FileSystem.GetFileInfo(filename).FullName
+            Return mm.ToString + ":" + Format(ss, "00").ToString
+        End Function
 
-        Try
-            Dim Device As WinMM.DirectShow = New DirectShow
-            Call Device.RenderFile(filename)
-            Call Device.Play()
-        Catch ex As Exception
-            ex = New Exception(filename, ex)
-            Call MsgBox(ex.ToString, MsgBoxStyle.Critical, "Sound Driver Error!")
-        End Try
-    End Sub
-End Module
+        Public Sub PlaySound(filename As String)
+            filename = FileIO.FileSystem.GetFileInfo(filename).FullName
+
+            Try
+                Dim Device As New DirectShow
+                Call Device.RenderFile(filename)
+                Call Device.Play()
+            Catch ex As Exception
+                ex = New Exception(filename, ex)
+                Call MsgBox(ex.ToString, MsgBoxStyle.Critical, "Sound Driver Error!")
+            End Try
+        End Sub
+    End Module
+End Namespace

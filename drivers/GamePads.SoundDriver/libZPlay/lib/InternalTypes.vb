@@ -2,7 +2,7 @@
 Imports System.Runtime.InteropServices
 Imports System.Drawing
 
-Namespace InternalTypes
+Namespace libZPlay.InternalTypes
 
 #Region "Structure and Enum"
 
