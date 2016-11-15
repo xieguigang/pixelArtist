@@ -1,5 +1,5 @@
 ﻿Imports System.Timers
-Imports Microsoft.VisualBasic.DataMining.Framework.QLearning.DataModel
+Imports Microsoft.VisualBasic.DataMining.QLearning.DataModel
 Imports Microsoft.VisualBasic.Linq
 
 Public Class Form1

@@ -1,8 +1,5 @@
-﻿Imports Microsoft.VisualBasic.DataMining.Framework.QLearning
-Imports Microsoft.VisualBasic.DataMining.Framework.QLearning.DataModel
-Imports Microsoft.VisualBasic.GamePads.EngineParts
-Imports Microsoft.VisualBasic.Language
-Imports SankeAI
+﻿Imports Microsoft.VisualBasic.DataMining.QLearning
+Imports Microsoft.VisualBasic.DataMining.QLearning.DataModel
 
 ''' <summary>
 ''' 方向加下一个动作作为key

@@ -169,27 +169,27 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\VisualBasic_AppFramework\DocumentFormats\DocumentFormat.Csv\DocumentFormat.Csv.vbproj">
-      <Project>{1d8910c2-ada2-4306-96dc-a61b494522ed}</Project>
-      <Name>DocumentFormat.Csv</Name>
+    <ProjectReference Include="..\..\..\GCModeller\src\runtime\sciBASIC#\Data\DataFrame\+VB_DataFrame.vbproj">
+      <Project>{7283c179-f852-4ead-8d8f-b82ef2cbd7db}</Project>
+      <Name>+VB_DataFrame</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
+    <ProjectReference Include="..\..\..\GCModeller\src\runtime\sciBASIC#\Microsoft.VisualBasic.Architecture.Framework\+Microsoft.VisualBasic.Architecture.Framework.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>+Microsoft.VisualBasic.Architecture.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\VisualBasic_AppFramework\Microsoft.VisualBasic.DataMining.Framework\Microsoft.VisualBasic.DataMining.Framework.vbproj">
+    <ProjectReference Include="..\..\..\GCModeller\src\runtime\sciBASIC#\Data_science\Microsoft.VisualBasic.DataMining.Framework\Microsoft.VisualBasic.DataMining.Framework.vbproj">
       <Project>{4b877ab2-e15f-4aa9-b7d6-7c11b2213f10}</Project>
       <Name>Microsoft.VisualBasic.DataMining.Framework</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\GamePads.SoundDriver\GamePads.SoundDriver.vbproj">
+    <ProjectReference Include="..\..\drivers\GamePads.SoundDriver\GamePads.SoundDriver.vbproj">
       <Project>{822d0a37-7bb5-4ecb-acc8-8e38bdf1f063}</Project>
       <Name>GamePads.SoundDriver</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Microsoft.VisualBasic.GamePads\GamePads.vbproj">
+    <ProjectReference Include="..\..\drivers\Microsoft.VisualBasic.GamePads\GamePads.vbproj">
       <Project>{636853f9-172e-46d1-b836-230d33a60340}</Project>
       <Name>GamePads</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Snake\Snake.vbproj">
+    <ProjectReference Include="..\..\games\Snake\Snake.vbproj">
       <Project>{9893739e-3f0a-44e1-943d-41302dbcac8a}</Project>
       <Name>Snake</Name>
     </ProjectReference>

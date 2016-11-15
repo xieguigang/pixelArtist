@@ -1,6 +1,6 @@
-﻿Imports Microsoft.VisualBasic.DataMining.Framework.QLearning.DataModel
+﻿Imports Microsoft.VisualBasic.DataMining.QLearning.DataModel
 Imports Microsoft.VisualBasic.Parallel
-Imports Microsoft.VisualBasic.Serialization
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Module Program
 

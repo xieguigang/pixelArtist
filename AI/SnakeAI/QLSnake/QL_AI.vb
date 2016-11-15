@@ -1,7 +1,9 @@
-﻿Imports Microsoft.VisualBasic.GamePads.EngineParts
-Imports Microsoft.VisualBasic.DataMining.Framework.QLearning
+﻿Imports Microsoft.VisualBasic.DataMining.QLearning
+Imports Microsoft.VisualBasic.DataMining.QLearning.DataModel
+Imports Microsoft.VisualBasic.GamePads.EngineParts
+Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Serialization
-Imports Microsoft.VisualBasic.DataMining.Framework.QLearning.DataModel
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 Public Class QL_AI : Inherits QLearning(Of GameControl)
 

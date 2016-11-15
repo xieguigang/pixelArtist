@@ -2,6 +2,7 @@
 Imports Microsoft.VisualBasic.GamePads
 Imports Microsoft.VisualBasic.GamePads.Abstract
 Imports Microsoft.VisualBasic.GamePads.EngineParts
+Imports Microsoft.VisualBasic.Text
 
 ''' <summary>
 ''' 游戏引擎
@@ -176,7 +177,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
     ''' </summary>
     ''' <param name="control"></param>
     Public Sub Invoke(control As EngineParts.Controls)
-        Call Invoke(control, NIL)
+        Call Invoke(control, ASCII.NUL)
     End Sub
 
     ''' <summary>

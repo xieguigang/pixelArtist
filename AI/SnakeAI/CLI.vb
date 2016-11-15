@@ -1,9 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.CommandLine.Reflection
-Imports Microsoft.VisualBasic.DataMining.Framework.QLearning.DataModel
+Imports Microsoft.VisualBasic.DataMining.QLearning.DataModel
 Imports Microsoft.VisualBasic.Parallel
-Imports Microsoft.VisualBasic.Serialization
-
-
+Imports Microsoft.VisualBasic.Serialization.JSON
 
 ''' <summary>
 ''' CLI not working on the Form thread, not sure why??
