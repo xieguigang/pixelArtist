@@ -3,7 +3,8 @@
 Namespace EngineParts
 
     ''' <summary>
-    ''' 捕捉动作的输入的设备，包括键盘和鼠标
+    ''' Capture the input device actions, including mouse input and keyboard key pressing.
+    ''' (捕捉动作的输入的设备，包括键盘和鼠标)
     ''' </summary>
     Public Class Controller : Inherits Abstract.EngineParts
 
@@ -12,7 +13,8 @@ Namespace EngineParts
         Dim _clickObject As Action(Of Point, GraphicUnit)
 
         ''' <summary>
-        ''' 输入映射，将键盘按键映射为游戏内部的动作信号
+        ''' The gamepad input mappings, mapping the keyboard input as the internal actions.
+        ''' (输入映射，将键盘按键映射为游戏内部的动作信号)
         ''' </summary>
         ''' <returns></returns>
         Public ReadOnly Property ControlMaps As ControlMaps = New ControlMaps
@@ -41,8 +43,11 @@ Namespace EngineParts
                 Return
             End If
 
-            Dim pos As Point = e.Location
-            Call (From x In Engine.AsParallel Select __invokeClick(x, pos)).ToArray
+            Dim xy As Point = e.Location
+
+            Call Engine _
+                .Select(Function(x) __invokeClick(x, xy)) _
+                .ToArray
         End Sub
 
         Private Function __invokeClick(x As GraphicUnit, pos As Point) As Boolean

@@ -5,7 +5,6 @@ Imports Microsoft.VisualBasic.Serialization.JSON
 Module Program
 
     Sub Main()
-
         Dim model As QModel = Nothing
 
         If Not String.IsNullOrEmpty(App.Command) Then
@@ -20,18 +19,29 @@ Module Program
             End If
         End If
 
-        Dim game = New Snake.Form1
+        Call FreshLearning(model)
+    End Sub
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="model">
+    ''' If the QL_AI data is nothing, then fresh learning
+    ''' </param>
+    Private Sub FreshLearning(model As QModel)
+        Dim game As New Snake.FormGameDisplay
+
         Call RunTask(AddressOf game.ShowDialog)
         Call Threading.Thread.Sleep(2000)
 
         Dim q As New QL_AI(game.GameEngine, model)
+
         game.GameEngine.ControlsMap.Enable = False
 
-        Call RunTask(AddressOf New Form1 With {.Table = q.Q}.ShowDialog)
+        Call RunTask(
+            AddressOf New FormQLViewer With {
+                .Table = q.Q
+            }.ShowDialog)
         Call q.RunLearningLoop(Integer.MaxValue)
-
-        '   Call LearnPlayGame.LearnPlay(5000)
-        Pause()
     End Sub
-
 End Module

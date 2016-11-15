@@ -83,6 +83,7 @@ Public Class Snake : Inherits GraphicUnit
 
     Public Sub init()
         Call body.Clear()
+
         For i As Integer = 0 To 10
             Call body.Add(New Point(0, Location.Y - i * size.Height))
         Next

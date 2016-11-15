@@ -117,7 +117,6 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LearnPlayGame.vb" />
     <Compile Include="CLI.vb" />
     <Compile Include="Program.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -135,10 +134,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="QLSnake\Form1.Designer.vb">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <Compile Include="QLSnake\FormQLViewer.Designer.vb">
+      <DependentUpon>FormQLViewer.vb</DependentUpon>
     </Compile>
-    <Compile Include="QLSnake\Form1.vb">
+    <Compile Include="QLSnake\FormQLViewer.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="QLSnake\QTable.vb" />
@@ -152,8 +151,8 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="QLSnake\Form1.resx">
-      <DependentUpon>Form1.vb</DependentUpon>
+    <EmbeddedResource Include="QLSnake\FormQLViewer.resx">
+      <DependentUpon>FormQLViewer.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

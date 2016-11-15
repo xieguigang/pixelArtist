@@ -1,6 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.GamePads
 
-Public Class Form1
+Public Class FormGameDisplay
 
     Public ReadOnly Property GameEngine As GameEngine
 

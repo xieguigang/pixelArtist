@@ -47,7 +47,7 @@ Public Class QState : Inherits QState(Of GameControl)
     ''' <returns></returns>
     Public Overrides Function GetNextState(action As Integer) As GameControl
         Dim pos As Controls = Position(game.Snake.Location, game.food.Location, False)
-        Dim stat = New GameControl With {
+        Dim stat As New GameControl With {
             .moveDIR = game.Snake.Direction,
             .position = pos
         }  ' 当前的动作加上当前的状态构成q-learn里面的一个状态

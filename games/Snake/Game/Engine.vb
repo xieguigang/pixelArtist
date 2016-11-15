@@ -5,6 +5,9 @@ Imports Microsoft.VisualBasic.GamePads.EngineParts
 Imports Microsoft.VisualBasic.GamePads.SoundDriver.libZPlay
 Imports Microsoft.VisualBasic.Imaging
 
+''' <summary>
+''' The snake game engine
+''' </summary>
 Public Class GameEngine : Inherits GamePads.GameEngine
 
     Public ReadOnly Property Snake As Snake
@@ -19,12 +22,22 @@ Public Class GameEngine : Inherits GamePads.GameEngine
         Call MyBase.New(device)
     End Sub
 
+    ''' <summary>
+    ''' Click the object on the screen
+    ''' </summary>
+    ''' <param name="pos"></param>
+    ''' <param name="x"></param>
     Public Overrides Sub ClickObject(pos As Point, x As GraphicUnit)
         If TypeOf x Is Button Then
             Call Reset()
         End If
     End Sub
 
+    ''' <summary>
+    ''' Press the gamepad button
+    ''' </summary>
+    ''' <param name="control"></param>
+    ''' <param name="raw"></param>
     Public Overrides Sub Invoke(control As Controls, raw As Char)
         Select Case control
             Case Controls.Up, Controls.Right, Controls.Left, Controls.Down
@@ -39,9 +52,15 @@ Public Class GameEngine : Inherits GamePads.GameEngine
 
     Public Property GameOver As Boolean = False
 
+    ''' <summary>
+    ''' Does the snake head intersect with the food rectangle? If it does, then means the snake eat the food.
+    ''' </summary>
+    ''' <returns></returns>
     Public ReadOnly Property EatFood As Boolean
         Get
-            Return _snake.Head.IntersectsWith(food.Region)
+            SyncLock _snake
+                Return _snake.Head.IntersectsWith(food.Region)
+            End SyncLock
         End Get
     End Property
 
@@ -63,8 +82,13 @@ Public Class GameEngine : Inherits GamePads.GameEngine
             Call Pause()
 
             Dim g = _innerDevice.BackgroundImage.GdiFromImage
-            Dim l As Point = New Point((g.Width - My.Resources.Restart.Width) / 2, (g.Height - My.Resources.Restart.Height) / 2)
-            Dim button As New Button(My.Resources.Restart) With {.Location = l}
+            Dim l As New Point With {
+                .X = (g.Width - My.Resources.Restart.Width) / 2,
+                .Y = (g.Height - My.Resources.Restart.Height) / 2
+            }
+            Dim button As New Button(My.Resources.Restart) With {
+                .Location = l
+            }
 
             Call Me.Add(button)
             Call button.Draw(g)
@@ -88,7 +112,9 @@ Public Class GameEngine : Inherits GamePads.GameEngine
     Public Property ScoreCallback As Action(Of Point)
 
     Private Sub AddFood()
-        _food = New Food With {.Location = New Point(GraphicRegion.Width * RandomDouble(), GraphicRegion.Height * RandomDouble())}
+        _food = New Food With {
+            .Location = New Point(GraphicRegion.Width * RandomDouble(), GraphicRegion.Height * RandomDouble())
+        }
         Call Me.Add(food)
         Score.Score += 1
     End Sub
@@ -98,10 +124,12 @@ Public Class GameEngine : Inherits GamePads.GameEngine
     Public Overrides Function Init() As Boolean
         Call ControlMaps.DefaultMaps(Me.ControlsMap.ControlMaps)
 
-        _snake.Location = Me.GraphicRegion.Center
+        _snake.Location = Me.GraphicRegion.Centre
         _snake.MoveSpeed = 105
 
-        Dim score As New Score With {.Location = New Point(10, 10)}
+        Dim score As New Score With {
+            .Location = New Point(10, 10)
+        }
 
         Call Me.Add(score)
 
@@ -124,7 +152,7 @@ Public Class GameEngine : Inherits GamePads.GameEngine
     End Function
 
     Public Overrides Sub __reset()
-        _snake.Location = Me.GraphicRegion.Center
+        _snake.Location = Me.GraphicRegion.Centre
         Call _snake.init()
 
         For Each x In (From o In Me Where TypeOf o Is Food Select o)

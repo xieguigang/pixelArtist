@@ -24,7 +24,7 @@ Module CLI
     End Function
 
     Public Function Run(ai As QModel) As Integer
-        Dim game = New Snake.Form1
+        Dim game = New Snake.FormGameDisplay
 
         Call RunTask(AddressOf game.ShowDialog)
 
@@ -35,7 +35,7 @@ Module CLI
         Dim q As New QL_AI(game.GameEngine, ai)
         game.GameEngine.ControlsMap.Enable = False
 
-        Call RunTask(AddressOf New Form1 With {.Table = q.Q}.ShowDialog)
+        Call RunTask(AddressOf New FormQLViewer With {.Table = q.Q}.ShowDialog)
         Call q.RunLearningLoop(Integer.MaxValue)
         Return 0
     End Function

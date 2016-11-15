@@ -2,7 +2,7 @@
 Imports Microsoft.VisualBasic.DataMining.QLearning.DataModel
 Imports Microsoft.VisualBasic.Linq
 
-Public Class Form1
+Public Class FormQLViewer
 
     Public Table As IQTable
 

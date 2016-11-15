@@ -181,7 +181,9 @@ Namespace libZPlay
 #Region "Constructor and destructor"
 
         ''' <summary>
-        ''' 只支持x86，请在编译的时候选择x86，否则会无法初始化
+        ''' Only supports the x86 CPU, if the driver can not initialize, 
+        ''' then you should change the CPU type to x86 in the Compiler options.
+        ''' (只支持x86，请在编译的时候选择x86，否则会无法初始化)
         ''' </summary>
         Public Sub New()
             Dim dll$ = App.HOME & "/libzplay.dll"

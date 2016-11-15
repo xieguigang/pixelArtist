@@ -1,4 +1,8 @@
-﻿Public Class DisplayPort
+﻿
+''' <summary>
+''' The display output
+''' </summary>
+Public Class DisplayPort
 
     Public Property Engine As GameEngine
 
