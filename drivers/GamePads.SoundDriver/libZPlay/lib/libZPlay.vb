@@ -160,6 +160,7 @@
 '
 
 Imports System.Drawing
+Imports Microsoft.VisualBasic.GamePads.SoundDriver.libZPlay.InternalTypes
 
 Namespace libZPlay
 
@@ -310,7 +311,13 @@ Namespace libZPlay
 
         End Function
 
-        Public Function PlayLoop(TimeFormatStart As InternalTypes.TTimeFormat, ByRef StartPosition As InternalTypes.TStreamTime, TimeFormatEnd As InternalTypes.TTimeFormat, ByRef EndPosition As InternalTypes.TStreamTime, NumberOfCycles As UInteger, ContinuePlaying As Boolean) As Boolean
+        Public Function PlayLoop(TimeFormatStart As InternalTypes.TTimeFormat,
+                                 ByRef StartPosition As InternalTypes.TStreamTime,
+                                 TimeFormatEnd As InternalTypes.TTimeFormat,
+                                 ByRef EndPosition As InternalTypes.TStreamTime,
+                                 NumberOfCycles As UInteger,
+                                 ContinuePlaying As Boolean) As Boolean
+
             Dim continueplay As UInteger
             If (ContinuePlaying) Then
                 continueplay = 1
@@ -321,8 +328,27 @@ Namespace libZPlay
             Return zplay_PlayLoop(objptr, CInt(Fix(TimeFormatStart)), StartPosition, CInt(Fix(TimeFormatEnd)), EndPosition, NumberOfCycles, continueplay) = 1
         End Function
 
-        Public Function StartPlayback() As Boolean
-            Return zplay_Play(objptr) = 1
+        ''' <summary>
+        ''' Loops this song media?
+        ''' </summary>
+        ''' <param name="[loop]"></param>
+        ''' <returns></returns>
+        Public Function StartPlayback(Optional [loop]? As Boolean = False) As Boolean
+            Dim b As Boolean = zplay_Play(objptr) = 1
+
+            If [loop] Then
+                Dim info As TStreamInfo = Nothing
+
+                Call GetStreamInfo(info)
+                Call PlayLoop(
+                    TTimeFormat.tfHMS,
+                    New TStreamTime With {.hms = New TStreamHMSTime},
+                    TTimeFormat.tfHMS,
+                    info.Length,
+                    UInteger.MaxValue, True)
+            End If
+
+            Return b
         End Function
 
         Public Function StopPlayback() As Boolean

@@ -40,7 +40,9 @@ Namespace EngineParts
             Using g As GDIPlusDeviceHandle = DeviceSize.CreateGDIDevice
                 Dim source As GraphicUnit()
 
-                source = _list.ToArray
+                SyncLock _list
+                    source = _list.ToArray
+                End SyncLock
 
                 For Each x As GraphicUnit In source
                     Call x.Draw(g)

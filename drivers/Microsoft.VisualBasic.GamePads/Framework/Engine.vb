@@ -147,7 +147,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
     '''
     ''' </summary>
     ''' <param name="obj"></param>
-    Public Sub Remove(obj As GraphicUnit, Optional throwEx As Boolean = False)
+    Public Sub Remove(obj As GraphicUnit, Optional dispose As Boolean = False, Optional throwEx As Boolean = False)
         If obj Is Nothing Then
             Dim ex As New Exception("GraphicUnit is nothing!")
             Call App.LogException(ex)
@@ -158,6 +158,10 @@ Public MustInherit Class GameEngine : Implements IDisposable
         Else
             If DisplayDriver._list.Contains(obj) Then
                 Call DisplayDriver._list.Remove(obj)
+
+                If dispose Then
+                    Call GC.SuppressFinalize(obj)
+                End If
             End If
         End If
     End Sub

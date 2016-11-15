@@ -72,13 +72,16 @@ Public Class GameEngine : Inherits GamePads.GameEngine
 
     Protected Overrides Sub __worldReacts()
         If EatFood Then
-            If Not ScoreCallback Is Nothing Then
-                Call ScoreCallback()(food.Location)
-            End If
+            SyncLock food
+                If Not ScoreCallback Is Nothing Then
+                    Call ScoreCallback()(food.Location)
+                End If
 
-            Call Me.Remove(food)
-            Call AddFood()
-            _snake.Append()
+                Call Me.Remove(food, True)
+                Call AddFood()
+                Call _snake.Append()
+            End SyncLock
+
             Call Beep()
         End If
 
@@ -119,7 +122,7 @@ Public Class GameEngine : Inherits GamePads.GameEngine
 
     Private Sub AddFood()
         _food = New Food With {
-            .Location = New Point(GraphicRegion.Width * RandomDouble(), GraphicRegion.Height * RandomDouble())
+            .Location = New Point(GraphicRegion.Width * Rnd(), GraphicRegion.Height * Rnd())
         }
         Call Me.Add(food)
         Score.Score += 1
@@ -145,14 +148,18 @@ Public Class GameEngine : Inherits GamePads.GameEngine
         Call Me.Add(_snake)
         Call AddFood()
 
-        Try
-            Call My.Resources.background.FlushStream(App.HOME & "/background.mp3")
-        Catch ex As Exception
+        Dim mp3$ = App.HOME & "/background.mp3"
 
-        End Try
+        If Not mp3.FileExists Then
+            Try
+                Call My.Resources.background.FlushStream(mp3)
+            Catch ex As Exception
 
-        Call sound.OpenFile(App.HOME & "/background.mp3")
-        Call sound.StartPlayback()
+            End Try
+        End If
+
+        Call sound.OpenFile(mp3)
+        Call sound.StartPlayback([loop]:=True)
 
         Return True
     End Function
