@@ -12,7 +12,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
     Implements IObjectModel_Driver
 
     ''' <summary>
-    ''' 基于GDI+的显示驱动模块
+    ''' Display driver based on the GDI+.(基于GDI+的显示驱动模块)
     ''' </summary>
     ''' <returns></returns>
     Public ReadOnly Property DisplayDriver As GraphicDevice
@@ -26,7 +26,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
     ''' </summary>
     Protected Friend WithEvents _innerDevice As DisplayPort
 
-    Protected ReadOnly _rnd As Random = New Random(100)
+    Protected ReadOnly _rnd As New Random(100)
 
     Protected Score As IScore
 
@@ -41,7 +41,9 @@ Public MustInherit Class GameEngine : Implements IDisposable
     ''' <summary>
     '''
     ''' </summary>
-    ''' <param name="Display">将输出的图像数据定向到这个输出设备之上</param>
+    ''' <param name="Display">
+    ''' Output the game image to this screen.(将输出的图像数据定向到这个输出设备之上)
+    ''' </param>
     Sub New(Display As DisplayPort)
         Me._innerDevice = Display ' 有些模块是需要这个来触发事件的，所以这个必须要在第一个赋值，否则组件初始化的都是Nothing
 
@@ -50,6 +52,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
         Me.DisplayDriver.RefreshHz = 25
 
         Call GraphicsDeviceResize()  ' 默认是禁用自动调整大小的
+
         _GraphicRegion = New Rectangle(New Point, _innerDevice.Size) ' 初始化绘图设备的大小
     End Sub
 
@@ -73,7 +76,7 @@ Public MustInherit Class GameEngine : Implements IDisposable
         Dim x As Double = _rnd.NextDouble
         Dim y As Double = _rnd.NextDouble
         Dim z As Double = _rnd.NextDouble
-        Dim array As Double() = {b, c, i, j, x, y, z}
+        Dim array#() = {b, c, i, j, x, y, z}
         Dim pre As Double = a
 
         For Each x In array
@@ -92,7 +95,9 @@ Public MustInherit Class GameEngine : Implements IDisposable
     End Function
 
     ''' <summary>
-    ''' 启动游戏引擎。请注意，线程会被阻塞在这里
+    ''' Start running the game engine, please notice that the thread 
+    ''' will be block at here until the engine is not running.
+    ''' (启动游戏引擎。请注意，线程会被阻塞在这里)
     ''' </summary>
     Public Function Run() As Integer Implements IObjectModel_Driver.Run
         If Running Then
@@ -116,11 +121,14 @@ Public MustInherit Class GameEngine : Implements IDisposable
     End Function
 
     ''' <summary>
-    ''' 图像更新
+    ''' Updates the game display.(游戏画面图像更新)
     ''' </summary>
     Private Sub __displayUpdates()
         Do While Running
-            Call DisplayDriver.Updates()
+            SyncLock DisplayDriver
+                Call DisplayDriver.Updates()
+            End SyncLock
+
             Call Threading.Thread.Sleep(DisplayDriver._sleep)
         Loop
     End Sub
