@@ -2,6 +2,9 @@
 
 Simple Framework to create game. I using this framework to testing the machine learning AI.
 
+![](./images/README/nodes.gif)
+![](./images/README/smile.jpg)
+
 #### Development Note
 
 ###### Required of dependence
@@ -17,5 +20,6 @@ For correctly initialize the sound driver, you must change the solution CPU type
 
 ###### Screenshots
 
-![](./images/screenshot.bmp)
+![](./images/README/chrome.png)
+![](./images/README/screenshot.png)
 ![](./AI/QL_AI/demo.png)
