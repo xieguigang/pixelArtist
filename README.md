@@ -2,15 +2,16 @@
 
 Simple Framework to create game. I using this framework to testing the machine learning AI.
 
-![](./images/README/nodes.gif)
-![](./images/README/smile.jpg)
++ ![](./images/README/nodes.gif)
++ ![](./images/README/smile.jpg)
 
 #### Development Note
 
 ###### Required of dependence
 
-+ sciBASIC#: [https://github.com/xieguigang/sciBASIC](https://github.com/xieguigang/sciBASIC)
-  > nuget: Install-Package sciBASIC -Pre
++ Install nuget package sciBASIC#: [https://github.com/xieguigang/sciBASIC](https://github.com/xieguigang/sciBASIC)
+
+  > PM> Install-Package sciBASIC -Pre
 
 ###### Sound Driver
 
