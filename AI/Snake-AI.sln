@@ -413,8 +413,8 @@ Global
 		{A43EC013-2B55-4D25-B9F1-96BD5FB1E577}.GCModeller(Release_X64)|Any CPU.Build.0 = GCModeller(Release_X64)|Any CPU
 		{A43EC013-2B55-4D25-B9F1-96BD5FB1E577}.GCModeller(Release_X64)|x64.ActiveCfg = GCModeller(Release_X64)|x64
 		{A43EC013-2B55-4D25-B9F1-96BD5FB1E577}.GCModeller(Release_X64)|x64.Build.0 = GCModeller(Release_X64)|x64
-		{A43EC013-2B55-4D25-B9F1-96BD5FB1E577}.GCModeller(Release_X64)|x86.ActiveCfg = GCModeller(Release_X64)|Any CPU
-		{A43EC013-2B55-4D25-B9F1-96BD5FB1E577}.GCModeller(Release_X64)|x86.Build.0 = GCModeller(Release_X64)|Any CPU
+		{A43EC013-2B55-4D25-B9F1-96BD5FB1E577}.GCModeller(Release_X64)|x86.ActiveCfg = GCModeller(Release_X64)|x86
+		{A43EC013-2B55-4D25-B9F1-96BD5FB1E577}.GCModeller(Release_X64)|x86.Build.0 = GCModeller(Release_X64)|x86
 		{A43EC013-2B55-4D25-B9F1-96BD5FB1E577}.installer_x64|Any CPU.ActiveCfg = installer_x64|Any CPU
 		{A43EC013-2B55-4D25-B9F1-96BD5FB1E577}.installer_x64|Any CPU.Build.0 = installer_x64|Any CPU
 		{A43EC013-2B55-4D25-B9F1-96BD5FB1E577}.installer_x64|x64.ActiveCfg = installer_x64|x64

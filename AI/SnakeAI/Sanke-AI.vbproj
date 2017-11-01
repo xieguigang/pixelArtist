@@ -177,7 +177,6 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
     <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\drivers\GamePads.SoundDriver\GamePads.SoundDriver.vbproj">

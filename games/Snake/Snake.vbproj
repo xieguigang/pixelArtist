@@ -187,7 +187,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
     <None Include="Resources\Restart.png" />
   </ItemGroup>
   <ItemGroup>
