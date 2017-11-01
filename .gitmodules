@@ -1,0 +1,3 @@
+[submodule "sciBASIC"]
+	path = sciBASIC
+	url = https://github.com/xieguigang/sciBASIC.git
