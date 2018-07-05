@@ -1,8 +1,18 @@
 ﻿Imports System.Drawing
 
+Public Class CharacterModel
+
+    Dim skeleton As Skeleton
+    Dim texture As Textures
+
+End Class
+
 ''' <summary>
 ''' 
 ''' </summary>
+''' <remarks>
+''' Skeleton bind to texture by property name
+''' </remarks>
 Public Class Skeleton
 
     Public Property head As PointF
