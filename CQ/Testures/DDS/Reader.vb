@@ -18,9 +18,25 @@ Namespace DDS
 
                 Return New File With {
                     .dwMagic = Reader.dwMagic,
-                    .header = dds.parseHeader
+                    .header = dds.parseHeader,
+                    .header10 = dds.parseHeader10(.header)
                 }
             End Using
+        End Function
+
+        <Extension>
+        Private Function parseHeader10(dds As BinaryDataReader, header As DDS_HEADER.Header) As DDS_HEADER_DXT10.HeaderDXT10
+            If Not header.ddspf.dwFlags = DDS_PIXELFORMAT.dwFlags.DDPF_FOURCC OrElse header.ddspf.dwFourCC <> "DX10" Then
+                Return Nothing
+            End If
+
+            Return New DDS_HEADER_DXT10.HeaderDXT10 With {
+                .dxgiFormat = dds.ReadInt32,
+                .resourceDimension = dds.ReadInt32,
+                .miscFlag = dds.ReadUInt32,
+                .arraySize = dds.ReadUInt32,
+                .miscFlags2 = dds.ReadUInt32
+            }
         End Function
 
         <Extension>
@@ -37,7 +53,7 @@ Namespace DDS
                 .ddspf = New DDS_PIXELFORMAT.PixelFormat With {
                     .dwSize = dds.ReadInt32,
                     .dwFlags = dds.ReadInt32,
-                    .dwFourCC = dds.ReadInt32,
+                    .dwFourCC = dds.ReadString(4),
                     .dwRGBBitCount = dds.ReadInt32,
                     .dwRBitMask = dds.ReadInt32,
                     .dwGBitMask = dds.ReadInt32,

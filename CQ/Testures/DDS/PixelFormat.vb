@@ -44,7 +44,7 @@ Namespace DDS.DDS_PIXELFORMAT
         ''' member of that structure indicates the true format. When using a four-character 
         ''' code, dwFlags must include DDPF_FOURCC.
         ''' </summary>
-        Public dwFourCC As DWORD
+        Public dwFourCC As String
         ''' <summary>
         ''' Number of bits in an RGB (possibly including alpha) format. Valid when dwFlags 
         ''' includes DDPF_RGB, DDPF_LUMINANCE, or DDPF_YUV.
