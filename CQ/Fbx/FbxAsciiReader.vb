@@ -7,6 +7,7 @@ Imports Microsoft.VisualBasic.Language
 ''' Reads FBX nodes from a text stream
 ''' </summary>
 Public Class FbxAsciiReader
+
     Private ReadOnly stream As Stream
     Private ReadOnly errorLevel As ErrorLevel
 
@@ -34,12 +35,13 @@ Public Class FbxAsciiReader
     ''' Malformed files could cause large amounts of memory to be allocated
     ''' and slow or crash the system as a result.
     ''' </remarks>
-    Public MaxArrayLength As Integer = (1 << 24)
+    Public ReadOnly Property MaxArrayLength As Integer = (1 << 24)
 
     ' We read bytes a lot, so we should make a more efficient method here
     ' (The normal one makes a new byte array each time)
 
     ReadOnly singleChar As Byte() = New Byte(0) {}
+
     Private prevChar As System.Nullable(Of Char)
     Private endStream As Boolean
     Private wasCr As Boolean
@@ -410,7 +412,7 @@ Public Class FbxAsciiReader
             End If
             Throw New FbxException(line, column, "Unexpected '" & first & "', expected an identifier")
         End If
-        Dim node = New FbxNode() With {
+        Dim node As New FbxNode() With {
             .Name = id.[String]
         }
 

@@ -8,23 +8,24 @@ Imports System.Runtime.InteropServices
 ''' Writes an FBX document to a binary stream
 ''' </summary>
 Public Class FbxBinaryWriter
-	Inherits FbxBinary
-	Private ReadOnly output As Stream
+    Inherits FbxBinary
+
+    Private ReadOnly output As Stream
 	Private ReadOnly memory As MemoryStream
 	Private ReadOnly stream As BinaryWriter
 
 	ReadOnly nodePath As New Stack(Of String)()
 
-	''' <summary>
-	''' The minimum size of an array in bytes before it is compressed
-	''' </summary>
-	Public CompressionThreshold As Integer = 1024
+    ''' <summary>
+    ''' The minimum size of an array in bytes before it is compressed
+    ''' </summary>
+    Public ReadOnly Property CompressionThreshold As Integer = 1024
 
-	''' <summary>
-	''' Creates a new writer
-	''' </summary>
-	''' <param name="stream"></param>
-	Public Sub New(stream As Stream)
+    ''' <summary>
+    ''' Creates a new writer
+    ''' </summary>
+    ''' <param name="stream"></param>
+    Public Sub New(stream As Stream)
 		If stream Is Nothing Then
 			Throw New ArgumentNullException(nameof(stream))
 		End If

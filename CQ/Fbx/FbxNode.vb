@@ -4,27 +4,28 @@ Imports System.Collections.Generic
 ''' Represents a node in an FBX file
 ''' </summary>
 Public Class FbxNode
-	Inherits FbxNodeList
-	''' <summary>
-	''' The node name, which is often a class type
-	''' </summary>
-	''' <remarks>
-	''' The name must be smaller than 256 characters to be written to a binary stream
-	''' </remarks>
-	Public Name As String
+    Inherits FbxNodeList
 
-	''' <summary>
-	''' The list of properties associated with the node
-	''' </summary>
-	''' <remarks>
-	''' Supported types are primitives (apart from byte and char),arrays of primitives, and strings
-	''' </remarks>
-	Public Properties As New List(Of Object)()
+    ''' <summary>
+    ''' The node name, which is often a class type
+    ''' </summary>
+    ''' <remarks>
+    ''' The name must be smaller than 256 characters to be written to a binary stream
+    ''' </remarks>
+    Public Property Name As String
 
-	''' <summary>
-	''' The first property element
-	''' </summary>
-	Public Property Value() As Object
+    ''' <summary>
+    ''' The list of properties associated with the node
+    ''' </summary>
+    ''' <remarks>
+    ''' Supported types are primitives (apart from byte and char),arrays of primitives, and strings
+    ''' </remarks>
+    Public ReadOnly Property Properties As New List(Of Object)()
+
+    ''' <summary>
+    ''' The first property element
+    ''' </summary>
+    Public Property Value() As Object
 		Get
 			Return If(Properties.Count < 1, Nothing, Properties(0))
 		End Get

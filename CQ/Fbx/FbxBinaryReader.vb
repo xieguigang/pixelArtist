@@ -6,8 +6,9 @@ Imports System.IO.Compression
 ''' Reads FBX nodes from a binary stream
 ''' </summary>
 Public Class FbxBinaryReader
-	Inherits FbxBinary
-	Private ReadOnly stream As BinaryReader
+    Inherits FbxBinary
+
+    Private ReadOnly stream As BinaryReader
 	Private ReadOnly errorLevel As ErrorLevel
 
 	Private Delegate Function ReadPrimitive(reader As BinaryReader) As Object

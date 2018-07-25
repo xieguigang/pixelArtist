@@ -4,15 +4,16 @@ Imports System.Collections.Generic
 ''' An error with the FBX data input
 ''' </summary>
 Public Class FbxException
-	Inherits Exception
-	''' <summary>
-	''' An error at a binary stream offset
-	''' </summary>
-	''' <param name="position"></param>
-	''' <param name="message"></param>
-	Public Sub New(position As Long, message As String)
-		MyBase.New("{message}, near offset {position}")
-	End Sub
+    Inherits Exception
+
+    ''' <summary>
+    ''' An error at a binary stream offset
+    ''' </summary>
+    ''' <param name="position"></param>
+    ''' <param name="message"></param>
+    Public Sub New(position As Long, message As String)
+        MyBase.New($"{message}, near offset {position}")
+    End Sub
 
 	''' <summary>
 	''' An error in a text file
@@ -21,8 +22,8 @@ Public Class FbxException
 	''' <param name="column"></param>
 	''' <param name="message"></param>
 	Public Sub New(line As Integer, column As Integer, message As String)
-		MyBase.New("{message}, near line {line} column {column}")
-	End Sub
+        MyBase.New($"{message}, near line {line} column {column}")
+    End Sub
 
 	''' <summary>
 	''' An error in a node object
@@ -31,6 +32,6 @@ Public Class FbxException
 	''' <param name="propertyID"></param>
 	''' <param name="message"></param>
 	Public Sub New(nodePath As Stack(Of String), propertyID As Integer, message As String)
-		MyBase.New(message & ", at " & String.Join("/", nodePath.ToArray()) & (If(propertyID < 0, "", "[{propertyID}]")))
-	End Sub
+        MyBase.New(message & ", at " & String.Join("/", nodePath.ToArray()) & (If(propertyID < 0, "", $"[{propertyID}]")))
+    End Sub
 End Class
