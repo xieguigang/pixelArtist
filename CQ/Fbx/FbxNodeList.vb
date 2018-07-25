@@ -1,4 +1,5 @@
 Imports System.Collections.Generic
+Imports System.Runtime.CompilerServices
 
 ''' <summary>
 ''' Base class for nodes and documents
@@ -20,6 +21,7 @@ Public MustInherit Class FbxNodeList
     ''' <param name="name"></param>
     ''' <returns>The child node, or null</returns>
     Default Public ReadOnly Property Item(name As String) As FbxNode
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
         Get
             Return Nodes.Find(Function(n) n IsNot Nothing AndAlso n.Name = name)
         End Get
@@ -43,6 +45,7 @@ Public MustInherit Class FbxNodeList
                 Exit For
             End If
         Next
+
         Return TryCast(n, FbxNode)
     End Function
 End Class

@@ -1,10 +1,10 @@
 Imports System.Collections.Generic
+Imports System.Runtime.CompilerServices
 
 ''' <summary>
 ''' Represents a node in an FBX file
 ''' </summary>
-Public Class FbxNode
-    Inherits FbxNodeList
+Public Class FbxNode : Inherits FbxNodeList
 
     ''' <summary>
     ''' The node name, which is often a class type
@@ -26,22 +26,25 @@ Public Class FbxNode
     ''' The first property element
     ''' </summary>
     Public Property Value() As Object
-		Get
-			Return If(Properties.Count < 1, Nothing, Properties(0))
-		End Get
-		Set
-			If Properties.Count < 1 Then
-				Properties.Add(value)
-			Else
-				Properties(0) = value
-			End If
-		End Set
-	End Property
+        <MethodImpl(MethodImplOptions.AggressiveInlining)>
+        Get
+            Return If(Properties.Count < 1, Nothing, Properties(0))
+        End Get
+        Set
+            If Properties.Count < 1 Then
+                Properties.Add(Value)
+            Else
+                Properties(0) = Value
+            End If
+        End Set
+    End Property
 
-	''' <summary>
-	''' Whether the node is empty of data
-	''' </summary>
-	Public Function IsEmpty() As Boolean
-		Return String.IsNullOrEmpty(Name) AndAlso Properties.Count = 0 AndAlso Nodes.Count = 0
-	End Function
+    ''' <summary>
+    ''' Whether the node is empty of data
+    ''' </summary>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Function IsEmpty() As Boolean
+        Return String.IsNullOrEmpty(Name) AndAlso Properties.Count = 0 AndAlso Nodes.Count = 0
+    End Function
 End Class

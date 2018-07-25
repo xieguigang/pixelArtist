@@ -1,4 +1,5 @@
 Imports System.IO
+Imports System.Runtime.CompilerServices
 
 ''' <summary>
 ''' Static read and write methods
@@ -68,4 +69,14 @@ Public Module FbxIO
             writer.Write(document)
         End Using
     End Sub
+
+    <Extension>
+    Friend Function AllZero(array As Byte()) As Boolean
+        For Each b As Byte In array
+            If b <> 0 Then
+                Return False
+            End If
+        Next
+        Return True
+    End Function
 End Module

@@ -8,11 +8,11 @@ Imports Microsoft.VisualBasic.Language
 ''' </summary>
 Public Class FbxAsciiReader
 
-    Private ReadOnly stream As Stream
-    Private ReadOnly errorLevel As ErrorLevel
+    ReadOnly stream As Stream
+    ReadOnly errorLevel As ErrorLevel
 
-    Private line As Integer = 1
-    Private column As Integer = 1
+    Dim line As Integer = 1
+    Dim column As Integer = 1
 
     ''' <summary>
     ''' Creates a new reader
@@ -42,9 +42,9 @@ Public Class FbxAsciiReader
 
     ReadOnly singleChar As Byte() = New Byte(0) {}
 
-    Private prevChar As System.Nullable(Of Char)
-    Private endStream As Boolean
-    Private wasCr As Boolean
+    Dim prevChar As System.Nullable(Of Char)
+    Dim endStream As Boolean
+    Dim wasCr As Boolean
 
     ' Reads a char, allows peeking and checks for end of stream
     Private Function ReadChar() As Char
@@ -103,6 +103,7 @@ Public Class FbxAsciiReader
     ' Wrapper around a string to mark it as an identifier
     ' (as opposed to a string literal)
     Private Class Identifier
+
         Public ReadOnly [String] As String
 
         Public Overrides Function Equals(obj As Object) As Boolean
@@ -126,7 +127,7 @@ Public Class FbxAsciiReader
         End Function
     End Class
 
-    Private prevTokenSingle As Object
+    Dim prevTokenSingle As Object
 
     ' Reads a single token, allows peeking
     ' Can return 'null' for a comment or whitespace
@@ -230,7 +231,7 @@ Public Class FbxAsciiReader
         Throw New FbxException(line, column, "Unknown character " & c)
     End Function
 
-    Private prevToken As Object
+    Dim prevToken As Object
 
     ' Use a loop rather than recursion to prevent stack overflow
     ' Here we can also merge string+colon into an identifier,

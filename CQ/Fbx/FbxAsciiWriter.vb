@@ -7,7 +7,7 @@ Imports System.Collections.Generic
 ''' </summary>
 Public Class FbxAsciiWriter
 
-    Private ReadOnly stream As Stream
+    ReadOnly stream As Stream
 
     ''' <summary>
     ''' Creates a new reader
@@ -136,7 +136,7 @@ Public Class FbxAsciiWriter
         Dim vMajor = CInt(document.Version) \ 1000
         Dim vMinor = (CInt(document.Version) Mod 1000) \ 100
         Dim vRev = (CInt(document.Version) Mod 100) \ 10
-        sb.Append("; FBX {vMajor}.{vMinor}.{vRev} project file" & vbLf & vbLf)
+        sb.Append($"; FBX {vMajor}.{vMinor}.{vRev} project file" & vbLf & vbLf)
 
         nodePath.Clear()
         For Each n As FbxNode In document.Nodes

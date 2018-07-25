@@ -2,6 +2,7 @@
 ''' Indicates when a reader should throw errors
 ''' </summary>
 Public Enum ErrorLevel
+
     ''' <summary>
     ''' Ignores inconsistencies unless the parser can no longer continue
     ''' </summary>

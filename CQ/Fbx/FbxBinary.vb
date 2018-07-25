@@ -1,5 +1,6 @@
 Imports System.Collections.Generic
 Imports System.IO
+Imports System.Runtime.CompilerServices
 Imports System.Text
 
 ''' <summary>
@@ -7,25 +8,41 @@ Imports System.Text
 ''' </summary>
 Public MustInherit Class FbxBinary
 
-    ' Header string, found at the top of all compliant files
-    Private Shared ReadOnly headerString As Byte() = Encoding.ASCII.GetBytes("Kaydara FBX Binary  " & vbNullChar & ChrW(26) & vbNullChar)
+    ''' <summary>
+    ''' Header string, found at the top of all compliant files
+    ''' </summary>
+    Shared ReadOnly headerString As Byte() = Encoding.ASCII.GetBytes("Kaydara FBX Binary  " & vbNullChar & ChrW(26) & vbNullChar)
 
-    ' This data was entirely calculated by me, honest. Turns out it works, fancy that!
-    Private Shared ReadOnly sourceId As Byte() = {&H58, &HAB, &HA9, &HF0, &H6C, &HA2,
+    ''' <summary>
+    ''' This data was entirely calculated by me, honest. Turns out it works, fancy that!
+    ''' </summary>
+    Shared ReadOnly sourceId As Byte() = {
+        &H58, &HAB, &HA9, &HF0, &H6C, &HA2,
         &HD8, &H3F, &H4D, &H47, &H49, &HA3,
-        &HB4, &HB2, &HE7, &H3D}
-    Private Shared ReadOnly key As Byte() = {&HE2, &H4F, &H7B, &H5F, &HCD, &HE4,
+        &HB4, &HB2, &HE7, &H3D
+    }
+    Shared ReadOnly key As Byte() = {
+        &HE2, &H4F, &H7B, &H5F, &HCD, &HE4,
         &HC8, &H6D, &HDB, &HD8, &HFB, &HD7,
-        &H40, &H58, &HC6, &H78}
-    ' This wasn't - it just appears at the end of every compliant file
-    Private Shared ReadOnly extension As Byte() = {&HF8, &H5A, &H8C, &H6A, &HDE, &HF5,
+        &H40, &H58, &HC6, &H78
+    }
+    ''' <summary>
+    ''' This wasn't - it just appears at the end of every compliant file
+    ''' </summary>
+    Shared ReadOnly extension As Byte() = {
+        &HF8, &H5A, &H8C, &H6A, &HDE, &HF5,
         &HD9, &H7E, &HEC, &HE9, &HC, &HE3,
-        &H75, &H8F, &H29, &HB}
+        &H75, &H8F, &H29, &HB
+    }
 
-    ' Number of null bytes between the footer code and the version
-    Private Const footerZeroes1 As Integer = 20
-    ' Number of null bytes between the footer version and extension code
-    Private Const footerZeroes2 As Integer = 120
+    ''' <summary>
+    ''' Number of null bytes between the footer code and the version
+    ''' </summary>
+    Const footerZeroes1 As Integer = 20
+    ''' <summary>
+    ''' Number of null bytes between the footer version and extension code
+    ''' </summary>    
+    Const footerZeroes2 As Integer = 120
 
     ''' <summary>
     ''' The size of the footer code
@@ -61,6 +78,8 @@ Public MustInherit Class FbxBinary
     ''' Writes the FBX header string
     ''' </summary>
     ''' <param name="stream"></param>
+    ''' 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Protected Shared Sub WriteHeader(stream As Stream)
         stream.Write(headerString, 0, headerString.Length)
     End Sub
@@ -76,17 +95,23 @@ Public MustInherit Class FbxBinary
         Return CheckEqual(buf, headerString)
     End Function
 
-    ' Turns out this is the algorithm they use to generate the footer. Who knew!
+    ''' <summary>
+    ''' Turns out this is the algorithm they use to generate the footer. Who knew!
+    ''' </summary>
+    ''' <param name="a"></param>
+    ''' <param name="b"></param>
     Private Shared Sub Encrypt(a As Byte(), b As Byte())
         Dim c As Byte = 64
+
         For i As Integer = 0 To footerCodeSize - 1
             a(i) = CByte(a(i) Xor CByte(c Xor b(i)))
             c = a(i)
         Next
     End Sub
 
-    Const timePath1 As String = "FBXHeaderExtension"
-    Const timePath2 As String = "CreationTimeStamp"
+    Const timePath1$ = "FBXHeaderExtension"
+    Const timePath2$ = "CreationTimeStamp"
+
     Shared ReadOnly timePath As New Stack(Of String)({timePath1, timePath2})
 
     ' Gets a single timestamp component
@@ -176,15 +201,6 @@ Public MustInherit Class FbxBinary
         stream.Write(extension, 0, extension.Length)
     End Sub
 
-    Private Shared Function AllZero(array As Byte()) As Boolean
-        For Each b As Byte In array
-            If b <> 0 Then
-                Return False
-            End If
-        Next
-        Return True
-    End Function
-
     ''' <summary>
     ''' Reads and checks the FBX footer extension (NB - not the unique footer code)
     ''' </summary>
@@ -194,11 +210,11 @@ Public MustInherit Class FbxBinary
     Protected Function CheckFooter(stream As BinaryReader, version As FbxVersion) As Boolean
         Dim buffer = New Byte(Math.Max(footerZeroes1, footerZeroes2) - 1) {}
         stream.Read(buffer, 0, footerZeroes1)
-        Dim correct As Boolean = AllZero(buffer)
+        Dim correct As Boolean = buffer.AllZero()
         Dim readVersion = stream.ReadInt32()
         correct = correct And (readVersion = CInt(version))
         stream.Read(buffer, 0, footerZeroes2)
-        correct = correct And AllZero(buffer)
+        correct = correct And buffer.AllZero()
         stream.Read(buffer, 0, extension.Length)
         correct = correct And CheckEqual(buffer, extension)
         Return correct
