@@ -49,6 +49,11 @@ Class MainWindow
 
                 Call g.DrawRectangle(New System.Drawing.Pen(System.Drawing.Color.Red, 5), r)
             Next
+
+            Dim temp = App.GetAppSysTempFile("." & imageFile.ExtensionSuffix, App.PID)
+
+            Call g.Save(temp, ImageFormats.Png)
+            viewer.Source = New System.Windows.Media.Imaging.BitmapImage(New Uri(temp))
         End Using
     End Sub
 
