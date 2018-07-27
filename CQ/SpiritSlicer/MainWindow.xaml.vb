@@ -1,4 +1,5 @@
-﻿Imports Microsoft.VisualBasic.Serialization.JSON
+﻿Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Serialization.JSON
 Imports Microsoft.Win32
 
 Class MainWindow
@@ -27,7 +28,7 @@ Class MainWindow
         Dim openFileDialog As New OpenFileDialog()
 
         If (openFileDialog.ShowDialog() = True) Then
-            viewer.Source = New BitmapImage(New Uri(openFileDialog.FileName))
+            viewer.Source = New System.Windows.Media.Imaging.BitmapImage(New Uri(openFileDialog.FileName))
             imageFile = openFileDialog.FileName
 
             Dim win2 As New RectangleInputsWindow With {.flush = AddressOf showRectangles}
@@ -37,7 +38,18 @@ Class MainWindow
     End Sub
 
     Sub showRectangles()
-        MsgBox(slicers.GetSlicers.GetJson)
+        Using g As Graphics2D = imageFile.LoadImage.CreateCanvas2D(directAccess:=True)
+            For Each rect In slicers.GetSlicers
+                Dim r As New System.Drawing.RectangleF With {
+                    .X = rect.Value.left,
+                    .Y = rect.Value.top,
+                    .Width = rect.Value.width,
+                    .Height = rect.Value.height
+                }
+
+                Call g.DrawRectangle(New System.Drawing.Pen(System.Drawing.Color.Red, 5), r)
+            Next
+        End Using
     End Sub
 
     ''' <summary>
