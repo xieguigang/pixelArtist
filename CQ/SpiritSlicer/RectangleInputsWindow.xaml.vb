@@ -15,7 +15,7 @@ Public Class RectangleInputsWindow
             .flush = Me.flush
         }
 
-        slicers += New SlicerInput
+        slicers += newSlicer
 
         Canvas.Children.Add(newSlicer)
         Canvas.SetLeft(newSlicer, 0)
@@ -25,7 +25,7 @@ Public Class RectangleInputsWindow
     End Sub
 
     Public Function GetSlicers() As Dictionary(Of String, rect)
-        Dim checkDuplicated = slicers.GroupBy(Function(s) s.sliceName.Text).Where(Function(sg) sg.Count > 1).Select(Function(sg) sg.Key).ToArray
+        Dim checkDuplicated = slicers.GroupBy(Function(s) s.slicerNameString).Where(Function(sg) sg.Count > 1).Select(Function(sg) sg.Key).ToArray
 
         If checkDuplicated.Length > 0 Then
 
@@ -35,13 +35,13 @@ Public Class RectangleInputsWindow
         End If
 
         Return slicers _
-            .ToDictionary(Function(s) s.sliceName.Text,
+            .ToDictionary(Function(s) s.slicerNameString,
                           Function(s)
                               Return New rect With {
-                                .left = Val(s.rLeft.Text),
-                                .top = Val(s.rTop.Text),
-                                .width = Val(s.rWidth.Text),
-                                .height = Val(s.rHeight.Text)
+                                .left = s.rect.left,
+                                .top = s.rect.top,
+                                .width = s.rect.width,
+                                .height = s.rect.height
                               }
                           End Function)
     End Function

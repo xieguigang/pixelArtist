@@ -47,7 +47,7 @@ Class MainWindow
                     .Height = rect.Value.height
                 }
 
-                Call g.DrawRectangle(New System.Drawing.Pen(System.Drawing.Color.Red, 5), r)
+                Call g.DrawRectangle(New System.Drawing.Pen(System.Drawing.Color.Red, 1), r)
             Next
 
             Dim temp = App.GetAppSysTempFile("." & imageFile.ExtensionSuffix, App.PID)
