@@ -10,7 +10,7 @@ Public Class RectangleInputsWindow
 
     Private Sub Button_Click(sender As Object, e As RoutedEventArgs)
         Dim newSlicer As New SlicerInput With {
-            .Height = 80,
+            .Height = 65,
             .HorizontalAlignment = HorizontalAlignment.Stretch,
             .flush = Me.flush
         }
@@ -21,7 +21,7 @@ Public Class RectangleInputsWindow
         Canvas.SetLeft(newSlicer, 0)
         Canvas.SetTop(newSlicer, Margintop)
 
-        Margintop += newSlicer.Height + 10
+        Margintop += newSlicer.Height
     End Sub
 
     Public Function GetSlicers() As Dictionary(Of String, rect)
