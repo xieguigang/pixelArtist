@@ -2,20 +2,16 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"       
+        xmlns:UI="clr-namespace:UI.Images" 
         xmlns:local="clr-namespace:SpiritSlicer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="896.217" Width="1385.011">
     <Grid>
         <Menu Height="22" Name="menu1" Width="200" Margin="10, 10, 5, 5" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Chocolate">
-            <Menu.BitmapEffect>
-
-                <DropShadowBitmapEffect />
-
-            </Menu.BitmapEffect>
             <MenuItem Header="_File">
 
-                <MenuItem Header="_Open" IsCheckable="false">
+                <MenuItem Name="OpenSpiritImage" Header="_Open" IsCheckable="false" InputGestureText="Ctrl+O">
                     <MenuItem.ToolTip>
 
                         <ToolTip>
@@ -27,7 +23,7 @@
                     </MenuItem.ToolTip>
                 </MenuItem>
 
-                <MenuItem Header="_Save" IsCheckable="false" >
+                <MenuItem Name="SaveSlicerJson" Header="_Save" IsCheckable="false" InputGestureText="Ctrl+S">
                     <MenuItem.ToolTip>
 
                         <ToolTip>
@@ -41,13 +37,19 @@
             </MenuItem>
         </Menu>
 
-        <Image Name="viewer" HorizontalAlignment="Left" Height="310" Margin="49,44,0,0" VerticalAlignment="Top" Width="370">
-            <Image.BitmapEffect>
+        <Canvas Name="Canvas" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
-                <DropShadowBitmapEffect />
+            <Image Name="viewer" HorizontalAlignment="Left" Height="310" VerticalAlignment="Top" Width="370" Source="pack://application:,,,/Resources/demo_spirit.png" Canvas.Left="292" Canvas.Top="55">
+                <Image.BitmapEffect>
 
-            </Image.BitmapEffect>
-        </Image>
+                    <DropShadowBitmapEffect />
+
+                </Image.BitmapEffect>
+            </Image>
+
+        </Canvas>
+
+
 
     </Grid>
 </Window>
