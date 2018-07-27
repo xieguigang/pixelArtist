@@ -5,10 +5,13 @@ Public Class RectangleInputsWindow
     Dim Margintop% = 5
     Dim slicers As New List(Of SlicerInput)
 
+    Public flush As Action
+
     Private Sub Button_Click(sender As Object, e As RoutedEventArgs)
         Dim newSlicer As New SlicerInput With {
             .Height = 80,
-            .HorizontalAlignment = HorizontalAlignment.Stretch
+            .HorizontalAlignment = HorizontalAlignment.Stretch,
+            .flush = Me.flush
         }
 
         slicers += New SlicerInput

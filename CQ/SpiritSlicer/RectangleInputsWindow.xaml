@@ -8,7 +8,7 @@
         Title="Window1" Height="738.657" Width="706.508">
     <Grid>
         <Button Content="Add Slicer" HorizontalAlignment="Right" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="75" Click="Button_Click"/>
-        <Canvas Name="Canvas" Height="586" Margin="10,10,0,20" VerticalAlignment="Top" HorizontalAlignment="Stretch" Width="478"/>
+        <Canvas Name="Canvas" Height="638" Margin="10,10,10,0" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
 
     </Grid>
 </Window>

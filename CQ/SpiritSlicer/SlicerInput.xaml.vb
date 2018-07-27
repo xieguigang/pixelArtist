@@ -6,7 +6,5 @@
         If Not flush Is Nothing Then
             Call flush()
         End If
-
-        MsgBox("fffff")
     End Sub
 End Class

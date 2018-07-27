@@ -30,10 +30,14 @@ Class MainWindow
             viewer.Source = New BitmapImage(New Uri(openFileDialog.FileName))
             imageFile = openFileDialog.FileName
 
-            Dim win2 As New RectangleInputsWindow
+            Dim win2 As New RectangleInputsWindow With {.flush = AddressOf showRectangles}
             win2.Show()
             slicers = win2
         End If
+    End Sub
+
+    Sub showRectangles()
+        MsgBox(slicers.GetSlicers.GetJson)
     End Sub
 
     ''' <summary>
