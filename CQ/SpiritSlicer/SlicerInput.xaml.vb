@@ -1,3 +1,12 @@
-﻿Public Class UserControl1
+﻿Public Class SlicerInput
 
+    Public flush As Action
+
+    Private Sub ViewRectangle_Click(sender As Object, e As RoutedEventArgs) Handles ViewRectangle.Click
+        If Not flush Is Nothing Then
+            Call flush()
+        End If
+
+        MsgBox("fffff")
+    End Sub
 End Class
