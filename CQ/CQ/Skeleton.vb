@@ -45,6 +45,13 @@ Public Class Textures
 
 End Class
 
+Public Class rect
+    Public Property left As Double
+    Public Property top As Double
+    Public Property width As Double
+    Public Property height As Double
+End Class
+
 Public Enum Skeletons
     head
     face
