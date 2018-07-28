@@ -99,6 +99,7 @@
       <DependentUpon>Application.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="SkeletonGraph.vb" />
     <Compile Include="Skeleton.vb" />
     <Compile Include="SpiritImage.vb" />
     <Compile Include="MainWindow.xaml.vb">

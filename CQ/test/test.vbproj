@@ -137,6 +137,10 @@
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\runtime\sciBASIC#\mime\text%25yaml\text.yaml.vbproj">
+      <Project>{fb637de6-6beb-4722-968a-f76deb851dfc}</Project>
+      <Name>text.yaml</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CQ\CQ.vbproj">
       <Project>{761cf298-d228-4ecd-93ad-eba4e17bc2a8}</Project>
       <Name>CQ</Name>
