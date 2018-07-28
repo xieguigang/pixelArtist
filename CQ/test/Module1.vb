@@ -3,6 +3,7 @@
 Module Module1
 
     Sub Main()
+        Call scanGraph()
         Call ddsTest()
     End Sub
 
@@ -12,5 +13,9 @@ Module Module1
         Pause()
     End Sub
 
+    Sub scanGraph()
+        Dim yamlDoc = Microsoft.VisualBasic.MIME.text.yaml.Grammar.YamlParser.Load("D:\OneDrive\lilo.18580\export\AnimationClip\AnimationClip\idle2.anim")
 
+        Pause()
+    End Sub
 End Module
