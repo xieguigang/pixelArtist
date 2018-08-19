@@ -7,13 +7,13 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "WpfApp1", "WpfApp1\WpfApp1.
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Png", "Png\Png.vbproj", "{3EDE755E-1D4C-4B92-99E4-AF030C8E0748}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "47-dotnet_Microsoft.VisualBasic", "..\..\..\source\repos\Data.GIS\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj", "{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "47-dotnet_Microsoft.VisualBasic", "..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj", "{FECCE1FD-E1D4-49E3-A668-60BB5E7AED99}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Crop", "Crop\Crop.vbproj", "{F402E253-1845-427A-9857-FED5F4F83275}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "math-core", "..\..\..\source\repos\Data.GIS\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj", "{E3367B88-5D0C-495A-8273-331656D4B5AA}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "math-core", "..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj", "{E3367B88-5D0C-495A-8273-331656D4B5AA}"
 EndProject
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "OCR", "..\..\..\source\repos\Data.GIS\runtime\sciBASIC#\Data\OCR\OCR.vbproj", "{32578925-811B-4C2D-BFAE-30DC3DAB07E0}"
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "OCR", "..\..\..\runtime\sciBASIC#\Data\OCR\OCR.vbproj", "{32578925-811B-4C2D-BFAE-30DC3DAB07E0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{6402CEAE-5DF8-4A18-91AF-A0EE7F5769D7}"
 EndProject
