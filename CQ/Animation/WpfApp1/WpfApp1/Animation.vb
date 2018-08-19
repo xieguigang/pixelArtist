@@ -1,12 +1,17 @@
 ﻿Imports System.IO
 Imports System.Threading
 
+''' <summary>
+''' Animation playback controls
+''' </summary>
 Public Class Animation
 
     Dim frames As BitmapImage()
     Dim sleep%
     Dim run As Boolean
     Dim size As Size
+
+    Public ReadOnly Property Name As String
 
     Sub New(res As IEnumerable(Of MemoryStream), Optional rate% = 24)
         frames = res _
