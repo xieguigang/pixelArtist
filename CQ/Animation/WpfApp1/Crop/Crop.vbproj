@@ -130,15 +130,15 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\source\repos\Data.GIS\runtime\sciBASIC#\Data\OCR\OCR.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data\OCR\OCR.vbproj">
       <Project>{32578925-811b-4c2d-bfae-30dc3dab07e0}</Project>
       <Name>OCR</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\source\repos\Data.GIS\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj">
       <Project>{e3367b88-5d0c-495a-8273-331656d4b5aa}</Project>
       <Name>math-core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\source\repos\Data.GIS\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
       <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
       <Name>47-dotnet_Microsoft.VisualBasic</Name>
     </ProjectReference>
