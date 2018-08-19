@@ -6,14 +6,17 @@ Public Class Character
     Dim animations As Dictionary(Of String, Animation)
     Dim canvas As Image
     Dim keys$()
-    Dim rand As Random
+
     Dim playbackQueue As New Queue(Of String)
     Dim previous As Animation
+    Dim run As Boolean = False
 
-    Sub New(host As Grid, random As Random, animationList As IEnumerable(Of Animation))
+    Public Property name As String
+    Public Property rand As Random
+
+    Sub New(host As Grid, animationList As IEnumerable(Of Animation))
         canvas = New Image
         host.Children.Add(canvas)
-        rand = random
         animations = animationList.ToDictionary(Function(a) a.Name)
         keys = animations.Keys.ToArray
     End Sub
@@ -24,6 +27,14 @@ Public Class Character
                 playbackQueue.Enqueue(key)
             End SyncLock
         End If
+    End Sub
+
+    Public Sub [Stop]()
+        run = False
+    End Sub
+
+    Public Sub Action()
+
     End Sub
 
     Public Sub PlayNext()

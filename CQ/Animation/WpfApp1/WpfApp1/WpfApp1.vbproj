@@ -100,6 +100,7 @@
     </Compile>
     <Compile Include="Animation.vb" />
     <Compile Include="Character.vb" />
+    <Compile Include="Stage.vb" />
     <Compile Include="MoveDragHelper.vb" />
     <Compile Include="MainWindow.xaml.vb">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -157,6 +158,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\runtime\sciBASIC#\Microsoft.VisualBasic.Core\47-dotnet_Microsoft.VisualBasic.vbproj">
+      <Project>{fecce1fd-e1d4-49e3-a668-60bb5e7aed99}</Project>
+      <Name>47-dotnet_Microsoft.VisualBasic</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Png\Png.vbproj">
       <Project>{3ede755e-1d4c-4b92-99e4-af030c8e0748}</Project>
       <Name>Png</Name>
