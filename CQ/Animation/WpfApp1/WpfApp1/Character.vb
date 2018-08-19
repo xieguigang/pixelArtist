@@ -17,7 +17,11 @@ Public Class Character : Implements IDisposable
     Public Property rand As Random
 
     Sub New(win As Window, host As Grid, animationList As IEnumerable(Of Animation))
-        canvas = New Image
+        canvas = New Image With {
+            .Width = 100,
+            .Height = 100,
+            .Margin = New Thickness(100, 600, 200, 700)
+        }
         stage = host
         host.Children.Add(canvas)
         mouse = New MoveDragHelper(canvas, win)
@@ -38,6 +42,8 @@ Public Class Character : Implements IDisposable
     End Sub
 
     Public Sub Action()
+        run = True
+
         Do While run
             Call PlayNext()
         Loop

@@ -77,15 +77,18 @@ Public Class Animation
         Dim dh = canvas.Height - size.Height
         Dim location = canvas.Margin
 
-        location.Top -= dh
+        location.Top += dh
         canvas.Margin = location
     End Sub
 
     Public Sub PlayOn(canvas As Image)
         run = True
-        ensureHorizontal(canvas)
-        canvas.Width = size.Width
-        canvas.Height = size.Height
+        canvas.Dispatcher _
+              .Invoke(Sub()
+                          ensureHorizontal(canvas)
+                          canvas.Width = size.Width
+                          canvas.Height = size.Height
+                      End Sub)
 
         For Each frame As BitmapImage In frames
             canvas.Dispatcher.Invoke(Sub() canvas.Source = frame)
