@@ -120,6 +120,7 @@
       <CustomToolNamespace>My</CustomToolNamespace>
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
+    <None Include="Resources\highfive.zip" />
     <None Include="Resources\idle.zip" />
     <None Include="Resources\walk.zip" />
   </ItemGroup>

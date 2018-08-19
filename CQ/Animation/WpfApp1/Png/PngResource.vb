@@ -12,6 +12,10 @@ Public Module PngResource
         Return loadResource(NameOf(My.Resources.walk))
     End Function
 
+    Public Function highfive() As IEnumerable(Of MemoryStream)
+        Return loadResource(NameOf(My.Resources.highfive))
+    End Function
+
     Private Iterator Function loadResource(<CallerMemberName> Optional name$ = Nothing) As IEnumerable(Of MemoryStream)
         Dim data As Byte() = My.Resources.ResourceManager.GetObject(name)
 

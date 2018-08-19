@@ -9,7 +9,7 @@
     Dim mouse As MoveDragHelper
 
     Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
-        idle = New Animation(Png.PngResource.Idle)
+        idle = New Animation(Png.PngResource.highfive)
         mouse = New MoveDragHelper(Display, Me)
 
         idle.PlayBack(Me.Display)
