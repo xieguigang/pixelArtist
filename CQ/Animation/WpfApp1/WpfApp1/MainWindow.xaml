@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="1080" Width="1920" ResizeMode="NoResize"
     WindowStyle="None" Background="{x:Null}"  AllowsTransparency="True" ShowInTaskbar="false">
-    <Grid>
+    <Grid Name="mainGrid">
         <Image Name="Display" HorizontalAlignment="Left" Height="1080" Margin="0,0,0,0" VerticalAlignment="Top" Width="1920"/>
     </Grid>
 </Window>

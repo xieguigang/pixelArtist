@@ -11,14 +11,16 @@ Public Class Character : Implements IDisposable
     Dim playbackQueue As New Queue(Of String)
     Dim previous As Animation
     Dim run As Boolean = False
+    Dim mouse As MoveDragHelper
 
     Public Property name As String
     Public Property rand As Random
 
-    Sub New(host As Grid, animationList As IEnumerable(Of Animation))
+    Sub New(win As Window, host As Grid, animationList As IEnumerable(Of Animation))
         canvas = New Image
         stage = host
         host.Children.Add(canvas)
+        mouse = New MoveDragHelper(canvas, win)
         animations = animationList.ToDictionary(Function(a) a.Name)
         keys = animations.Keys.ToArray
     End Sub

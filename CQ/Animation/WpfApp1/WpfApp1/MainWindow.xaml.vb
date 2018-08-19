@@ -1,18 +1,15 @@
 ﻿Class MainWindow
 
-    Dim animations As Animation() = {
-        New Animation(Png.PngResource.idle),
-        New Animation(Png.PngResource.walk)
-    }
-
-    Dim idle As Animation
-    Dim mouse As MoveDragHelper
+    Dim stage As Stage
 
     Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
-        idle = New Animation(Png.PngResource.highfive)
-        mouse = New MoveDragHelper(Display, Me)
-
-        idle.PlayBack(Me.Display)
+        stage = New Stage(Me, mainGrid)
+        stage.Add(
+            "1", {
+            New Animation("idle", Png.idle),
+            New Animation("walk", Png.walk),
+            New Animation("highfive", Png.highfive)
+        })
 
         Me.Top = 0
         Me.Left = 0
@@ -22,6 +19,6 @@
     End Sub
 
     Private Sub MainWindow_Closed(sender As Object, e As EventArgs) Handles Me.Closed
-        idle.Stop()
+        stage.Dispose()
     End Sub
 End Class

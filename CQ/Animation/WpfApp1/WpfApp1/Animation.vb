@@ -13,7 +13,7 @@ Public Class Animation
 
     Public ReadOnly Property Name As String
 
-    Sub New(res As IEnumerable(Of MemoryStream), Optional rate% = 24)
+    Sub New(aniName$, res As IEnumerable(Of MemoryStream), Optional rate% = 24)
         frames = res _
             .Select(Function(m)
                         Dim bitmap = New BitmapImage()
@@ -28,6 +28,7 @@ Public Class Animation
             .ToArray
         sleep = 1000 / rate
         size = New Size(frames(0).Width, frames(0).Height)
+        Name = aniName
     End Sub
 
     Public Sub [Stop]()
