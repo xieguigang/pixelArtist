@@ -13,6 +13,12 @@
         mouse = New MoveDragHelper(Display, Me)
 
         idle.PlayBack(Me.Display)
+
+        Me.Top = 0
+        Me.Left = 0
+        Me.Width = SystemParameters.WorkArea.Width
+        Me.Height = SystemParameters.WorkArea.Height
+        Me.Topmost = True
     End Sub
 
     Private Sub MainWindow_Closed(sender As Object, e As EventArgs) Handles Me.Closed
