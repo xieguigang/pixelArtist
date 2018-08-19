@@ -51,6 +51,7 @@ Public Class Animation
         End If
 
         run = True
+        ensureHorizontal(canvas)
         canvas.Width = size.Width
         canvas.Height = size.Height
 
@@ -62,5 +63,32 @@ Public Class Animation
                                 Next
                             Loop
                         End Sub).Start()
+    End Sub
+
+    ''' <summary>
+    ''' 因为帧的大小是不一致的，所以调整大小的时候水平位置可能会发生位移
+    ''' 在这里自动计算偏移量并纠正位移错误
+    ''' 
+    ''' 这个函数假设画布的水平位置已经被确认好了
+    ''' </summary>
+    Private Sub ensureHorizontal(canvas As Image)
+        Dim bottom = canvas.Margin.Bottom
+        Dim dh = canvas.Height - size.Height
+        Dim location = canvas.Margin
+
+        location.Top -= dh
+        canvas.Margin = location
+    End Sub
+
+    Public Sub PlayOn(canvas As Image)
+        run = True
+        ensureHorizontal(canvas)
+        canvas.Width = size.Width
+        canvas.Height = size.Height
+
+        For Each frame As BitmapImage In frames
+            canvas.Dispatcher.Invoke(Sub() canvas.Source = frame)
+            Thread.Sleep(sleep)
+        Next
     End Sub
 End Class
