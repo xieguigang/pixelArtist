@@ -8,7 +8,9 @@
             "1", {
             New Animation("walk", Png.walk),
             New Animation("highfive", Png.highfive),
-             New Animation("idle", Png.idle)
+             New Animation("idle", Png.idle),
+              New Animation("hi", Png.hi),
+              New Animation("cry", Png.cry)
         })
 
         Me.Top = 0

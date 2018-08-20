@@ -4,6 +4,14 @@ Imports System.Runtime.CompilerServices
 
 Public Module PngResource
 
+    Public Function hi() As IEnumerable(Of MemoryStream)
+        Return loadResource(NameOf(My.Resources.hi))
+    End Function
+
+    Public Function cry() As IEnumerable(Of MemoryStream)
+        Return loadResource(NameOf(My.Resources.cry))
+    End Function
+
     Public Function idle() As IEnumerable(Of MemoryStream)
         Return loadResource(NameOf(My.Resources.idle))
     End Function
