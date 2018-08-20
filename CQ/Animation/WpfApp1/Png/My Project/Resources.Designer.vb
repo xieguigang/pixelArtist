@@ -63,6 +63,26 @@ Namespace My.Resources
         '''<summary>
         '''  Looks up a localized resource of type System.Byte[].
         '''</summary>
+        Friend ReadOnly Property cry() As Byte()
+            Get
+                Dim obj As Object = ResourceManager.GetObject("cry", resourceCulture)
+                Return CType(obj,Byte())
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Byte[].
+        '''</summary>
+        Friend ReadOnly Property hi() As Byte()
+            Get
+                Dim obj As Object = ResourceManager.GetObject("hi", resourceCulture)
+                Return CType(obj,Byte())
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized resource of type System.Byte[].
+        '''</summary>
         Friend ReadOnly Property highfive() As Byte()
             Get
                 Dim obj As Object = ResourceManager.GetObject("highfive", resourceCulture)
