@@ -6,9 +6,9 @@
         stage = New Stage(Me, mainGrid)
         stage.Add(
             "1", {
-            New Animation("idle", Png.idle),
-            New Animation("walk", Png.walk),
-            New Animation("highfive", Png.highfive)
+            New Animation("idle", Png.idle, Nothing),
+            New Animation("walk", Png.walk, New Offset With {.direction = OffsetDirections.left, .pixels = 90}),
+            New Animation("highfive", Png.highfive, Nothing)
         })
 
         Me.Top = 0

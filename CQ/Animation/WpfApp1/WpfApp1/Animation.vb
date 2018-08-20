@@ -10,10 +10,11 @@ Public Class Animation
     Dim sleep%
     Dim run As Boolean
     Dim size As Size
+    Dim canvasOffset As Offset
 
     Public ReadOnly Property Name As String
 
-    Sub New(aniName$, res As IEnumerable(Of MemoryStream), Optional rate% = 24)
+    Sub New(aniName$, res As IEnumerable(Of MemoryStream), offset As Offset, Optional rate% = 24)
         frames = res _
             .Select(Function(m)
                         Dim bitmap = New BitmapImage()
@@ -29,6 +30,7 @@ Public Class Animation
         sleep = 1000 / rate
         size = New Size(frames(0).Width, frames(0).Height)
         Name = aniName
+        canvasOffset = offset
     End Sub
 
     Public Sub [Stop]()
@@ -62,6 +64,10 @@ Public Class Animation
                                     canvas.Dispatcher.Invoke(Sub() canvas.Source = frame)
                                     Thread.Sleep(sleep)
                                 Next
+
+                                If Not canvasOffset Is Nothing Then
+                                    Call canvas.Dispatcher.Invoke(Sub() canvasOffset.DoOffset(canvas))
+                                End If
                             Loop
                         End Sub).Start()
     End Sub
@@ -94,5 +100,9 @@ Public Class Animation
             canvas.Dispatcher.Invoke(Sub() canvas.Source = frame)
             Thread.Sleep(sleep)
         Next
+
+        If Not canvasOffset Is Nothing Then
+            Call canvas.Dispatcher.Invoke(Sub() canvasOffset.DoOffset(canvas))
+        End If
     End Sub
 End Class
