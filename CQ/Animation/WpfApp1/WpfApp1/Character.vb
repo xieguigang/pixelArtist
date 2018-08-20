@@ -51,6 +51,7 @@ Public Class Character : Implements IDisposable
 
     Public Sub PlayNext()
         Dim animation As Animation
+        Dim offset As Point
 
         If playbackQueue.Count > 0 Then
             animation = animations(playbackQueue.Dequeue)
@@ -60,7 +61,14 @@ Public Class Character : Implements IDisposable
             End SyncLock
         End If
 
-        animation.PlayOn(canvas)
+        If Not previous Is Nothing Then
+            offset = Offsets.Calculate(previous, [next]:=animation)
+        Else
+            offset = New Point
+        End If
+
+        previous = animation
+        animation.PlayOn(canvas, offset)
     End Sub
 
 #Region "IDisposable Support"

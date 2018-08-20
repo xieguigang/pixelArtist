@@ -1,13 +1,14 @@
 ﻿Class MainWindow
 
     Dim stage As Stage
-    ' New Animation("highfive", Png.highfive, Nothing)
-    ' New Animation("idle", Png.idle, Nothing),
+
     Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
         stage = New Stage(Me, mainGrid)
         stage.Add(
             "1", {
-            New Animation("walk", Png.walk)
+            New Animation("walk", Png.walk),
+            New Animation("highfive", Png.highfive),
+             New Animation("idle", Png.idle)
         })
 
         Me.Top = 0

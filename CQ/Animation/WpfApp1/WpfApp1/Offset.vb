@@ -8,10 +8,13 @@ Public Module Offsets
     ''' <param name="previous"></param>
     ''' <param name="[next]"></param>
     ''' <returns></returns>
-    Public Function Calculate(previous As Animation, [next] As Animation) As Thickness
+    Public Function Calculate(previous As Animation, [next] As Animation) As Point
         Dim previousLast = previous.LastFrameRectangle
         Dim nextFirst = [next].FirstFrameRectangle
+        Dim dx = nextFirst.Left - previousLast.Left
+        Dim dy = nextFirst.Top - previousLast.Top
 
+        Return New Point(dx * 2, dy * 2)
     End Function
 
     Public Function CalcRectangle(X As Vector, Y As Vector) As Thickness

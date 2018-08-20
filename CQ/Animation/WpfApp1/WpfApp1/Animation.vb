@@ -18,10 +18,11 @@ Public Class Animation
     Public ReadOnly Property LastFrameRectangle As Thickness
 
     Sub New(aniName$, res As IEnumerable(Of MemoryStream), Optional rate% = 24)
-        Dim first As gdi.Image = Nothing
-        Dim last As gdi.Image = Nothing
+        Dim resources As MemoryStream() = res.ToArray
+        Dim first As gdi.Image = New gdi.Bitmap(resources(Scan0))
+        Dim last As gdi.Image = New gdi.Bitmap(resources.Last())
 
-        frames = res _
+        frames = resources _
             .Select(Function(m)
                         Dim bitmap = New BitmapImage()
                         bitmap.BeginInit()
@@ -30,12 +31,6 @@ Public Class Animation
                         bitmap.EndInit()
                         bitmap.Freeze()
 
-                        If first Is Nothing Then
-                            first = New gdi.Bitmap(m)
-                        End If
-
-                        last = New gdi.Bitmap(m)
-
                         Return bitmap
                     End Function) _
             .ToArray
@@ -43,8 +38,8 @@ Public Class Animation
         size = New Size(frames(0).Width, frames(0).Height)
         Name = aniName
 
-        FirstFrameRectangle = Offsets.CalcRectangle(first.Projection(True), first.Projection(False))
-        LastFrameRectangle = Offsets.CalcRectangle(last.Projection(True), last.Projection(False))
+        FirstFrameRectangle = Offsets.CalcRectangle(first.Projection(True, gdi.Color.Transparent), first.Projection(False, gdi.Color.Transparent))
+        LastFrameRectangle = Offsets.CalcRectangle(last.Projection(True, gdi.Color.Transparent), last.Projection(False, gdi.Color.Transparent))
     End Sub
 
     Public Sub [Stop]()
@@ -97,13 +92,19 @@ Public Class Animation
         canvas.Margin = location
     End Sub
 
-    Public Sub PlayOn(canvas As Image)
+    Public Sub PlayOn(canvas As Image, offset As Point)
         run = True
         canvas.Dispatcher _
               .Invoke(Sub()
                           ensureHorizontal(canvas)
                           canvas.Width = size.Width
                           canvas.Height = size.Height
+
+                          Dim location As Thickness = canvas.Margin
+                          location.Top -= offset.Y
+                          location.Left -= offset.X
+
+                          canvas.Margin = location
                       End Sub)
 
         For Each frame As BitmapImage In frames
