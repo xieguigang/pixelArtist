@@ -20,7 +20,7 @@ Public Class Character : Implements IDisposable
         canvas = New Image With {
             .Width = 100,
             .Height = 100,
-            .Margin = New Thickness(100, 600, 200, 700)
+            .Margin = New Thickness(100, 300, 200, 500)
         }
         stage = host
         host.Children.Add(canvas)
