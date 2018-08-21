@@ -96,11 +96,12 @@ Public Class Animation
         run = True
         canvas.Dispatcher _
               .Invoke(Sub()
-                          ensureHorizontal(canvas)
+                          Dim location As Thickness = canvas.Margin
+
+                          ' ensureHorizontal(canvas)
                           canvas.Width = size.Width
                           canvas.Height = size.Height
 
-                          Dim location As Thickness = canvas.Margin
                           location.Top -= offset.Y
                           location.Left -= offset.X
 

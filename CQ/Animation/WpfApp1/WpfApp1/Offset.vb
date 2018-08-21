@@ -14,7 +14,7 @@ Public Module Offsets
         Dim dx = nextFirst.Left - previousLast.Left
         Dim dy = nextFirst.Top - previousLast.Top
 
-        Return New Point(dx * 2, 0)
+        Return New Point(dx, dy)
     End Function
 
     Public Function CalcRectangle(X As Vector, Y As Vector) As Thickness
