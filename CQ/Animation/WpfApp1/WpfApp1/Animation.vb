@@ -6,7 +6,7 @@ Imports gdi = System.Drawing
 ''' <summary>
 ''' Animation playback controls
 ''' </summary>
-Public Class Animation
+Public Class Animation : Implements IEnumerable(Of BitmapImage)
 
     Dim frames As BitmapImage()
     Dim sleep%
@@ -106,4 +106,14 @@ Public Class Animation
             Thread.Sleep(sleep)
         Next
     End Sub
+
+    Public Iterator Function GetEnumerator() As IEnumerator(Of BitmapImage) Implements IEnumerable(Of BitmapImage).GetEnumerator
+        For Each frame As BitmapImage In frames
+            Yield frame
+        Next
+    End Function
+
+    Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+        Yield GetEnumerator()
+    End Function
 End Class
