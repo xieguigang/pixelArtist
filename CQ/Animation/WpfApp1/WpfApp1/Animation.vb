@@ -24,14 +24,7 @@ Public Class Animation
 
         frames = resources _
             .Select(Function(m)
-                        Dim bitmap = New BitmapImage()
-                        bitmap.BeginInit()
-                        bitmap.StreamSource = m
-                        bitmap.CacheOption = BitmapCacheOption.OnLoad
-                        bitmap.EndInit()
-                        bitmap.Freeze()
-
-                        Return bitmap
+                        Return m.WpfBitmap
                     End Function) _
             .ToArray
         sleep = 1000 / rate

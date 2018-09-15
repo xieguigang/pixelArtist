@@ -49,10 +49,14 @@ Public Class Character : Implements IDisposable
         Loop
     End Sub
 
+    ''' <summary>
+    ''' 显示下一个动画
+    ''' </summary>
     Public Sub PlayNext()
         Dim animation As Animation
         Dim offset As Point
 
+        ' 如果动画队列之中存在数据，则优先播放队列之中的动画
         If playbackQueue.Count > 0 Then
             animation = animations(playbackQueue.Dequeue)
         Else
@@ -61,6 +65,7 @@ Public Class Character : Implements IDisposable
             End SyncLock
         End If
 
+        ' 根据前一个动画的最后一帧和下一个动画的第一帧，计算出位移量
         If Not previous Is Nothing Then
             offset = Offsets.Calculate(previous, [next]:=animation)
         Else

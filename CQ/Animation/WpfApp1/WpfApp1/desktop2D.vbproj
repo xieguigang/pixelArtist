@@ -101,6 +101,7 @@
     </Compile>
     <Compile Include="Animation.vb" />
     <Compile Include="Character.vb" />
+    <Compile Include="Toolsd.vb" />
     <Compile Include="Offset.vb" />
     <Compile Include="Stage.vb" />
     <Compile Include="MoveDragHelper.vb" />
@@ -176,6 +177,9 @@
       <Project>{3ede755e-1d4c-4b92-99e4-af030c8e0748}</Project>
       <Name>Png</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\blank.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
