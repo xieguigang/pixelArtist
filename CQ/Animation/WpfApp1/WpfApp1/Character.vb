@@ -27,6 +27,12 @@ Public Class Character : Implements IDisposable
         mouse = New MoveDragHelper(canvas, win)
         animations = animationList.ToDictionary(Function(a) a.Name)
         keys = animations.Keys.ToArray
+
+        ' test 
+        Dim previous = animations("walk")
+        Dim [next] = animations("highfive")
+
+        Call Toolsd.OffsetRenderTest(previous, [next]).Save("./test.png")
     End Sub
 
     Public Sub Pending(key As String)

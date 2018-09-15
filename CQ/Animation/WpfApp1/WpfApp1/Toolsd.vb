@@ -17,6 +17,17 @@ Module Toolsd
         Return bitmap
     End Function
 
+    <Extension>
+    Public Function Save(bitmap As WpfBitmap, path$) As Boolean
+        Using stream As Stream = path.Open
+            Dim encoder As New PngBitmapEncoder()
+            encoder.Frames.Add(BitmapFrame.Create(bitmap))
+            encoder.Save(stream)
+        End Using
+
+        Return True
+    End Function
+
     ''' <summary>
     ''' 
     ''' </summary>
