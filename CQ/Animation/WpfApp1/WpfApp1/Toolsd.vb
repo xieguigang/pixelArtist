@@ -5,6 +5,12 @@ Imports WpfBitmap = System.Windows.Media.Imaging.BitmapImage
 
 Module Toolsd
 
+    Public ReadOnly Property IsDebugMode As Boolean
+
+    Sub New()
+        IsDebugMode = "--debug" = Strings.LCase(App.Command)
+    End Sub
+
     <Extension>
     Public Function WpfBitmap(resource As MemoryStream) As WpfBitmap
         Dim bitmap = New WpfBitmap()

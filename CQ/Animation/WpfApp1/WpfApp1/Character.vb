@@ -17,16 +17,33 @@ Public Class Character : Implements IDisposable
     Public Property rand As Random
 
     Sub New(win As Window, host As Grid, animationList As IEnumerable(Of Animation))
-        canvas = New Image With {
-            .Width = 100,
-            .Height = 100,
-            .Margin = New Thickness(100, 300, 200, 500)
-        }
         stage = host
-        host.Children.Add(canvas)
         mouse = New MoveDragHelper(canvas, win)
         animations = animationList.ToDictionary(Function(a) a.Name)
         keys = animations.Keys.ToArray
+
+        If Toolsd.IsDebugMode Then
+            Dim border As New Border With {
+                .BorderThickness = New Thickness(5),
+                .BorderBrush = New SolidColorBrush(Colors.Red),
+                .Width = 100,
+                .Height = 100,
+                .Margin = New Thickness(100, 300, 200, 500)
+            }
+            canvas = New Image With {
+                .Width = 100,
+                .Height = 100
+            }
+            host.Children.Add(border)
+            border.Child = canvas
+        Else
+            canvas = New Image With {
+                .Width = 100,
+                .Height = 100,
+                .Margin = New Thickness(100, 300, 200, 500)
+            }
+            host.Children.Add(canvas)
+        End If
 
         ' test 
         Dim previous = animations("walk")
