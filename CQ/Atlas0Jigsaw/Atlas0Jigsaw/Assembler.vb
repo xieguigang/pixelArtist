@@ -1,5 +1,7 @@
 ﻿Imports System.Drawing
 Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.ComponentModel.Ranges.Model
+Imports Microsoft.VisualBasic.Imaging.BitmapImage
 
 Public Module Assembler
 
@@ -19,8 +21,60 @@ Public Module Assembler
     ''' <param name="spirit"></param>
     ''' <returns></returns>
     <Extension>
-    Public Iterator Function Split(spirit As Image) As IEnumerable(Of Image)
+    Public Iterator Function Split(spirit As Image, Optional delta# = 10, Optional continues% = 30) As IEnumerable(Of Image)
+        Dim Xslices As New List(Of Integer)
+        Dim Yslices As New List(Of Integer)
 
+        Using buffer As BitmapBuffer = BitmapBuffer.FromImage(spirit)
+
+            ' 首先进行纵向扫描，即沿着X轴进行垂直扫描
+            For x As Integer = 0 To buffer.Width - 2
+                Dim n As New List(Of Integer)
+
+                For y As Integer = 0 To buffer.Height - 1
+                    Dim p As Color = buffer.GetPixel(x, y)
+                    Dim pNext As Color = buffer.GetPixel(x + 1, y)
+
+                    If Assembler.Delta(p, pNext) > delta Then
+                        Call n.Add(y)
+                    End If
+                Next
+
+                Dim regions = n.Split() _
+                    .Where(Function(sec) sec.Length >= continues) _
+                    .ToArray
+
+                If regions.Length > 0 Then
+                    Xslices.Add(x)
+
+                    For Each region In regions
+                        Yslices.Add(region.Min)
+                        Yslices.Add(region.Max)
+                    Next
+                End If
+            Next
+        End Using
+
+        ' 得到切割线之后，进行区域切割
+
+    End Function
+
+    <Extension>
+    Private Iterator Function Split(n As IEnumerable(Of Integer)) As IEnumerable(Of IntRange)
+        Dim pre As Integer = n.First
+        Dim min% = pre
+
+        For Each x As Integer In n.Skip(1)
+            If x - pre = 1 Then
+                ' do nothing
+            Else
+                ' 断开了
+                Yield New IntRange(min, pre)
+                min = x
+            End If
+
+            pre = x
+        Next
     End Function
 
     Public Function Delta(p1 As Color, p2 As Color) As Double
