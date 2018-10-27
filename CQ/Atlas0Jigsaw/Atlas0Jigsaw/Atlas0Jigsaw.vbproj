@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{4D4F029A-4FD6-4196-9DEA-188426B836EF}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <StartupObject>ConsoleApp1.Module1</StartupObject>
+    <StartupObject>ConsoleApp1.Program</StartupObject>
     <RootNamespace>ConsoleApp1</RootNamespace>
     <AssemblyName>Atlas0Jigsaw</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -71,7 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assembler.vb" />
-    <Compile Include="Module1.vb" />
+    <Compile Include="Program.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
