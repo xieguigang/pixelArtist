@@ -40,14 +40,15 @@ Public Module Assembler
                     End If
                 Next
 
-                Dim regions = n.Split() _
+                Dim regions = n.Split().ToArray
+                Dim regionSlicer = regions _
                     .Where(Function(sec) sec.Length >= continues) _
                     .ToArray
 
-                If regions.Length > 0 Then
+                If regionSlicer.Length > 0 Then
                     Xslices.Add(x)
 
-                    For Each region In regions
+                    For Each region In regionSlicer
                         Yslices.Add(region.Min)
                         Yslices.Add(region.Max)
                     Next
@@ -60,12 +61,12 @@ Public Module Assembler
     End Function
 
     <Extension>
-    Private Iterator Function Split(n As IEnumerable(Of Integer)) As IEnumerable(Of IntRange)
+    Private Iterator Function Split(n As IEnumerable(Of Integer), Optional delta% = 10) As IEnumerable(Of IntRange)
         Dim pre As Integer = n.First
         Dim min% = pre
 
         For Each x As Integer In n.Skip(1)
-            If x - pre = 1 Then
+            If x - pre <= delta Then
                 ' do nothing
             Else
                 ' 断开了
@@ -78,10 +79,10 @@ Public Module Assembler
     End Function
 
     Public Function Delta(p1 As Color, p2 As Color) As Double
-        Dim r# = p1.R - p2.R
-        Dim g# = p1.G - p2.G
-        Dim b# = p1.B - p2.B
-        Dim a# = p1.A - p2.A
+        Dim r# = CInt(p1.R) - p2.R
+        Dim g# = CInt(p1.G) - p2.G
+        Dim b# = CInt(p1.B) - p2.B
+        Dim a# = CInt(p1.A) - p2.A
 
         Return {r, g, b, a} _
             .Select(AddressOf Math.Abs) _

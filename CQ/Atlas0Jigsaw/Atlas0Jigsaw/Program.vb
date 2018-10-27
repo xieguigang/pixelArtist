@@ -6,6 +6,7 @@ Imports Microsoft.VisualBasic.Linq
 Module Program
 
     Sub Main()
+        Call testSlice()
         Call test()
     End Sub
 
