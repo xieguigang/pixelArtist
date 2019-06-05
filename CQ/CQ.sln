@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2035
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "CQ", "CQ\CQ.vbproj", "{761CF298-D228-4ECD-93AD-EBA4E17BC2A8}"
 EndProject
@@ -26,6 +26,8 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "math-core", "..\runtime\sciBASIC#\Data_science\Mathematica\Math\Math\math-core.vbproj", "{E3367B88-5D0C-495A-8273-331656D4B5AA}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "text.yaml", "..\runtime\sciBASIC#\mime\text%yaml\text.yaml.vbproj", "{FB637DE6-6BEB-4722-968A-F76DEB851DFC}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Character", "Character\Character.vbproj", "{E30601A3-5436-4165-9A6E-186E02825E4F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -1102,6 +1104,108 @@ Global
 		{FB637DE6-6BEB-4722-968A-F76DEB851DFC}.Yilia-Release_x64|x64.Build.0 = Yilia-Release_x64|x64
 		{FB637DE6-6BEB-4722-968A-F76DEB851DFC}.Yilia-Release_x64|x86.ActiveCfg = Yilia-Release_x64|x86
 		{FB637DE6-6BEB-4722-968A-F76DEB851DFC}.Yilia-Release_x64|x86.Build.0 = Yilia-Release_x64|x86
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biodeep_UNIX_x64|Any CPU.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biodeep_UNIX_x64|Any CPU.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biodeep_UNIX_x64|x64.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biodeep_UNIX_x64|x64.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biodeep_UNIX_x64|x86.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biodeep_UNIX_x64|x86.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biodeep|Any CPU.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biodeep|Any CPU.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biodeep|x64.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biodeep|x64.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biodeep|x86.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biodeep|x86.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biostack|Any CPU.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biostack|Any CPU.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biostack|x64.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biostack|x64.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biostack|x86.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biostack|x86.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biostack-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biostack-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biostack-Debug|x64.ActiveCfg = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biostack-Debug|x64.Build.0 = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biostack-Debug|x86.ActiveCfg = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Biostack-Debug|x86.Build.0 = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Debug|x64.Build.0 = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Debug|x86.Build.0 = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.DEMO|Any CPU.ActiveCfg = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.DEMO|Any CPU.Build.0 = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.DEMO|x64.ActiveCfg = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.DEMO|x64.Build.0 = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.DEMO|x86.ActiveCfg = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.DEMO|x86.Build.0 = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.docs|Any CPU.ActiveCfg = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.docs|Any CPU.Build.0 = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.docs|x64.ActiveCfg = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.docs|x64.Build.0 = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.docs|x86.ActiveCfg = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.docs|x86.Build.0 = Debug|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.GCModeller(Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.GCModeller(Release_X64)|Any CPU.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.GCModeller(Release_X64)|x64.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.GCModeller(Release_X64)|x64.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.GCModeller(Release_X64)|x86.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.GCModeller(Release_X64)|x86.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.GCModeller(UNIX-Release_X64)|Any CPU.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.GCModeller(UNIX-Release_X64)|Any CPU.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.GCModeller(UNIX-Release_X64)|x64.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.GCModeller(UNIX-Release_X64)|x64.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.GCModeller(UNIX-Release_X64)|x86.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.GCModeller(UNIX-Release_X64)|x86.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.installer_x64|Any CPU.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.installer_x64|Any CPU.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.installer_x64|x64.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.installer_x64|x64.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.installer_x64|x86.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.installer_x64|x86.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.mysqli_X64_release|Any CPU.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.mysqli_X64_release|Any CPU.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.mysqli_X64_release|x64.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.mysqli_X64_release|x64.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.mysqli_X64_release|x86.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.mysqli_X64_release|x86.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.ProteoWizard.d|Any CPU.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.ProteoWizard.d|Any CPU.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.ProteoWizard.d|x64.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.ProteoWizard.d|x64.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.ProteoWizard.d|x86.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.ProteoWizard.d|x86.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Publish|Any CPU.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Publish|Any CPU.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Publish|x64.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Publish|x64.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Publish|x86.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Publish|x86.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Release|x64.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Release|x64.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Release|x86.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Release|x86.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.sciBASIC.NET-test-release|Any CPU.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.sciBASIC.NET-test-release|Any CPU.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.sciBASIC.NET-test-release|x64.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.sciBASIC.NET-test-release|x64.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.sciBASIC.NET-test-release|x86.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.sciBASIC.NET-test-release|x86.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Surveillance-of-infectious-diseases|Any CPU.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Surveillance-of-infectious-diseases|Any CPU.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Surveillance-of-infectious-diseases|x64.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Surveillance-of-infectious-diseases|x64.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Surveillance-of-infectious-diseases|x86.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Surveillance-of-infectious-diseases|x86.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Yilia-Release_x64|Any CPU.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Yilia-Release_x64|Any CPU.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Yilia-Release_x64|x64.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Yilia-Release_x64|x64.Build.0 = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Yilia-Release_x64|x86.ActiveCfg = Release|Any CPU
+		{E30601A3-5436-4165-9A6E-186E02825E4F}.Yilia-Release_x64|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
