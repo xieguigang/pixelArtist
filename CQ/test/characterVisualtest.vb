@@ -17,5 +17,7 @@ Module characterVisualtest
         For Each face As SeqValue(Of Bitmap) In texture.Faces.SeqIterator
             Call face.value.SaveAs($"{output}/{source.BaseName}/face_{face.i}.png")
         Next
+
+        Call texture.Body.SaveAs($"{output}/{source.BaseName}/body.png")
     End Sub
 End Module

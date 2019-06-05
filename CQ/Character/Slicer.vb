@@ -44,4 +44,9 @@ Public Module Slicer
         ' F
         Yield spirit.ImageCrop(New Point(x1, y), faceSize)
     End Function
+
+    <Extension>
+    Public Function Body(spirit As Bitmap) As Bitmap
+        Return spirit.ImageCrop(New Point(width * 0.54, height * 0.833), New Size(width * 0.15, height * 0.1))
+    End Function
 End Module
