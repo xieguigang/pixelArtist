@@ -19,5 +19,9 @@ Module characterVisualtest
         Next
 
         Call texture.Body.SaveAs($"{output}/{source.BaseName}/body.png")
+
+        For Each part In texture.Hairs.SeqIterator
+            Call part.value.SaveAs($"{output}/{source.BaseName}/hair_{part.i}.png")
+        Next
     End Sub
 End Module

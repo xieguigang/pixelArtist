@@ -49,4 +49,13 @@ Public Module Slicer
     Public Function Body(spirit As Bitmap) As Bitmap
         Return spirit.ImageCrop(New Point(width * 0.54, height * 0.833), New Size(width * 0.15, height * 0.1))
     End Function
+
+    <Extension>
+    Public Iterator Function Hairs(spirit As Bitmap) As IEnumerable(Of Bitmap)
+        ' left
+        Yield spirit.ImageCrop(New Point(width * 0.1, height * 0.05), New Size(width * 0.2, height * 0.3))
+
+        ' right
+        Yield spirit.ImageCrop(New Point(width * 0.3, height * 0.05), New Size(width * 0.2, height * 0.3))
+    End Function
 End Module
