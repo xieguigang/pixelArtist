@@ -53,9 +53,9 @@ Public Module Slicer
     <Extension>
     Public Iterator Function Hairs(spirit As Bitmap) As IEnumerable(Of Bitmap)
         ' left
-        Yield spirit.ImageCrop(New Point(width * 0.1, height * 0.05), New Size(width * 0.2, height * 0.3))
+        Yield spirit.ImageCrop(New Point(width * 0.09, height * 0.1), New Size(width * 0.3, height * 0.25))
 
         ' right
-        Yield spirit.ImageCrop(New Point(width * 0.3, height * 0.05), New Size(width * 0.2, height * 0.3))
+        Yield spirit.ImageCrop(New Point(width * 0.35, height * 0.1), New Size(width * 0.25, height * 0.25))
     End Function
 End Module
