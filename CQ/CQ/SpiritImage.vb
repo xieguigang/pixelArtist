@@ -39,7 +39,7 @@ Public Class SpiritImage
     End Function
 
     <MethodImpl(MethodImplOptions.AggressiveInlining)>
-    Public Shared Function DefaultSlicer() As DefaultValue(Of SpiritImage)
+    Public Shared Function DefaultSlicer() As [Default](Of SpiritImage)
         Return New SpiritImage With {
             .body = New RectangleF(),
             .foot = New RectangleF(),
