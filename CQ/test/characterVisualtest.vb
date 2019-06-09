@@ -9,8 +9,8 @@ Module characterVisualtest
 
         Call visual.DrawNormal().SaveAs("E:\VB_GamePads\CQ\pr_6_1\cos_wi_17_20.png")
 
-        Call sliceImages("E:\VB_GamePads\CQ\pr_6_1\texture_cos_wi_17_20.png", "E:\VB_GamePads\CQ\pr_6_1\slices")
-        Call sliceImages("E:\VB_GamePads\CQ\pr_6_1\texture_pr_6_1.png", "E:\VB_GamePads\CQ\pr_6_1\slices")
+        ' Call sliceImages("E:\VB_GamePads\CQ\pr_6_1\texture_cos_wi_17_20.png", "E:\VB_GamePads\CQ\pr_6_1\slices")
+        '  Call sliceImages("E:\VB_GamePads\CQ\pr_6_1\texture_pr_6_1.png", "E:\VB_GamePads\CQ\pr_6_1\slices")
     End Sub
 
     Sub sliceImages(source As String, output$)
