@@ -58,4 +58,19 @@ Public Module Slicer
         ' right
         Yield spirit.ImageCrop(New Point(width * 0.35, height * 0.1), New Size(width * 0.25, height * 0.25))
     End Function
+
+    <Extension>
+    Public Function Foot(spirit As Bitmap) As Bitmap
+        Return spirit.ImageCrop(New Point(width * 0.94, height * 0.885), New Size(width * 0.03, height * 0.055))
+    End Function
+
+    <Extension>
+    Public Function FrontHand(spirit As Bitmap) As Bitmap
+        Return spirit.ImageCrop(New Point(width * 0.16, height * 0.885), New Size(width * 0.05, height * 0.055))
+    End Function
+
+    <Extension>
+    Public Function BackHand(spirit As Bitmap) As Bitmap
+        Return spirit.ImageCrop(New Point(width * 0.04, height * 0.89), New Size(width * 0.04, height * 0.05))
+    End Function
 End Module
