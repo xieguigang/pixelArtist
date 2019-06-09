@@ -5,6 +5,10 @@ Imports Microsoft.VisualBasic.Linq
 
 Module characterVisualtest
     Sub Main()
+        Dim visual As New Character.Character("E:\VB_GamePads\CQ\pr_6_1\texture_cos_wi_17_20.png".LoadImage)
+
+        Call visual.DrawNormal().SaveAs("E:\VB_GamePads\CQ\pr_6_1\cos_wi_17_20.png")
+
         Call sliceImages("E:\VB_GamePads\CQ\pr_6_1\texture_cos_wi_17_20.png", "E:\VB_GamePads\CQ\pr_6_1\slices")
         Call sliceImages("E:\VB_GamePads\CQ\pr_6_1\texture_pr_6_1.png", "E:\VB_GamePads\CQ\pr_6_1\slices")
     End Sub
