@@ -20,11 +20,19 @@ Public Class PixelGraphics
         Me.driver = driver
     End Sub
 
-    Public Function SetScreenResolution(width As Integer, height As Integer) As PixelGraphics
-        _Resolution = New Size(width, height)
+    Public Sub Clear(backColor As Color)
+        Call driver.Clear(backColor)
+    End Sub
+
+    Public Function SetScreenResolution(res As Size) As PixelGraphics
+        _Resolution = res
         _pixel = New SizeF(driver.Size.Width / Resolution.Width, driver.Size.Height / Resolution.Height)
 
         Return Me
+    End Function
+
+    Public Function SetScreenResolution(width As Integer, height As Integer) As PixelGraphics
+        Return SetScreenResolution(New Size(width, height))
     End Function
 
     Public Sub DrawPixel(x As Integer, y As Integer, Optional color As Color = Nothing)

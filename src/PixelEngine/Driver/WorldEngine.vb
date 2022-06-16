@@ -23,7 +23,7 @@ Public Class WorldEngine : Implements IDisposable
     End Function
 
     Public Sub PaintFrame()
-        Call graphics(screen.RequestFrame)
+        Call screen.Invoke(Sub() Call screen.RequestFrame(graphics))
     End Sub
 
     Public Sub Run()
