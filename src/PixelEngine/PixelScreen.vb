@@ -21,4 +21,7 @@
         MyBase.OnPaint(e)
     End Sub
 
+    Private Sub PixelScreen_Load(sender As Object, e As EventArgs) Handles Me.Load
+        Me.DoubleBuffered = True
+    End Sub
 End Class
