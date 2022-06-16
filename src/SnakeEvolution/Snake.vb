@@ -4,6 +4,8 @@ Public Class Snake
 
     Dim bodyX As List(Of Integer)
     Dim bodyY As List(Of Integer)
+    Dim speedX As Integer
+    Dim speedY As Integer
 
     Sub New(head As Point, len As Integer)
         bodyX = New List(Of Integer)
@@ -18,10 +20,16 @@ Public Class Snake
         Next
     End Sub
 
+    Public Sub Move()
+        Call Move(speedX, speedY)
+    End Sub
+
     Public Sub Move(dx As Integer, dy As Integer)
         Dim xi As Integer = bodyX(0)
         Dim yi As Integer = bodyY(0)
 
+        speedX = dx
+        speedY = dy
         bodyX(0) += dx
         bodyY(0) += dy
 

@@ -3,6 +3,15 @@
     Public Property Resolution As Size = New Size(300, 400)
 
     Dim canvas As Action(Of PixelGraphics)
+    Dim keyQueue As Char
+
+    Public ReadOnly Property GetCommand As Char
+        Get
+            Dim buf = keyQueue
+            keyQueue = Nothing
+            Return buf
+        End Get
+    End Property
 
     Public Sub RequestFrame(paint As Action(Of PixelGraphics))
         Me.canvas = paint
@@ -23,5 +32,9 @@
 
     Private Sub PixelScreen_Load(sender As Object, e As EventArgs) Handles Me.Load
         Me.DoubleBuffered = True
+    End Sub
+
+    Public Sub CallKeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
+        keyQueue = e.KeyChar
     End Sub
 End Class
