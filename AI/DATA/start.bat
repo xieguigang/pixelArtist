@@ -1,1 +1,0 @@
-"./bin/SnakeAI.exe" /start /load "./snake_QL_AI.json"
