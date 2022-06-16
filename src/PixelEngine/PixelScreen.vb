@@ -1,6 +1,6 @@
 ﻿Public Class PixelScreen : Implements IDisposable
 
-    Public Property Resolution As Size
+    Public Property Resolution As Size = New Size(800, 600)
 
     Dim canvas As Action(Of PixelGraphics)
 
@@ -10,11 +10,13 @@
     End Sub
 
     Protected Overrides Sub OnPaint(e As PaintEventArgs)
-        Dim dev As PixelGraphics = PixelGraphics.FromGdiDevice(e.Graphics, Size)
+        If Not canvas Is Nothing Then
+            Dim dev As PixelGraphics = PixelGraphics.FromGdiDevice(e.Graphics, Size)
 
-        Call dev.SetScreenResolution(Resolution)
-        Call dev.Clear(BackColor)
-        Call canvas(dev)
+            Call dev.SetScreenResolution(Resolution)
+            Call dev.Clear(BackColor)
+            Call canvas(dev)
+        End If
 
         MyBase.OnPaint(e)
     End Sub

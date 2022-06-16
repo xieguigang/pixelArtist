@@ -22,10 +22,29 @@ Partial Class FormGame
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        components = New System.ComponentModel.Container()
+        Me.PixelScreen1 = New PixelArtist.Engine.PixelScreen()
+        Me.SuspendLayout()
+        '
+        'PixelScreen1
+        '
+        Me.PixelScreen1.BackColor = System.Drawing.Color.White
+        Me.PixelScreen1.Location = New System.Drawing.Point(35, 43)
+        Me.PixelScreen1.Name = "PixelScreen1"
+        Me.PixelScreen1.Resolution = New System.Drawing.Size(800, 600)
+        Me.PixelScreen1.Size = New System.Drawing.Size(748, 590)
+        Me.PixelScreen1.TabIndex = 0
+        '
+        'FormGame
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(1092, 747)
+        Me.Controls.Add(Me.PixelScreen1)
+        Me.Name = "FormGame"
         Me.Text = "Form1"
+        Me.ResumeLayout(False)
+
     End Sub
 
+    Friend WithEvents PixelScreen1 As PixelArtist.Engine.PixelScreen
 End Class
