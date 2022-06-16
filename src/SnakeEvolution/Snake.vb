@@ -18,6 +18,24 @@ Public Class Snake
         Next
     End Sub
 
+    Public Sub Move(dx As Integer, dy As Integer)
+        Dim xi As Integer = bodyX(0)
+        Dim yi As Integer = bodyY(0)
+
+        bodyX(0) += dx
+        bodyY(0) += dy
+
+        For i As Integer = 1 To bodyX.Count - 1
+            Dim tx = bodyX(i)
+            Dim ty = bodyY(i)
+
+            bodyX(i) = xi
+            bodyY(i) = yi
+            xi = tx
+            yi = ty
+        Next
+    End Sub
+
     Public Sub Draw(g As PixelGraphics)
         For i As Integer = 0 To bodyX.Count - 1
             Call g.DrawPixel(bodyX(i), bodyY(i))

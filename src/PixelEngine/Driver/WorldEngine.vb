@@ -9,12 +9,12 @@ Public Class WorldEngine : Implements IDisposable
 
     Private disposedValue As Boolean
 
-    Sub New(graphics As Action(Of PixelGraphics), controls As Action, fps As Integer)
+    Sub New(graphics As Action(Of PixelGraphics), controls As Action, fps As Integer, worldSpeed As Integer)
         Dim ms As Double = 1000 / fps
 
         Me.graphics = graphics
         Me.graphicsLoop = New UpdateThread(ms, AddressOf PaintFrame)
-        Me.gameLoop = New UpdateThread(ms, controls)
+        Me.gameLoop = New UpdateThread(worldSpeed, controls)
     End Sub
 
     Public Function LoadScreenDevice(screen As PixelScreen) As WorldEngine
@@ -23,7 +23,11 @@ Public Class WorldEngine : Implements IDisposable
     End Function
 
     Public Sub PaintFrame()
-        Call screen.Invoke(Sub() Call screen.RequestFrame(graphics))
+        SyncLock screen
+            If Not screen.IsDisposed Then
+                Call screen.Invoke(Sub() Call screen.RequestFrame(graphics))
+            End If
+        End SyncLock
     End Sub
 
     Public Sub Run()

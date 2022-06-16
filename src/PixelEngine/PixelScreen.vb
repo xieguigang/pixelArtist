@@ -1,6 +1,6 @@
 ﻿Public Class PixelScreen : Implements IDisposable
 
-    Public Property Resolution As Size = New Size(800, 600)
+    Public Property Resolution As Size = New Size(300, 400)
 
     Dim canvas As Action(Of PixelGraphics)
 
