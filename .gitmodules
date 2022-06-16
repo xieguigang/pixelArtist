@@ -1,3 +1,3 @@
 [submodule "sciBASIC"]
-	path = "runtime/sciBASIC#"
+	path = "framework/sciBASIC#"
 	url = https://github.com/xieguigang/sciBASIC.git
