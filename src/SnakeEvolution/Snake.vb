@@ -1,11 +1,17 @@
 ﻿Imports PixelArtist.Engine
 
-Public Class Snake
+Public Class Snake : Inherits CharacterModel
 
     Dim bodyX As List(Of Integer)
     Dim bodyY As List(Of Integer)
     Dim speedX As Integer
     Dim speedY As Integer
+
+    Public ReadOnly Property Head As Point
+        Get
+            Return New Point(bodyX(0), bodyY(0))
+        End Get
+    End Property
 
     Sub New(head As Point, len As Integer)
         bodyX = New List(Of Integer)
@@ -30,6 +36,11 @@ Public Class Snake
 
         speedX = dx
         speedY = dy
+
+        If dx = 0 AndAlso dy = 0 Then
+            Return
+        End If
+
         bodyX(0) += dx
         bodyY(0) += dy
 
@@ -44,10 +55,14 @@ Public Class Snake
         Next
     End Sub
 
-    Public Sub Draw(g As PixelGraphics)
+    Public Sub Extend()
+        bodyX.Add(bodyX.Last - speedX)
+        bodyY.Add(bodyY.Last - speedY)
+    End Sub
+
+    Public Overrides Sub Draw(g As PixelGraphics)
         For i As Integer = 0 To bodyX.Count - 1
             Call g.DrawPixel(bodyX(i), bodyY(i))
         Next
     End Sub
-
 End Class

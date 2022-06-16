@@ -1,4 +1,6 @@
-﻿Public Class PixelScreen : Implements IDisposable
+﻿Imports randf = Microsoft.VisualBasic.Math.RandomExtensions
+
+Public Class PixelScreen : Implements IDisposable
 
     Public Property Resolution As Size = New Size(300, 400)
 
@@ -10,6 +12,12 @@
             Dim buf = keyQueue
             keyQueue = Nothing
             Return buf
+        End Get
+    End Property
+
+    Public ReadOnly Property Random As Point
+        Get
+            Return New Point(randf.NextInteger(Resolution.Width), randf.NextInteger(Resolution.Height))
         End Get
     End Property
 
@@ -32,6 +40,10 @@
 
     Private Sub PixelScreen_Load(sender As Object, e As EventArgs) Handles Me.Load
         Me.DoubleBuffered = True
+    End Sub
+
+    Public Sub CallKeyPress(key As Char)
+        keyQueue = key
     End Sub
 
     Public Sub CallKeyPress(sender As Object, e As KeyPressEventArgs) Handles Me.KeyPress
