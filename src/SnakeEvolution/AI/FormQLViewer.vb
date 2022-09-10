@@ -1,8 +1,7 @@
 ﻿Imports System.Timers
-Imports System.Windows.Forms
-Imports Microsoft.VisualBasic.DataMining.QLearning
-Imports Microsoft.VisualBasic.DataMining.QLearning.DataModel
 Imports Microsoft.VisualBasic.Linq
+Imports Microsoft.VisualBasic.MachineLearning.QLearning
+Imports Microsoft.VisualBasic.MachineLearning.QLearning.DataModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 
 Public Class FormQLViewer
@@ -12,7 +11,7 @@ Public Class FormQLViewer
     Dim WithEvents timer As New Timers.Timer
 
     Sub UpdateTableView()
-        Dim views As String() = Table.Table.Values.ToArray(Function(x) x.ToString)
+        Dim views As String() = Table.Table.Values.Select(Function(x) x.ToString).ToArray
         Call Me.Invoke(Sub() TextBox1.Text = views.JoinBy(vbCrLf))
     End Sub
 
