@@ -14,18 +14,27 @@ Public Structure GameControl : Implements ICloneable
     ''' </summary>
     Dim moveDIR As Controls
 
+    Dim wallTop As Byte
+    Dim wallRight As Byte
+    Dim wallBottom As Byte
+    Dim wallLeft As Byte
+
     ''' <summary>
     ''' hash key for the QTable
     ''' </summary>
     ''' <returns></returns>
     Public Overrides Function ToString() As String
-        Return $"{CInt(position)},{vbTab}{CInt(moveDIR)}"
+        Return $"{CInt(position)},{vbTab}{CInt(moveDIR)} {wallTop}{wallRight}{wallBottom}{wallLeft}"
     End Function
 
     Public Function Clone() As Object Implements ICloneable.Clone
         Return New GameControl With {
             .position = position,
-            .moveDIR = moveDIR
+            .moveDIR = moveDIR,
+            .wallLeft = wallLeft,
+            .wallBottom = wallBottom,
+            .wallRight = wallRight,
+            .wallTop = wallTop
         }
     End Function
 End Structure

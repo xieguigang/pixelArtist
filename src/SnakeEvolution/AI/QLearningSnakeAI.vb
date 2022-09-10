@@ -111,7 +111,7 @@ Public Class QLearningSnakeAI : Inherits QLearning(Of GameControl)
         ' reason of world is already been updated
         ' too many loops when we test the condition
         ' below
-        Call Threading.Thread.Sleep(_snakeGame.game.worldSpeed * 1.125)
+        Call Threading.Thread.Sleep(_snakeGame.game.worldSpeed + 10)
 
         ' Calculate the distance between the snake head and the target food
         Dim now = _snakeGame.snake.Head.Distance(_snakeGame.food.Location)

@@ -25,7 +25,7 @@ Public Class SnakeGameEngine : Implements IDisposable
     End Property
 
     Sub New(host As FormGame)
-        game = New WorldEngine(AddressOf Render, AddressOf Run, fps:=30, worldSpeed:=250)
+        game = New WorldEngine(AddressOf Render, AddressOf Run, fps:=30, worldSpeed:=200)
         game.LoadScreenDevice(host.PixelScreen1)
     End Sub
 
