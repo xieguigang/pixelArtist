@@ -26,6 +26,12 @@ Public Class Snake : Inherits CharacterModel
         Next
     End Sub
 
+    Public Overrides Iterator Function GetPixels(pixelScale As SizeF) As IEnumerable(Of Rectangle)
+        For i As Integer = 0 To bodyX.Count - 1
+            Yield New Rectangle(bodyX(i), bodyY(i), pixelScale.Width, pixelScale.Height)
+        Next
+    End Function
+
     ''' <summary>
     ''' move current model on game loop tick
     ''' </summary>

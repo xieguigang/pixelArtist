@@ -5,5 +5,6 @@
     ''' </summary>
     ''' <param name="g"></param>
     Public MustOverride Sub Draw(g As PixelGraphics)
+    Public MustOverride Function GetPixels(pixelScale As SizeF) As IEnumerable(Of Rectangle)
 
 End Class

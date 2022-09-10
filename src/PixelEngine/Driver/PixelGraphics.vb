@@ -6,6 +6,9 @@ Imports Microsoft.VisualBasic.Imaging
 ''' </summary>
 Public Class PixelGraphics
 
+    ''' <summary>
+    ''' the driver size is the canvas size for draw pixels
+    ''' </summary>
     ReadOnly driver As IGraphics
 
     ''' <summary>

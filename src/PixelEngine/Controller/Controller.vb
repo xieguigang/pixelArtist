@@ -28,6 +28,7 @@ Public Class Controller
     ''' the raw key char from the keyboard
     ''' </param>
     Public Delegate Sub FireCommand(action As Controls, key As Char)
+    Public Delegate Sub ClickObject(pos As Point, obj As CharacterModel)
 
     Public Sub CallCommand()
         Dim screen = engine.screen
@@ -37,21 +38,19 @@ Public Class Controller
         Call engine.controls(action, key)
     End Sub
 
-    Private Sub _innerDevice_MouseClick(sender As Object, e As MouseEventArgs) Handles _innerDevice.MouseClick
-        If Not Enable Then
-            Return
-        End If
-
-        Dim xy As Point = e.Location
+    Public Sub CallModelClick()
+        Dim screen = engine.screen
+        Dim pixel As SizeF = screen.PixelSize
+        Dim xy As Point = screen.Invoke(Function() screen.GetClick)
 
         Call engine _
-            .Select(Function(x) __invokeClick(x, xy)) _
-            .ToArray
+           .Select(Function(x) __invokeClick(x, xy)) _
+           .ToArray
     End Sub
 
-    Private Function __invokeClick(x As GraphicUnit, pos As Point) As Boolean
-        If x.Region.Contains(pos) Then
-            Call _clickObject.BeginInvoke(pos, x, Nothing, Nothing)
+    Private Function __invokeClick(x As CharacterModel, pos As Point, pixel As SizeF) As Boolean
+        If x.GetPixels(pixel).Any(Function(r) r.Contains(pos)) Then
+            Call ClickObject(pos, x)
         End If
 
         Return True
