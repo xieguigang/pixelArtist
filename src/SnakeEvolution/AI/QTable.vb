@@ -1,5 +1,4 @@
-﻿Imports Microsoft.VisualBasic.DataMining.QLearning
-Imports Microsoft.VisualBasic.DataMining.QLearning.DataModel
+﻿Imports Microsoft.VisualBasic.MachineLearning.QLearning
 Imports Microsoft.VisualBasic.MachineLearning.QLearning.DataModel
 
 ''' <summary>
@@ -15,7 +14,7 @@ Public Class QTable : Inherits QTable(Of GameControl)
         Call MyBase.New(model)
     End Sub
 
-    Protected Overrides Function __getMapString(map As GameControl) As String
+    Protected Overrides Function MapToString(map As GameControl) As String
         Return map.ToString
     End Function
 End Class
