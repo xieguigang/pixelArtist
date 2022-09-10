@@ -11,13 +11,17 @@ Public Class FormQLViewer
     Dim WithEvents timer As New Timers.Timer
 
     Sub UpdateTableView()
-        SyncLock Table.Table
-            Dim views As String() = Table.Table.Values _
-                .Select(Function(x) x.ToString) _
-                .ToArray
+        Try
+            SyncLock Table.Table
+                Dim views As String() = Table.Table.Values _
+                    .Select(Function(x) x.ToString) _
+                    .ToArray
 
-            Call Me.Invoke(Sub() TextBox1.Text = views.JoinBy(vbCrLf))
-        End SyncLock
+                Call Me.Invoke(Sub() TextBox1.Text = views.JoinBy(vbCrLf))
+            End SyncLock
+        Catch ex As Exception
+
+        End Try
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles Me.Load
