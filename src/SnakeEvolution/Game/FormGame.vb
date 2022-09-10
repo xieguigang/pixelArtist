@@ -1,5 +1,4 @@
 ﻿Imports System.ComponentModel
-Imports Microsoft.VisualBasic.Text
 Imports PixelArtist.Engine
 
 Public Class FormGame
@@ -24,13 +23,13 @@ Public Class FormGame
         food = New Food(PixelScreen1.Random)
     End Sub
 
-    Private Sub Run(c As Char)
-        If c <> ASCII.NUL Then
-            Select Case c
-                Case "w" : Call snake.Move(0, -1)
-                Case "s" : Call snake.Move(0, 1)
-                Case "a" : Call snake.Move(-1, 0)
-                Case "d" : Call snake.Move(1, 0)
+    Private Sub Run(action As Controls, c As Char)
+        If action <> PixelArtist.Engine.Controls.NotBind Then
+            Select Case action
+                Case PixelArtist.Engine.Controls.Up : Call snake.Move(0, -1)
+                Case PixelArtist.Engine.Controls.Down : Call snake.Move(0, 1)
+                Case PixelArtist.Engine.Controls.Left : Call snake.Move(-1, 0)
+                Case PixelArtist.Engine.Controls.Right : Call snake.Move(1, 0)
                 Case Else
                     ' do nothing
                     Call snake.Move()
