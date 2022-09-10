@@ -7,7 +7,7 @@ Imports PixelArtist.Engine
 ''' <summary>
 ''' The Q-Learning AI engine of this snake game
 ''' </summary>
-Public Class QL_AI : Inherits QLearning(Of GameControl)
+Public Class QLearningSnakeAI : Inherits QLearning(Of GameControl)
 
     Dim _snakeGame As SnakeGameEngine
     Dim _score As Integer
@@ -77,7 +77,8 @@ Public Class QL_AI : Inherits QLearning(Of GameControl)
 
         Call _stat.SetState(_stat.GetNextState(Nothing))
 
-        Dim index As Integer = Q.NextAction(_stat.Current)    ' Get action index based on the current environment inputs 
+        ' Get action index based on the current environment inputs 
+        Dim index As Integer = Q.NextAction(_stat.Current)
         Dim preAction = _stat.Current
         Dim action As Controls
 
@@ -104,7 +105,9 @@ Public Class QL_AI : Inherits QLearning(Of GameControl)
         ' Calculate the distance between the snake head and the target food
         Dim now = _snakeGame.snake.Head.Distance(_snakeGame.food.Location)
 
-        If now < pre Then ' If the distance result of the new action compare with the previous action is getting smaller, then rewards the AI 
+        If now < pre Then
+            ' If the distance result of the new action compare with the previous
+            ' action is getting smaller, then rewards the AI 
             ' 与前一个状态相比距离变小了，则奖励
             Call Q.UpdateQvalue(GoalRewards, preAction)
             Call Console.WriteLine("+")
@@ -114,7 +117,8 @@ Public Class QL_AI : Inherits QLearning(Of GameControl)
         End If
 
         If Not _snakeGame.Running Then
-            Call _snakeGame.GameReset()  ' if game over then restart the game
+            ' if game over then restart the game
+            Call _snakeGame.GameReset()
         End If
     End Sub
 
