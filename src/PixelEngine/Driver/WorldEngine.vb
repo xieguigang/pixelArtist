@@ -14,6 +14,11 @@ Public Class WorldEngine
 
     Public ReadOnly Property screen As PixelScreen
     Public ReadOnly Property controller As Controller
+    Public ReadOnly Property running As Boolean
+        Get
+            Return gameLoop.Running
+        End Get
+    End Property
 
     Private disposedValue As Boolean
 

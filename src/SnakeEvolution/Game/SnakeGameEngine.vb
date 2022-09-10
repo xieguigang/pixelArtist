@@ -3,10 +3,20 @@
 Public Class SnakeGameEngine
 
     Dim game As WorldEngine
-    Dim snake As New Snake(New Point(10, 10), 10)
-    Dim food As Food
     Dim hi As Integer
-    Dim score As Integer
+
+    Friend score As Integer
+    Friend snake As New Snake(New Point(10, 10), 10)
+    Friend food As Food
+
+    Friend GameOverCallback As Action(Of SnakeGameEngine)
+
+    Public Property CrossBodyEnable As Boolean
+    Public ReadOnly Property Running As Boolean
+        Get
+            Return game.running
+        End Get
+    End Property
 
     Sub New(host As FormGame)
         game = New WorldEngine(AddressOf Render, AddressOf Run, fps:=30, worldSpeed:=100)
@@ -18,6 +28,10 @@ Public Class SnakeGameEngine
 
     Private Sub PutFood()
         food = New Food(game.screen.Random)
+    End Sub
+
+    Public Sub Invoke(action As Controls)
+        Call Run(action, Nothing)
     End Sub
 
     Private Sub Run(action As Controls, c As Char)
@@ -65,7 +79,7 @@ Public Class SnakeGameEngine
         Call g.DrawString($"Score: {score}; HI: {hi}", Color.Blue, FormGame.DefaultFont, 10, 10)
     End Sub
 
-    Private Sub GameReset()
+    Public Sub GameReset()
         score = 0
         snake = New Snake(New Point(10, 10), 10)
 

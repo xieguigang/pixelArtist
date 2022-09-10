@@ -1,10 +1,6 @@
-﻿Imports Microsoft.VisualBasic.DataMining.QLearning
-Imports Microsoft.VisualBasic.DataMining.QLearning.DataModel
-Imports Microsoft.VisualBasic.GamePads.EngineParts
+﻿Imports Microsoft.VisualBasic.Imaging.Math2D
 Imports Microsoft.VisualBasic.MachineLearning.QLearning
 Imports Microsoft.VisualBasic.MachineLearning.QLearning.DataModel
-Imports Microsoft.VisualBasic.Mathematical
-Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports PixelArtist.Engine
 
@@ -13,7 +9,8 @@ Imports PixelArtist.Engine
 ''' </summary>
 Public Class QL_AI : Inherits QLearning(Of GameControl)
 
-    Dim _snakeGame As Snake.GameEngine
+    Dim _snakeGame As SnakeGameEngine
+    Dim _score As Integer
 
     ''' <summary>
     ''' Only 4 direction output: ``UP, DOWN, LEFT, RIGHT arrows``
@@ -27,7 +24,12 @@ Public Class QL_AI : Inherits QLearning(Of GameControl)
 
     Public Overrides ReadOnly Property GoalReached As Boolean
         Get
-            Return _snakeGame.EatFood
+            If _score < _snakeGame.score Then
+                _score = _snakeGame.score
+                Return True
+            Else
+                Return False
+            End If
         End Get
     End Property
 
@@ -46,7 +48,7 @@ Public Class QL_AI : Inherits QLearning(Of GameControl)
     ''' <param name="model">
     ''' Using the exists AI training result to initialize this engine
     ''' </param>
-    Sub New(game As Snake.GameEngine, Optional model As QModel = Nothing)
+    Sub New(game As SnakeGameEngine, Optional model As QModel = Nothing)
         Call MyBase.New(New QState(game), __getQTable(model))
 
         Me._snakeGame = game
@@ -54,31 +56,24 @@ Public Class QL_AI : Inherits QLearning(Of GameControl)
         Me._snakeGame.CrossBodyEnable = True
     End Sub
 
-    Private Sub __gameOver(engine As Snake.GameEngine)
-        Call engine.Reset()
+    Private Sub __gameOver(engine As SnakeGameEngine)
+        Call engine.GameReset()
         Call Q.UpdateQvalue(GoalPenalty, _stat.Current)
+
+        _score = 0
 
         SyncLock Q
             Call New QModel(Q).GetJson.SaveTo(App.AppSystemTemp & $"/{Now.ToString.NormalizePathString}.json")
         End SyncLock
     End Sub
 
-    Protected Overrides Sub __init()
-
-    End Sub
-
-    Dim dump As New QTableDump
-
-    Protected Overrides Sub __reset(i As Integer)
-
-    End Sub
-
     ''' <summary>
     ''' QL AI logic
     ''' </summary>
     ''' <param name="i"></param>
-    Protected Overrides Sub __run(i As Integer)
-        Dim pre = Distance(_snakeGame.Snake.Location, _snakeGame.food.Location) ' Get environment state as input
+    Protected Overrides Sub run(i As Integer)
+        ' Get environment state as input
+        Dim pre = _snakeGame.snake.Head.Distance(_snakeGame.food.Location)
 
         Call _stat.SetState(_stat.GetNextState(Nothing))
 
@@ -107,7 +102,7 @@ Public Class QL_AI : Inherits QLearning(Of GameControl)
         Call Threading.Thread.Sleep(300)
 
         ' Calculate the distance between the snake head and the target food
-        Dim now = Distance(_snakeGame.Snake.Location, _snakeGame.food.Location)
+        Dim now = _snakeGame.snake.Head.Distance(_snakeGame.food.Location)
 
         If now < pre Then ' If the distance result of the new action compare with the previous action is getting smaller, then rewards the AI 
             ' 与前一个状态相比距离变小了，则奖励
@@ -119,7 +114,15 @@ Public Class QL_AI : Inherits QLearning(Of GameControl)
         End If
 
         If Not _snakeGame.Running Then
-            Call _snakeGame.Reset()  ' if game over then restart the game
+            Call _snakeGame.GameReset()  ' if game over then restart the game
         End If
+    End Sub
+
+    Protected Overrides Sub initialize()
+
+    End Sub
+
+    Protected Overrides Sub reset(i As Integer)
+
     End Sub
 End Class

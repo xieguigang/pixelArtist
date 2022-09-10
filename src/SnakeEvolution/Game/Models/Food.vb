@@ -6,6 +6,12 @@ Public Class Food : Inherits CharacterModel
     Dim posX As Integer
     Dim posY As Integer
 
+    Public ReadOnly Property Location As Point
+        Get
+            Return New Point(posX, posY)
+        End Get
+    End Property
+
     Sub New(x As Integer, y As Integer)
         posX = x
         posY = y
