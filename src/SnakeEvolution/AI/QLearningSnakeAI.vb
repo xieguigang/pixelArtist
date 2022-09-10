@@ -101,7 +101,16 @@ Public Class QLearningSnakeAI : Inherits QLearning(Of GameControl)
         Call _snakeGame.Invoke(action)
         Call _stat.Current.__DEBUG_ECHO
 
+        ' 20220910
+        '
         ' wait for the action to take effects
+        '
+        ' the sleep time should be nearby the 
+        ' word reactor its update time
+        ' or the AI can not be learn due to the
+        ' reason of world is already been updated
+        ' too many loops when we test the condition
+        ' below
         Call Threading.Thread.Sleep(_snakeGame.game.worldSpeed * 1.125)
 
         ' Calculate the distance between the snake head and the target food
