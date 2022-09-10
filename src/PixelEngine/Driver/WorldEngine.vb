@@ -1,23 +1,36 @@
 ﻿Imports Microsoft.VisualBasic.Parallel.Tasks
 
-Public Class WorldEngine : Implements IDisposable
+Public Class WorldEngine
+    Implements IEnumerable(Of CharacterModel)
+    Implements IDisposable
 
     Friend ReadOnly controls As Controller.FireCommand
+    Friend ReadOnly clicks As Controller.ClickObject
 
     Dim graphics As Action(Of PixelGraphics)
     Dim graphicsLoop As UpdateThread
     Dim gameLoop As UpdateThread
+    Dim models As New List(Of CharacterModel)
 
     Friend screen As PixelScreen
     Friend controller As Controller
 
     Private disposedValue As Boolean
 
-    Sub New(graphics As Action(Of PixelGraphics), controls As Controller.FireCommand, fps As Integer, worldSpeed As Integer)
+    Sub New(graphics As Action(Of PixelGraphics), controls As Controller.FireCommand,
+            Optional mouseClick As Controller.ClickObject = Nothing,
+            Optional fps As Integer = 30,
+            Optional worldSpeed As Integer = 100)
+
         Dim ms As Double = 1000 / fps
+
+        If controls Is Nothing Then
+            Throw New NullReferenceException("Keyboard or GamePad controller can not be missing!")
+        End If
 
         Me.graphics = graphics
         Me.controls = controls
+        Me.clicks = mouseClick
         Me.controller = New Controller(Me)
         Me.graphicsLoop = New UpdateThread(ms, AddressOf PaintFrame)
         Me.gameLoop = New UpdateThread(worldSpeed, AddressOf CallActionCommand)
@@ -25,7 +38,11 @@ Public Class WorldEngine : Implements IDisposable
 
     Private Sub CallActionCommand()
         If Not screen Is Nothing Then
-            Call controller.CallCommand()
+            controller.CallCommand()
+
+            If Not clicks Is Nothing Then
+                Call controller.CallModelClick()
+            End If
         End If
     End Sub
 
@@ -78,4 +95,14 @@ Public Class WorldEngine : Implements IDisposable
         Dispose(disposing:=True)
         GC.SuppressFinalize(Me)
     End Sub
+
+    Public Iterator Function GetEnumerator() As IEnumerator(Of CharacterModel) Implements IEnumerable(Of CharacterModel).GetEnumerator
+        Yield IEnumerable_GetEnumerator()
+    End Function
+
+    Private Iterator Function IEnumerable_GetEnumerator() As IEnumerator Implements IEnumerable.GetEnumerator
+        For Each obj As CharacterModel In models
+            Yield obj
+        Next
+    End Function
 End Class

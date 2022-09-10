@@ -43,16 +43,10 @@ Public Class Controller
         Dim pixel As SizeF = screen.PixelSize
         Dim xy As Point = screen.Invoke(Function() screen.GetClick)
 
-        Call engine _
-           .Select(Function(x) __invokeClick(x, xy)) _
-           .ToArray
+        For Each x As CharacterModel In engine
+            If x.GetPixels(pixel).Any(Function(r) r.Contains(xy)) Then
+                Call engine.clicks(xy, x)
+            End If
+        Next
     End Sub
-
-    Private Function __invokeClick(x As CharacterModel, pos As Point, pixel As SizeF) As Boolean
-        If x.GetPixels(pixel).Any(Function(r) r.Contains(pos)) Then
-            Call ClickObject(pos, x)
-        End If
-
-        Return True
-    End Function
 End Class
