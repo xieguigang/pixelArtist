@@ -48,6 +48,19 @@ Public Class Snake : Inherits CharacterModel
     Public Sub Move(dx As Integer, dy As Integer)
         Dim xi As Integer = bodyX(0)
         Dim yi As Integer = bodyY(0)
+        Dim dir0 = Geometric.Direction(speedX, speedY)
+        Dim dir1 = Geometric.Direction(dx, dy)
+
+        ' disable reverse direction
+        If dir0 = Controls.Up AndAlso dir1 = Controls.Down Then
+            Return
+        ElseIf dir0 = Controls.Down AndAlso dir1 = Controls.Up Then
+            Return
+        ElseIf dir0 = Controls.Left AndAlso dir1 = Controls.Right Then
+            Return
+        ElseIf dir0 = Controls.Right AndAlso dir1 = Controls.Left Then
+            Return
+        End If
 
         speedX = dx
         speedY = dy

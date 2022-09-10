@@ -25,7 +25,7 @@ Public Class SnakeGameEngine : Implements IDisposable
     End Property
 
     Sub New(host As FormGame)
-        game = New WorldEngine(AddressOf Render, AddressOf Run, fps:=30, worldSpeed:=100)
+        game = New WorldEngine(AddressOf Render, AddressOf Run, fps:=30, worldSpeed:=10)
         game.LoadScreenDevice(host.PixelScreen1)
     End Sub
 
@@ -87,7 +87,7 @@ Public Class SnakeGameEngine : Implements IDisposable
     ''' </summary>
     Public Sub GameReset()
         score = 0
-        snake = New Snake(New Point(10, 10), 10)
+        snake = New Snake(game.screen.Random, 10)
 
         Call PutFood()
         Call game.Run()
