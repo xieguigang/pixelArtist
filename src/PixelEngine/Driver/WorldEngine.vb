@@ -2,26 +2,30 @@
 
 Public Class WorldEngine : Implements IDisposable
 
-    Dim controls As Action(Of Char)
+    Friend ReadOnly controls As Controller.FireCommand
+
     Dim graphics As Action(Of PixelGraphics)
     Dim graphicsLoop As UpdateThread
     Dim gameLoop As UpdateThread
-    Dim screen As PixelScreen
+
+    Friend screen As PixelScreen
+    Friend controller As Controller
 
     Private disposedValue As Boolean
 
-    Sub New(graphics As Action(Of PixelGraphics), controls As Action(Of Char), fps As Integer, worldSpeed As Integer)
+    Sub New(graphics As Action(Of PixelGraphics), controls As Controller.FireCommand, fps As Integer, worldSpeed As Integer)
         Dim ms As Double = 1000 / fps
 
         Me.graphics = graphics
         Me.controls = controls
+        Me.controller = New Controller(Me)
         Me.graphicsLoop = New UpdateThread(ms, AddressOf PaintFrame)
         Me.gameLoop = New UpdateThread(worldSpeed, AddressOf CallActionCommand)
     End Sub
 
     Private Sub CallActionCommand()
         If Not screen Is Nothing Then
-            Call controls(screen.Invoke(Function() screen.GetCommand))
+            Call controller.CallCommand()
         End If
     End Sub
 
