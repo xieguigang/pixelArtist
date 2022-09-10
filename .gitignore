@@ -10,6 +10,8 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+/R-sharp/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -241,3 +243,4 @@ _Pvt_Extensions
 /CQ/Animation/WpfApp1/Png/Resources/walk.zip
 /CQ/Animation/WpfApp1/Png/Resources/hi.zip
 /CQ/Animation/WpfApp1/Png/Resources/cry.zip
+*.dll
