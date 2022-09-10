@@ -1,6 +1,6 @@
 ﻿Imports PixelArtist.Engine
 
-Public Class SnakeGameEngine
+Public Class SnakeGameEngine : Implements IDisposable
 
     Dim game As WorldEngine
     Dim hi As Integer
@@ -10,7 +10,7 @@ Public Class SnakeGameEngine
     Friend food As Food
 
     Friend GameOverCallback As Action(Of SnakeGameEngine)
-
+    Private disposedValue As Boolean
     Public Property CrossBodyEnable As Boolean
     Public ReadOnly Property Running As Boolean
         Get
@@ -27,9 +27,6 @@ Public Class SnakeGameEngine
     Sub New(host As FormGame)
         game = New WorldEngine(AddressOf Render, AddressOf Run, fps:=30, worldSpeed:=100)
         game.LoadScreenDevice(host.PixelScreen1)
-        game.Run()
-
-        Call PutFood()
     End Sub
 
     Private Sub PutFood()
@@ -85,6 +82,9 @@ Public Class SnakeGameEngine
         Call g.DrawString($"Score: {score}; HI: {hi}", Color.Blue, FormGame.DefaultFont, 10, 10)
     End Sub
 
+    ''' <summary>
+    ''' reset game status and then run game engine
+    ''' </summary>
     Public Sub GameReset()
         score = 0
         snake = New Snake(New Point(10, 10), 10)
@@ -96,5 +96,31 @@ Public Class SnakeGameEngine
     Private Sub GameSet()
         Call snake.Move(0, 0)
         Call game.Pause()
+    End Sub
+
+    Protected Overridable Sub Dispose(disposing As Boolean)
+        If Not disposedValue Then
+            If disposing Then
+                ' TODO: dispose managed state (managed objects)
+                Call game.Dispose()
+            End If
+
+            ' TODO: free unmanaged resources (unmanaged objects) and override finalizer
+            ' TODO: set large fields to null
+            disposedValue = True
+        End If
+    End Sub
+
+    ' ' TODO: override finalizer only if 'Dispose(disposing As Boolean)' has code to free unmanaged resources
+    ' Protected Overrides Sub Finalize()
+    '     ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
+    '     Dispose(disposing:=False)
+    '     MyBase.Finalize()
+    ' End Sub
+
+    Public Sub Dispose() Implements IDisposable.Dispose
+        ' Do not change this code. Put cleanup code in 'Dispose(disposing As Boolean)' method
+        Dispose(disposing:=True)
+        GC.SuppressFinalize(Me)
     End Sub
 End Class

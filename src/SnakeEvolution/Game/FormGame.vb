@@ -7,6 +7,7 @@ Public Class FormGame
     Private Sub FormGame_Load(sender As Object, e As EventArgs) Handles Me.Load
         Me.DoubleBuffered = True
         Me.game = New SnakeGameEngine(Me)
+        Me.game.GameReset()
     End Sub
 
     Private Sub FormGame_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
