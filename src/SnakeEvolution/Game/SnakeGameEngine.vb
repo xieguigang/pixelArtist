@@ -2,7 +2,8 @@
 
 Public Class SnakeGameEngine : Implements IDisposable
 
-    Dim game As WorldEngine
+    Friend ReadOnly game As WorldEngine
+
     Dim hi As Integer
 
     Friend score As Integer
@@ -24,7 +25,7 @@ Public Class SnakeGameEngine : Implements IDisposable
     End Property
 
     Sub New(host As FormGame)
-        game = New WorldEngine(AddressOf Render, AddressOf Run, fps:=30, worldSpeed:=250)
+        game = New WorldEngine(AddressOf Render, AddressOf Run, fps:=30, worldSpeed:=100)
         game.LoadScreenDevice(host.PixelScreen1)
     End Sub
 

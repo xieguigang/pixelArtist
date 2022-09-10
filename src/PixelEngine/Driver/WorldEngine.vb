@@ -20,8 +20,26 @@ Public Class WorldEngine
         End Get
     End Property
 
+    Public ReadOnly Property worldSpeed As Integer
+        Get
+            Return gameLoop.Periods
+        End Get
+    End Property
+
     Private disposedValue As Boolean
 
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="graphics"></param>
+    ''' <param name="controls"></param>
+    ''' <param name="mouseClick"></param>
+    ''' <param name="fps"></param>
+    ''' <param name="worldSpeed">
+    ''' the update interval of the world reactor to take action 
+    ''' commands, the greater of this number value, the slower
+    ''' of the world reactor to update
+    ''' </param>
     Sub New(graphics As Action(Of PixelGraphics), controls As Controller.FireCommand,
             Optional mouseClick As Controller.ClickObject = Nothing,
             Optional fps As Integer = 30,

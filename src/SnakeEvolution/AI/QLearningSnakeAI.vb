@@ -102,7 +102,7 @@ Public Class QLearningSnakeAI : Inherits QLearning(Of GameControl)
         Call _stat.Current.__DEBUG_ECHO
 
         ' wait for the action to take effects
-        Call Threading.Thread.Sleep(300)
+        Call Threading.Thread.Sleep(_snakeGame.game.worldSpeed * 1.125)
 
         ' Calculate the distance between the snake head and the target food
         Dim now = _snakeGame.snake.Head.Distance(_snakeGame.food.Location)
