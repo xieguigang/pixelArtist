@@ -9,7 +9,6 @@ Public Class SnakeGameEngine : Implements IDisposable
     Friend snake As New Snake(New Point(10, 10), 10)
     Friend food As Food
 
-    Friend GameOverCallback As Action(Of SnakeGameEngine)
     Private disposedValue As Boolean
     Public Property CrossBodyEnable As Boolean
     Public ReadOnly Property Running As Boolean

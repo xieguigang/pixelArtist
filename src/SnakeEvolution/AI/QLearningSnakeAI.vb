@@ -11,6 +11,7 @@ Imports stdNum = System.Math
 Public Class QLearningSnakeAI : Inherits QLearning(Of GameControl)
 
     Dim _snakeGame As SnakeGameEngine
+    Dim dist0 As Double
 
     ''' <summary>
     ''' Only 4 direction output: ``UP, DOWN, LEFT, RIGHT arrows``
@@ -22,27 +23,14 @@ Public Class QLearningSnakeAI : Inherits QLearning(Of GameControl)
         End Get
     End Property
 
-    Dim n As Integer = 10
-    Dim foodPos As Point
-
     Public Overrides ReadOnly Property GoalReached As Boolean
         Get
-            If n < 0 Then
-                n = 10
-                foodPos = _snakeGame.food.Location
-            Else
-                Dim p1 = _snakeGame.food.Location
-                Dim p2 = _snakeGame.snake.Head
+            Dim d = _snakeGame.snake.Head.Distance(_snakeGame.food.Location)
+            Dim test = d < dist0
 
-                n -= 1
+            dist0 = d
 
-                If stdNum.Abs(p1.X - p2.X) < 2 AndAlso stdNum.Abs(p1.Y - p2.Y) Then
-                    n = -1
-                    Return True
-                Else
-                    Return False
-                End If
-            End If
+            Return test
         End Get
     End Property
 
@@ -65,12 +53,14 @@ Public Class QLearningSnakeAI : Inherits QLearning(Of GameControl)
         Call MyBase.New(New QState(game), __getQTable(model))
 
         Me._snakeGame = game
-        Me._snakeGame.GameOverCallback = AddressOf __gameOver
         Me._snakeGame.CrossBodyEnable = True
     End Sub
 
-    Private Sub __gameOver(engine As SnakeGameEngine)
-        Call engine.GameReset()
+    Private Sub gameOver()
+        ' if game over then restart the game
+        Call _snakeGame.GameReset()
+        ' the snake is dead after the current action
+        ' add penalty
         Call Q.UpdateQvalue(GoalPenalty, _stat.Current)
 
         SyncLock Q
@@ -111,6 +101,7 @@ Public Class QLearningSnakeAI : Inherits QLearning(Of GameControl)
         Call _snakeGame.Invoke(action)
         Call _stat.Current.__DEBUG_ECHO
 
+        ' wait for the action to take effects
         Call Threading.Thread.Sleep(300)
 
         ' Calculate the distance between the snake head and the target food
@@ -128,8 +119,7 @@ Public Class QLearningSnakeAI : Inherits QLearning(Of GameControl)
         End If
 
         If Not _snakeGame.Running Then
-            ' if game over then restart the game
-            Call _snakeGame.GameReset()
+            Call gameOver()
         End If
     End Sub
 
