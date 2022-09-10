@@ -3,9 +3,9 @@ Imports PixelArtist.Engine
 
 Public Class QState : Inherits QState(Of GameControl)
 
-    Dim game As Snake.GameEngine
+    Dim game As SnakeGameEngine
 
-    Sub New(game As Snake.GameEngine)
+    Sub New(game As SnakeGameEngine)
         Me.game = game
     End Sub
 
@@ -15,9 +15,9 @@ Public Class QState : Inherits QState(Of GameControl)
     ''' <param name="action">当前的动作</param>
     ''' <returns></returns>
     Public Overrides Function GetNextState(action As Integer) As GameControl
-        Dim pos As Controls = Position(game.Snake.Location, game.food.Location, False)
+        Dim pos As Controls = Position(game.snake.Head, game.food.Location, False)
         Dim stat As New GameControl With {
-            .moveDIR = game.Snake.Direction,
+            .moveDIR = Direction(game.snake.speedX, game.snake.speedY),
             .position = pos
         }  ' 当前的动作加上当前的状态构成q-learn里面的一个状态
         Return stat

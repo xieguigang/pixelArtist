@@ -58,4 +58,18 @@ Public Module Geometric
 
         Return True
     End Function
+
+    Public Function Direction(dx As Integer, dy As Integer) As Controls
+        If dx > 0 AndAlso dy = 0 Then
+            Return Controls.Right
+        ElseIf dx < 0 AndAlso dy = 0 Then
+            Return Controls.Left
+        ElseIf dx = 0 AndAlso dy > 0 Then
+            Return Controls.Down
+        ElseIf dx = 0 AndAlso dy < 0 Then
+            Return Controls.Up
+        Else
+            Return Controls.NotBind
+        End If
+    End Function
 End Module

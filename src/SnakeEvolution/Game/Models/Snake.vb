@@ -4,8 +4,9 @@ Public Class Snake : Inherits CharacterModel
 
     Dim bodyX As List(Of Integer)
     Dim bodyY As List(Of Integer)
-    Dim speedX As Integer
-    Dim speedY As Integer
+
+    Friend speedX As Integer
+    Friend speedY As Integer
 
     Public ReadOnly Property Head As Point
         Get
