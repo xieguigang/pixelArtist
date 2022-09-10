@@ -1,6 +1,7 @@
 ﻿Imports Microsoft.VisualBasic.DataMining.QLearning
 Imports Microsoft.VisualBasic.GamePads
 Imports Microsoft.VisualBasic.GamePads.EngineParts
+Imports PixelArtist.Engine
 
 ''' <summary>
 ''' Environment state inputs

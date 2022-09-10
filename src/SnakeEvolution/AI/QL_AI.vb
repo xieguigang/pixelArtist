@@ -2,9 +2,11 @@
 Imports Microsoft.VisualBasic.DataMining.QLearning.DataModel
 Imports Microsoft.VisualBasic.GamePads.EngineParts
 Imports Microsoft.VisualBasic.MachineLearning.QLearning
+Imports Microsoft.VisualBasic.MachineLearning.QLearning.DataModel
 Imports Microsoft.VisualBasic.Mathematical
 Imports Microsoft.VisualBasic.Serialization
 Imports Microsoft.VisualBasic.Serialization.JSON
+Imports PixelArtist.Engine
 
 ''' <summary>
 ''' The Q-Learning AI engine of this snake game
