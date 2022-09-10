@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.MachineLearning.QLearning
 Imports Microsoft.VisualBasic.MachineLearning.QLearning.DataModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports PixelArtist.Engine
+Imports stdNum = System.Math
 
 ''' <summary>
 ''' The Q-Learning AI engine of this snake game
@@ -10,7 +11,6 @@ Imports PixelArtist.Engine
 Public Class QLearningSnakeAI : Inherits QLearning(Of GameControl)
 
     Dim _snakeGame As SnakeGameEngine
-    Dim _score As Integer
 
     ''' <summary>
     ''' Only 4 direction output: ``UP, DOWN, LEFT, RIGHT arrows``
@@ -22,13 +22,26 @@ Public Class QLearningSnakeAI : Inherits QLearning(Of GameControl)
         End Get
     End Property
 
+    Dim n As Integer = 10
+    Dim foodPos As Point
+
     Public Overrides ReadOnly Property GoalReached As Boolean
         Get
-            If _score < _snakeGame.score Then
-                _score = _snakeGame.score
-                Return True
+            If n < 0 Then
+                n = 10
+                foodPos = _snakeGame.food.Location
             Else
-                Return False
+                Dim p1 = _snakeGame.food.Location
+                Dim p2 = _snakeGame.snake.Head
+
+                n -= 1
+
+                If stdNum.Abs(p1.X - p2.X) < 2 AndAlso stdNum.Abs(p1.Y - p2.Y) Then
+                    n = -1
+                    Return True
+                Else
+                    Return False
+                End If
             End If
         End Get
     End Property
@@ -59,8 +72,6 @@ Public Class QLearningSnakeAI : Inherits QLearning(Of GameControl)
     Private Sub __gameOver(engine As SnakeGameEngine)
         Call engine.GameReset()
         Call Q.UpdateQvalue(GoalPenalty, _stat.Current)
-
-        _score = 0
 
         SyncLock Q
             Call New QModel(Q).GetJson.SaveTo(App.AppSystemTemp & $"/{Now.ToString.NormalizePathString}.json")
