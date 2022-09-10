@@ -1,5 +1,9 @@
-﻿Imports Microsoft.VisualBasic.Imaging
+﻿Imports System.Runtime.CompilerServices
+Imports Microsoft.VisualBasic.Imaging
 
+''' <summary>
+''' the screen device
+''' </summary>
 Public Class PixelGraphics
 
     ReadOnly driver As IGraphics
@@ -20,17 +24,22 @@ Public Class PixelGraphics
         Me.driver = driver
     End Sub
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Sub Clear(backColor As Color)
         Call driver.Clear(backColor)
     End Sub
 
     Public Function SetScreenResolution(res As Size) As PixelGraphics
         _Resolution = res
-        _pixel = New SizeF(driver.Size.Width / Resolution.Width, driver.Size.Height / Resolution.Height)
+        _pixel = New SizeF(
+            width:=driver.Size.Width / Resolution.Width,
+            height:=driver.Size.Height / Resolution.Height
+        )
 
         Return Me
     End Function
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Function SetScreenResolution(width As Integer, height As Integer) As PixelGraphics
         Return SetScreenResolution(New Size(width, height))
     End Function
@@ -50,6 +59,12 @@ Public Class PixelGraphics
         Call driver.FillRectangle(New SolidBrush(color), rect:=pixel)
     End Sub
 
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
+    Public Sub DrawString(text As String, color As Color, face As Font, x As Double, y As Double)
+        Call driver.DrawString(text, face, New SolidBrush(color), New PointF(x, y))
+    End Sub
+
+    <MethodImpl(MethodImplOptions.AggressiveInlining)>
     Public Shared Function FromGdiDevice(dev As Graphics, canvas As Size) As PixelGraphics
         Return New PixelGraphics(New Graphics2D(dev, canvas))
     End Function

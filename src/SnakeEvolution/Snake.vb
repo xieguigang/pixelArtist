@@ -26,10 +26,18 @@ Public Class Snake : Inherits CharacterModel
         Next
     End Sub
 
+    ''' <summary>
+    ''' move current model on game loop tick
+    ''' </summary>
     Public Sub Move()
         Call Move(speedX, speedY)
     End Sub
 
+    ''' <summary>
+    ''' set move speed in directions
+    ''' </summary>
+    ''' <param name="dx"></param>
+    ''' <param name="dy"></param>
     Public Sub Move(dx As Integer, dy As Integer)
         Dim xi As Integer = bodyX(0)
         Dim yi As Integer = bodyY(0)
@@ -55,11 +63,18 @@ Public Class Snake : Inherits CharacterModel
         Next
     End Sub
 
+    ''' <summary>
+    ''' extend the snak body when eat a food
+    ''' </summary>
     Public Sub Extend()
         bodyX.Add(bodyX.Last - speedX)
         bodyY.Add(bodyY.Last - speedY)
     End Sub
 
+    ''' <summary>
+    ''' do model rendering
+    ''' </summary>
+    ''' <param name="g"></param>
     Public Overrides Sub Draw(g As PixelGraphics)
         For i As Integer = 0 To bodyX.Count - 1
             Call g.DrawPixel(bodyX(i), bodyY(i))
