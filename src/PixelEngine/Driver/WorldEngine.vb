@@ -12,8 +12,8 @@ Public Class WorldEngine
     Dim gameLoop As UpdateThread
     Dim models As New List(Of CharacterModel)
 
-    Friend screen As PixelScreen
-    Friend controller As Controller
+    Public ReadOnly Property screen As PixelScreen
+    Public ReadOnly Property controller As Controller
 
     Private disposedValue As Boolean
 
@@ -47,7 +47,7 @@ Public Class WorldEngine
     End Sub
 
     Public Function LoadScreenDevice(screen As PixelScreen) As WorldEngine
-        Me.screen = screen
+        _screen = screen
         Return Me
     End Function
 
