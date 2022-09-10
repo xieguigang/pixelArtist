@@ -5,6 +5,7 @@
     <UseWindowsForms>true</UseWindowsForms>
     <AssemblyName>PixelArtist.Engine</AssemblyName>
     <RootNamespace>PixelArtist.Engine</RootNamespace>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
