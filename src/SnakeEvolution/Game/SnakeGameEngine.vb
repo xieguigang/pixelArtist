@@ -18,6 +18,12 @@ Public Class SnakeGameEngine
         End Get
     End Property
 
+    Public ReadOnly Property ControlsMap As Controller
+        Get
+            Return game.controller
+        End Get
+    End Property
+
     Sub New(host As FormGame)
         game = New WorldEngine(AddressOf Render, AddressOf Run, fps:=30, worldSpeed:=100)
         game.LoadScreenDevice(host.PixelScreen1)

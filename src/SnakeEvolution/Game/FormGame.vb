@@ -2,7 +2,7 @@
 
 Public Class FormGame
 
-    Dim game As SnakeGameEngine
+    Friend game As SnakeGameEngine
 
     Private Sub FormGame_Load(sender As Object, e As EventArgs) Handles Me.Load
         Me.DoubleBuffered = True

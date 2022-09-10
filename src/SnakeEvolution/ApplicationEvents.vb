@@ -1,4 +1,6 @@
 ﻿Imports Microsoft.VisualBasic.ApplicationServices
+Imports Microsoft.VisualBasic.MachineLearning.QLearning.DataModel
+Imports Microsoft.VisualBasic.Parallel
 
 Namespace My
     ' The following events are available for MyApplication:
@@ -25,5 +27,25 @@ Namespace My
 
     Partial Friend Class MyApplication
 
+        Public Overloads Shared Function Run(ai As QModel) As Integer
+            Dim game = New FormGame
+
+            Call RunTask(AddressOf game.ShowDialog)
+
+            Do While game.game Is Nothing OrElse game.game.Running = False
+                Threading.Thread.Sleep(1)
+            Loop
+
+            Dim q As New QLearningSnakeAI(game.game, ai)
+            game.game.ControlsMap.Enable = False
+
+            Call RunTask(AddressOf New FormQLViewer With {.Table = q.Q}.ShowDialog)
+            Call q.RunLearningLoop(Integer.MaxValue)
+            Return 0
+        End Function
+
+        Public Shared Function RunFresh() As Integer
+            Return Run(ai:=Nothing)
+        End Function
     End Class
 End Namespace
