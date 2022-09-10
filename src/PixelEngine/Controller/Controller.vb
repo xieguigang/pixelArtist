@@ -9,13 +9,14 @@ Public Class Controller
     ''' (输入映射，将键盘按键映射为游戏内部的动作信号)
     ''' </summary>
     ''' <returns></returns>
-    Public ReadOnly Property ControlMaps As New ControlMaps
+    Public ReadOnly Property ControlMaps As ControlMaps
     Public Property Enable As Boolean = True
 
     Dim engine As WorldEngine
 
     Sub New(engine As WorldEngine)
         Me.engine = engine
+        Me.ControlMaps = ControlMaps.DefaultMaps
     End Sub
 
     ''' <summary>

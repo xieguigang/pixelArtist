@@ -1,4 +1,5 @@
-﻿''' <summary>
+﻿Imports Microsoft.VisualBasic.Text
+''' <summary>
 ''' 键盘对游戏内部动作的映射绑定
 ''' </summary>
 Public Class ControlMaps
@@ -27,6 +28,9 @@ Public Class ControlMaps
     ''' <param name="key"></param>
     ''' <returns></returns>
     Public Function GetMapAction(key As Char) As Controls
+        If key = ASCII.NUL Then
+            Return Controls.NotBind
+        End If
         If Not Maps.ContainsKey(key) Then
             Return Controls.NotBind
         Else
@@ -39,7 +43,11 @@ Public Class ControlMaps
     ''' </summary>
     ''' <param name="maps"></param>
     ''' <returns></returns>
-    Public Shared Function DefaultMaps(ByRef maps As ControlMaps) As ControlMaps
+    Public Shared Function DefaultMaps(Optional ByRef maps As ControlMaps = Nothing) As ControlMaps
+        If maps Is Nothing Then
+            maps = New ControlMaps
+        End If
+
         Call maps.BindMapping("w"c, Controls.Up)
         Call maps.BindMapping("s"c, Controls.Down)
         Call maps.BindMapping("a"c, Controls.Left)
