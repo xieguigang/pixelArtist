@@ -3,7 +3,6 @@ Imports Microsoft.VisualBasic.MachineLearning.QLearning
 Imports Microsoft.VisualBasic.MachineLearning.QLearning.DataModel
 Imports Microsoft.VisualBasic.Serialization.JSON
 Imports PixelArtist.Engine
-Imports stdNum = System.Math
 
 ''' <summary>
 ''' The Q-Learning AI engine of this snake game
