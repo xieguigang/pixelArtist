@@ -73,17 +73,18 @@ Public Class ANNLearnSnakeAI
         ' Calculate the distance between the snake head and the target food
         Dim now = game.snake.Head.Distance(game.food.Location)
 
-        If now < pre Then
+        If now <= pre Then
             ' If the distance result of the new action compare with the previous
             ' action is getting smaller, then rewards the AI 
             ' 与前一个状态相比距离变小了，则奖励
-            controls = output.Select(Function(n) If(n.Value > 0.5, 1.0, 0.0)).ToArray
+            controls = output.Select(Function(n, j) If(j = index, 1.0, 0.0)).ToArray
             core.BackPropagate(controls, parallel:=True)
         Else
             ' Else if larger the distance, penalty
             ' just press a random bottom on the game pad?
-            ' controls = New Double(4 - 1) {}
-            ' controls(randf.NextInteger(4)) = 1
+            controls = New Double(4 - 1) {}
+            controls(randf.NextInteger(4)) = 1
+            core.BackPropagate(controls, parallel:=True)
         End If
 
         If Not game.Running Then
