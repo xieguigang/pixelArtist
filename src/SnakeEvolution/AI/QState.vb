@@ -8,6 +8,30 @@ Public Class QState : Inherits QState(Of GameControl)
 
     Dim game As SnakeGameEngine
 
+    Public Overrides ReadOnly Iterator Property stateFeatures As IEnumerable(Of String)
+        Get
+            Yield "position"
+            Yield "move_dir"
+            Yield "wall_top"
+            Yield "wall_bottom"
+            Yield "wall_left"
+            Yield "wall_right"
+            Yield "food_top"
+            Yield "food_left"
+            Yield "food_right"
+            Yield "food_bottom"
+        End Get
+    End Property
+
+    Public Overrides ReadOnly Iterator Property QValueNames As IEnumerable(Of String)
+        Get
+            Yield "up"
+            Yield "down"
+            Yield "left"
+            Yield "right"
+        End Get
+    End Property
+
     Sub New(game As SnakeGameEngine)
         Me.game = game
     End Sub
@@ -46,5 +70,23 @@ Public Class QState : Inherits QState(Of GameControl)
         }
 
         Return stat
+    End Function
+
+    Public Overrides Function ExtractStateVector(stat As Object) As Double()
+        Dim obj As GameControl = stat
+        Dim vec As Double() = New Double(10 - 1) {}
+
+        vec(0) = obj.position
+        vec(1) = obj.moveDIR
+        vec(2) = obj.wallTop
+        vec(3) = obj.wallBottom
+        vec(4) = obj.wallLeft
+        vec(5) = obj.wallRight
+        vec(6) = obj.foodWallTop
+        vec(7) = obj.foodWallLeft
+        vec(8) = obj.foodWallRight
+        vec(9) = obj.foodWallBottom
+
+        Return vec
     End Function
 End Class
