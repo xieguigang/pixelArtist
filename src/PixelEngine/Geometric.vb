@@ -7,7 +7,7 @@ Public Module Geometric
     ''' </summary>
     ''' <param name="a"></param>
     ''' <param name="b"></param>
-    ''' <returns></returns>
+    ''' <returns>8 relative positions</returns>
     <Extension>
     Public Function Position(a As Point, b As Point, Optional max As Boolean = False) As Controls
         Dim v, h As Controls
@@ -59,6 +59,12 @@ Public Module Geometric
         Return True
     End Function
 
+    ''' <summary>
+    ''' 4 directions
+    ''' </summary>
+    ''' <param name="dx"></param>
+    ''' <param name="dy"></param>
+    ''' <returns></returns>
     Public Function Direction(dx As Integer, dy As Integer) As Controls
         If dx > 0 AndAlso dy = 0 Then
             Return Controls.Right
