@@ -26,6 +26,8 @@ Partial Class FormGame
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.GameToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PlayByAIToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.QLearningToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ANNLearningToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -60,9 +62,22 @@ Partial Class FormGame
         'PlayByAIToolStripMenuItem
         '
         Me.PlayByAIToolStripMenuItem.CheckOnClick = True
+        Me.PlayByAIToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.QLearningToolStripMenuItem, Me.ANNLearningToolStripMenuItem})
         Me.PlayByAIToolStripMenuItem.Name = "PlayByAIToolStripMenuItem"
         Me.PlayByAIToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.PlayByAIToolStripMenuItem.Text = "Play By AI"
+        '
+        'QLearningToolStripMenuItem
+        '
+        Me.QLearningToolStripMenuItem.Name = "QLearningToolStripMenuItem"
+        Me.QLearningToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.QLearningToolStripMenuItem.Text = "Q-Learning"
+        '
+        'ANNLearningToolStripMenuItem
+        '
+        Me.ANNLearningToolStripMenuItem.Name = "ANNLearningToolStripMenuItem"
+        Me.ANNLearningToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ANNLearningToolStripMenuItem.Text = "ANN Learning"
         '
         'FormGame
         '
@@ -85,4 +100,6 @@ Partial Class FormGame
     Friend WithEvents MenuStrip1 As MenuStrip
     Friend WithEvents GameToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents PlayByAIToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents QLearningToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ANNLearningToolStripMenuItem As ToolStripMenuItem
 End Class
