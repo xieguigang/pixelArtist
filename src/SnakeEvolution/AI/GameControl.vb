@@ -19,12 +19,17 @@ Public Structure GameControl : Implements ICloneable
     Dim wallBottom As Byte
     Dim wallLeft As Byte
 
+    Dim foodWallTop As Byte
+    Dim foodWallRight As Byte
+    Dim foodWallBottom As Byte
+    Dim foodWallLeft As Byte
+
     ''' <summary>
     ''' hash key for the QTable
     ''' </summary>
     ''' <returns></returns>
     Public Overrides Function ToString() As String
-        Return $"{CInt(position)},{vbTab}{CInt(moveDIR)} {wallTop}{wallRight}{wallBottom}{wallLeft}"
+        Return $"{CInt(position)},{vbTab}{CInt(moveDIR)} {wallTop}{wallRight}{wallBottom}{wallLeft} {foodWallTop}{foodWallRight}{foodWallBottom}{foodWallLeft}"
     End Function
 
     Public Function Clone() As Object Implements ICloneable.Clone
@@ -34,7 +39,11 @@ Public Structure GameControl : Implements ICloneable
             .wallLeft = wallLeft,
             .wallBottom = wallBottom,
             .wallRight = wallRight,
-            .wallTop = wallTop
+            .wallTop = wallTop,
+            .foodWallLeft = foodWallLeft,
+            .foodWallBottom = foodWallBottom,
+            .foodWallRight = foodWallRight,
+            .foodWallTop = foodWallTop
         }
     End Function
 End Structure

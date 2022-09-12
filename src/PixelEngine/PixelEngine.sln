@@ -23,6 +23,8 @@ Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "DataMining.NET5", "..\frame
 EndProject
 Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "machine_learning-netcore5", "..\framework\Data_science\MachineLearning\MachineLearning\machine_learning-netcore5.vbproj", "{A8BD1647-DA95-4139-9B26-8DCC2FE955AE}"
 EndProject
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "DeepLearning.NET6", "..\framework\Data_science\MachineLearning\DeepLearning\DeepLearning.NET6.vbproj", "{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -299,6 +301,38 @@ Global
 		{A8BD1647-DA95-4139-9B26-8DCC2FE955AE}.Rsharp_app_release|Any CPU.Build.0 = Rsharp_app_release|Any CPU
 		{A8BD1647-DA95-4139-9B26-8DCC2FE955AE}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
 		{A8BD1647-DA95-4139-9B26-8DCC2FE955AE}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.Debug|x64.ActiveCfg = Debug|x64
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.Debug|x64.Build.0 = Debug|x64
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.LipidSearch|Any CPU.ActiveCfg = LipidSearch|Any CPU
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.LipidSearch|Any CPU.Build.0 = LipidSearch|Any CPU
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.LipidSearch|x64.ActiveCfg = LipidSearch|x64
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.LipidSearch|x64.Build.0 = LipidSearch|x64
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.mzkit_win32|Any CPU.ActiveCfg = mzkit_win32|Any CPU
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.mzkit_win32|Any CPU.Build.0 = mzkit_win32|Any CPU
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.mzkit_win32|x64.ActiveCfg = mzkit_win32|x64
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.mzkit_win32|x64.Build.0 = mzkit_win32|x64
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.mzkit|Any CPU.ActiveCfg = mzkit|Any CPU
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.mzkit|Any CPU.Build.0 = mzkit|Any CPU
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.mzkit|x64.ActiveCfg = mzkit|x64
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.mzkit|x64.Build.0 = mzkit|x64
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.NPSearch|Any CPU.ActiveCfg = Debug|Any CPU
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.NPSearch|Any CPU.Build.0 = Debug|Any CPU
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.NPSearch|x64.ActiveCfg = Debug|x64
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.NPSearch|x64.Build.0 = Debug|x64
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.PlantMAT|Any CPU.ActiveCfg = Debug|Any CPU
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.PlantMAT|Any CPU.Build.0 = Debug|Any CPU
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.PlantMAT|x64.ActiveCfg = Debug|x64
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.PlantMAT|x64.Build.0 = Debug|x64
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.Release|x64.ActiveCfg = Release|x64
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.Release|x64.Build.0 = Release|x64
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.Rsharp_app_release|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.Rsharp_app_release|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -311,6 +345,7 @@ Global
 		{BE684798-F7F2-485A-A427-30A91F9A8794} = {91D5864B-8272-4711-B973-F91E44A3662F}
 		{A30AFF25-CBBD-46B4-AE10-36CAA7B09EE2} = {BE684798-F7F2-485A-A427-30A91F9A8794}
 		{A8BD1647-DA95-4139-9B26-8DCC2FE955AE} = {BE684798-F7F2-485A-A427-30A91F9A8794}
+		{56BC3364-D6E2-4B00-9F65-FAC4B9EC10DE} = {BE684798-F7F2-485A-A427-30A91F9A8794}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EBB9D25F-356F-43FB-9189-AF9995F12F1C}
