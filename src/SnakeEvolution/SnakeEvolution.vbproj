@@ -16,10 +16,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\framework\Data\BinaryData\BinaryData\binarydata-netcore5.vbproj" />
+    <ProjectReference Include="..\framework\Data\BinaryData\netCDF\netCDF.vbproj" />
+    <ProjectReference Include="..\framework\Data\DataFrame\dataframework-netcore5.vbproj" />
     <ProjectReference Include="..\framework\Data_science\DataMining\DataMining\DataMining.NET5.vbproj" />
     <ProjectReference Include="..\framework\Data_science\MachineLearning\DeepLearning\DeepLearning.NET6.vbproj" />
+    <ProjectReference Include="..\framework\Data_science\MachineLearning\MachineLearning.Data.Extensions\MachineLearning.Data.Extensions.vbproj" />
     <ProjectReference Include="..\framework\Data_science\MachineLearning\MachineLearning\machine_learning-netcore5.vbproj" />
+    <ProjectReference Include="..\framework\Data_science\Mathematica\Math\DataFrame\dataframeUtils-netcore5.vbproj" />
+    <ProjectReference Include="..\framework\Data_science\Mathematica\Math\Math.Statistics\stats-netcore5.vbproj" />
     <ProjectReference Include="..\framework\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\framework\Data_science\Visualization\Plots\plots-netcore5.vbproj" />
     <ProjectReference Include="..\framework\gr\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj" />
     <ProjectReference Include="..\framework\Microsoft.VisualBasic.Core\src\Core.vbproj" />
     <ProjectReference Include="..\framework\mime\text%html\html_netcore5.vbproj" />

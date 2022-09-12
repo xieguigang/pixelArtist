@@ -20,26 +20,18 @@ Public Class FormGame
         Call PixelScreen1.CallKeyPress(sender, e)
     End Sub
 
-    Private Sub PlayByAIToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PlayByAIToolStripMenuItem.Click
+    Private Sub PlayByAIToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PlayByAIToolStripMenuItem.Click, QLearningToolStripMenuItem.Click
         Call New Thread(
             Sub()
-                Dim q As New QLearningSnakeAI(game)
+                Dim scoreChart As New FormPlotViewer
+                Dim q As New QLearningSnakeAI(game, Nothing, scoreChart)
+
                 game.ControlsMap.Enable = False
 
                 Call RunTask(AddressOf New FormQLViewer With {.Table = q.Q}.ShowDialog)
+                Call RunTask(AddressOf scoreChart.ShowDialog)
                 Call q.RunLearningLoop(Integer.MaxValue)
             End Sub).Start()
-    End Sub
-
-    Private Sub QLearningToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles QLearningToolStripMenuItem.Click
-        Call New Thread(
-           Sub()
-               Dim q As New QLearningSnakeAI(game)
-               game.ControlsMap.Enable = False
-
-               Call RunTask(AddressOf New FormQLViewer With {.Table = q.Q}.ShowDialog)
-               Call q.RunLearningLoop(Integer.MaxValue)
-           End Sub).Start()
     End Sub
 
     Private Sub ANNLearningToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ANNLearningToolStripMenuItem.Click

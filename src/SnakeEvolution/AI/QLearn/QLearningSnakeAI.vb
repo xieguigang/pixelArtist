@@ -11,6 +11,8 @@ Public Class QLearningSnakeAI : Inherits QLearning(Of GameControl)
 
     Dim _snakeGame As SnakeGameEngine
     Dim dist0 As Double
+    Dim scores As New List(Of Double)
+    Dim _chart As FormPlotViewer
 
     ''' <summary>
     ''' Only 4 direction output: ``UP, DOWN, LEFT, RIGHT arrows``
@@ -48,16 +50,27 @@ Public Class QLearningSnakeAI : Inherits QLearning(Of GameControl)
     ''' <param name="model">
     ''' Using the exists AI training result to initialize this engine
     ''' </param>
-    Sub New(game As SnakeGameEngine, Optional model As QModel = Nothing)
+    Sub New(game As SnakeGameEngine, Optional model As QModel = Nothing, Optional chart As FormPlotViewer = Nothing)
         Call MyBase.New(New QState(game), __getQTable(model))
 
+        Me._chart = chart
         Me._snakeGame = game
         Me._snakeGame.CrossBodyEnable = True
     End Sub
 
     Private Sub gameOver()
         ' if game over then restart the game
+        Call scores.Add(_snakeGame.score)
         Call _snakeGame.GameReset()
+        Call _chart.Invoke(
+            Sub()
+                Try
+                    Call _chart.PlotScore(scores)
+                Catch ex As Exception
+
+                End Try
+            End Sub)
+
         ' the snake is dead after the current action
         ' add penalty
         Call Q.UpdateQvalue(GoalPenalty, _stat.Current)
