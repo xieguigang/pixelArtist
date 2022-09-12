@@ -35,7 +35,7 @@ Public Class ANNLearnSnakeAI
         Call stat.SetState(stat.GetNextState(Nothing))
 
         Dim v As Double() = stat.Current.ToVector
-        Dim output = core.ForwardPropagate(v, parallel:=False)
+        Dim output = core.ForwardPropagate(v, parallel:=True)
         Dim controls = output.Select(Function(n) If(n.Value < 0.5, 0, n.Value)).ToArray
         Dim index = which.Max(controls)
         Dim action As Controls = PixelArtist.Engine.Controls.NotBind
@@ -78,14 +78,13 @@ Public Class ANNLearnSnakeAI
             ' action is getting smaller, then rewards the AI 
             ' 与前一个状态相比距离变小了，则奖励
             controls = output.Select(Function(n) If(n.Value > 0.5, 1.0, 0.0)).ToArray
+            core.BackPropagate(controls, parallel:=True)
         Else
             ' Else if larger the distance, penalty
             ' just press a random bottom on the game pad?
-            controls = New Double(4 - 1) {}
-            controls(randf.NextInteger(4)) = 1
+            ' controls = New Double(4 - 1) {}
+            ' controls(randf.NextInteger(4)) = 1
         End If
-
-        core.BackPropagate(controls, parallel:=False)
 
         If Not game.Running Then
             Call gameOver()
@@ -95,5 +94,6 @@ Public Class ANNLearnSnakeAI
     Private Sub gameOver()
         ' if game over then restart the game
         Call game.GameReset()
+        game.snake.Move(1, 0)
     End Sub
 End Class
