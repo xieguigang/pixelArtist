@@ -96,8 +96,16 @@ Public Class Snake : Inherits CharacterModel
     ''' </summary>
     ''' <param name="g"></param>
     Public Overrides Sub Draw(g As PixelGraphics)
-        For i As Integer = 0 To bodyX.Count - 1
-            Call g.DrawPixel(bodyX(i), bodyY(i))
-        Next
+        SyncLock bodyX
+            SyncLock bodyY
+                Try
+                    For i As Integer = 0 To bodyX.Count - 1
+                        Call g.DrawPixel(bodyX(i), bodyY(i))
+                    Next
+                Catch ex As Exception
+
+                End Try
+            End SyncLock
+        End SyncLock
     End Sub
 End Class

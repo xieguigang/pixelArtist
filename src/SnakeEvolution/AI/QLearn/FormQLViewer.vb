@@ -1,4 +1,5 @@
-﻿Imports System.Timers
+﻿Imports System.ComponentModel
+Imports System.Timers
 Imports Microsoft.VisualBasic.Linq
 Imports Microsoft.VisualBasic.MachineLearning.QLearning
 Imports Microsoft.VisualBasic.MachineLearning.QLearning.DataModel
@@ -37,5 +38,9 @@ Public Class FormQLViewer
     <STAThreadAttribute>
     Private Sub SaveCurrentMatrixToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SaveCurrentMatrixToolStripMenuItem.Click
         Call New QModel(Table).GetJson(True).SaveTo(App.HOME & "/snake_QL_AI.json")
+    End Sub
+
+    Private Sub FormQLViewer_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+        e.Cancel = True
     End Sub
 End Class
