@@ -1,4 +1,11 @@
 ﻿Namespace raytracing.math
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <remarks>
+    ''' https://github.com/carl-vbn/pure-java-raytracer
+    ''' </remarks>
     Public Class Ray
         Private originField As Vector3
         Private directionField As Vector3
