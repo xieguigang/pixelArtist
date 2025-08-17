@@ -147,9 +147,9 @@ Partial Class FormQLViewer
 
     End Sub
 
-    Friend WithEvents TextBox1 As Windows.Forms.TextBox
-    Friend WithEvents Panel1 As Windows.Forms.Panel
-    Friend WithEvents Label1 As Windows.Forms.Label
+    Friend WithEvents TextBox1 As TextBox
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents Label1 As Label
     Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
     Friend WithEvents FileToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem

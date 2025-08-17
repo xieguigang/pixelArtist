@@ -1,11 +1,12 @@
 ﻿Imports System.ComponentModel
-Imports System.Drawing.Drawing2D
 Imports Microsoft.VisualBasic.Data.ChartPlots
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
 Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
 Imports Microsoft.VisualBasic.Data.ChartPlots.Plots
+Imports Microsoft.VisualBasic.Drawing
 Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Math.Interpolation
+Imports DashStyle = System.Drawing.Drawing2D.DashStyle
 
 Public Class FormPlotViewer
 
@@ -30,7 +31,7 @@ Public Class FormPlotViewer
         }
         Dim image = app.Plot("2500,1600").AsGDIImage
 
-        PictureBox1.BackgroundImage = image
+        PictureBox1.BackgroundImage = image.CTypeImage
     End Sub
 
     Private Sub FormPlotViewer_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing

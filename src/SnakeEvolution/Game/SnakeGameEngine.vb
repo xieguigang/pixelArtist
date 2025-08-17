@@ -77,9 +77,11 @@ Public Class SnakeGameEngine : Implements IDisposable
     End Sub
 
     Private Sub Render(g As PixelGraphics)
+        Dim font As New Microsoft.VisualBasic.Imaging.Font(FormGame.DefaultFont.Name, FormGame.DefaultFont.Size, FormGame.DefaultFont.Style)
+
         Call snake.Draw(g)
         Call food.Draw(g)
-        Call g.DrawString($"Score: {score}; HI: {hi}", Color.Blue, FormGame.DefaultFont, 10, 10)
+        Call g.DrawString($"Score: {score}; HI: {hi}", Color.Blue, font, 10, 10)
     End Sub
 
     ''' <summary>
