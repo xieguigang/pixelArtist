@@ -13,8 +13,8 @@ Namespace raytracing.solids
             Me.radius = radius
         End Sub
 
-        Public Overrides Function calculateIntersection(ray As Ray) As Vector3
-            Dim t = Vector3.dot(positionField.subtract(ray.Origin), ray.Direction)
+        Public Overrides Function calculateIntersection(ray As Ray) As Vector3?
+            Dim t = Vector3.Dot(positionField.subtract(ray.Origin), ray.Direction)
             Dim p = ray.Origin.add(ray.Direction.multiply(t))
 
             Dim y As Single = positionField.subtract(p).length()

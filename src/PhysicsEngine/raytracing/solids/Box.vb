@@ -16,13 +16,13 @@ Namespace raytracing.solids
             min = position.subtract(scale.multiply(0.5F))
         End Sub
 
-        Public Overrides Function calculateIntersection(ray As Ray) As Vector3
+        Public Overrides Function calculateIntersection(ray As Ray) As Vector3?
             Dim t1, t2, temp As Single, tnear = Single.NegativeInfinity, tfar = Single.PositiveInfinity
             Dim intersectFlag = True
-            Dim rayDirection As Single() = ray.Direction.toArray()
-            Dim rayOrigin As Single() = ray.Origin.toArray()
-            Dim b1 As Single() = min.toArray()
-            Dim b2 As Single() = max.toArray()
+            Dim rayDirection As Single() = ray.Direction.ToArray()
+            Dim rayOrigin As Single() = ray.Origin.ToArray()
+            Dim b1 As Single() = min.ToArray()
+            Dim b2 As Single() = max.ToArray()
 
             For i = 0 To 2
                 If rayDirection(i) = 0 Then

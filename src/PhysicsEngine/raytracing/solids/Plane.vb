@@ -13,7 +13,7 @@ Namespace raytracing.solids
             Me.checkerPattern = checkerPattern
         End Sub
 
-        Public Overrides Function calculateIntersection(ray As Ray) As Vector3
+        Public Overrides Function calculateIntersection(ray As Ray) As Vector3?
             Dim t = -(ray.Origin.Y - positionField.Y) / ray.Direction.Y
             If t > 0 AndAlso Single.IsFinite(t) Then
                 Return ray.Origin.add(ray.Direction.multiply(t))

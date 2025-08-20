@@ -3,6 +3,7 @@ Imports Microsoft.VisualBasic.Math
 Imports PhysicsEngine.raytracing.math
 Imports PhysicsEngine.raytracing.pixeldata
 Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
+Imports Vector3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 
 Namespace raytracing.rendering
 

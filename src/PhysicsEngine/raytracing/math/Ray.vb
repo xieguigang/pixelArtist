@@ -1,4 +1,5 @@
-﻿Imports Vector3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
+﻿Imports Microsoft.VisualBasic.Imaging.Drawing3D.Models
+Imports Vector3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 
 Namespace raytracing.math
 
@@ -9,6 +10,7 @@ Namespace raytracing.math
     ''' https://github.com/carl-vbn/pure-java-raytracer
     ''' </remarks>
     Public Class Ray
+
         Private originField As Vector3
         Private directionField As Vector3
 
@@ -21,8 +23,8 @@ Namespace raytracing.math
             directionField = direction
         End Sub
 
-        Public Overridable Function asLine(length As Single) As Line
-            Return New Line(originField, originField.add(directionField.multiply(length)))
+        Public Overridable Function asLine(length As Single) As Line3D
+            Return New Line3D(originField, originField.add(directionField.multiply(length)))
         End Function
 
         Public Overridable ReadOnly Property Origin As Vector3

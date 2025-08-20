@@ -17,7 +17,14 @@ Namespace raytracing.solids
             emissionField = emission
         End Sub
 
-        Public MustOverride Function calculateIntersection(ray As Ray) As Vector3
+        ''' <summary>
+        ''' 
+        ''' </summary>
+        ''' <param name="ray"></param>
+        ''' <returns>
+        ''' nothing means no intersection, otherwise the intersection point of the ray with the solid.
+        ''' </returns>
+        Public MustOverride Function calculateIntersection(ray As Ray) As Vector3?
         Public MustOverride Function getNormalAt(point As Vector3) As Vector3
 
         Public Overridable ReadOnly Property Position As Vector3
