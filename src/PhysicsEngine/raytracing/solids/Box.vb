@@ -1,12 +1,13 @@
 ﻿Imports PhysicsEngine.raytracing.math
 Imports PhysicsEngine.raytracing.pixeldata
+Imports Vector3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 
 Namespace raytracing.solids
 
     ' Adapted from:
     ' http://ray-tracing-conept.blogspot.com/2015/01/ray-box-intersection-and-normal.html
-    Public Class Box
-        Inherits Solid
+    Public Class Box : Inherits Solid
+
         Private min, max As Vector3
 
         Public Sub New(position As Vector3, scale As Vector3, color As Color, reflectivity As Single, emission As Single)

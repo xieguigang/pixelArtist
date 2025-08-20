@@ -29,7 +29,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\framework\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\framework\gr\Microsoft.VisualBasic.Imaging\imaging.NET5.vbproj" />
     <ProjectReference Include="..\framework\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+    <ProjectReference Include="..\framework\mime\text%html\html_netcore5.vbproj" />
   </ItemGroup>
 
 </Project>

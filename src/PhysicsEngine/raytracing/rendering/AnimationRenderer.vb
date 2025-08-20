@@ -1,7 +1,6 @@
 ﻿Imports System.IO
-Imports PhysicsEngine.raytracing.math
 Imports BufferedImage = Microsoft.VisualBasic.Imaging.BitmapImage.BitmapBuffer
-
+Imports Vector3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 
 Namespace raytracing.rendering
 
