@@ -1,11 +1,13 @@
 ﻿Namespace  raytracing.pixeldata
     Public Class GaussianBlur
+
         Private kernel As Single()
-        Private pixelBufferField As PixelBuffer
         Private width, height As Integer
 
+        Public Overridable ReadOnly Property PixelBuffer As PixelBuffer
+
         Public Sub New(pixelBuffer As PixelBuffer)
-            pixelBufferField = pixelBuffer
+            _PixelBuffer = pixelBuffer
             width = pixelBuffer.Width
             height = pixelBuffer.Height
 
@@ -18,11 +20,11 @@
             For y = 0 To height - 1
                 For x = 0 To width - 1
                     Dim blurredColor As Color = New Color(0, 0, 0)
-                    Dim originalPixel = pixelBufferField.getPixel(x, y)
+                    Dim originalPixel = PixelBuffer.getPixel(x, y)
                     For i = -radius To radius
-                        Dim kernelMultiplier = kernel((i + radius) / (radius * 2F) * (kernel.Length - 1))
+                        Dim kernelMultiplier = kernel((i + radius) / (radius * 2.0F) * (kernel.Length - 1))
                         If x + i >= 0 AndAlso x + i < width Then
-                            Dim pixel = pixelBufferField.getPixel(x + i, y)
+                            Dim pixel = PixelBuffer.getPixel(x + i, y)
                             If pixel IsNot Nothing Then
                                 blurredColor.addSelf(pixel.Color.multiply(kernelMultiplier))
                             End If
@@ -32,7 +34,7 @@
                     result.setPixel(x, y, New PixelData(blurredColor, originalPixel.Depth, originalPixel.Emission))
                 Next
             Next
-            pixelBufferField = result
+            _PixelBuffer = result
         End Sub
 
         Public Overridable Sub blurVertically(radius As Integer)
@@ -40,11 +42,11 @@
             For x = 0 To width - 1
                 For y = 0 To height - 1
                     Dim blurredColor As Color = New Color(0, 0, 0)
-                    Dim originalPixel = pixelBufferField.getPixel(x, y)
+                    Dim originalPixel = PixelBuffer.getPixel(x, y)
                     For i = -radius To radius
-                        Dim kernelMultiplier = kernel((i + radius) / (radius * 2F) * (kernel.Length - 1))
+                        Dim kernelMultiplier = kernel((i + radius) / (radius * 2.0F) * (kernel.Length - 1))
                         If y + i >= 0 AndAlso y + i < height Then
-                            Dim pixel = pixelBufferField.getPixel(x, y + i)
+                            Dim pixel = PixelBuffer.getPixel(x, y + i)
                             If pixel IsNot Nothing Then
                                 blurredColor.addSelf(pixel.Color.multiply(kernelMultiplier))
                             End If
@@ -54,7 +56,7 @@
                     result.setPixel(x, y, New PixelData(blurredColor, originalPixel.Depth, originalPixel.Emission))
                 Next
             Next
-            pixelBufferField = result
+            _PixelBuffer = result
         End Sub
 
         Public Overridable Sub blur(radius As Integer, iterations As Integer)
@@ -63,17 +65,6 @@
                 blurVertically(radius)
             Next
         End Sub
-
-        Public Overridable ReadOnly Property PixelBuffer As PixelBuffer
-            Get
-                Return pixelBufferField
-            End Get
-        End Property
-
-        ' Currently unused due to kernel being hardcoded
-        'private float gaussianDistribution(float x, float sigma) {
-        '    return (float) (1/Math.sqrt(2*Math.PI*sigma*sigma)*Math.exp(-(x*x)/(2*sigma*sigma))); // https://en.wikipedia.org/wiki/Gaussian_blur
-        '}
 
     End Class
 

@@ -1,7 +1,4 @@
-﻿Imports System
-Imports System.Collections.Generic
-
-Namespace  raytracing.pixeldata
+﻿Namespace raytracing.pixeldata
 
     Public Class Color
         Private redField1 As Single
@@ -9,7 +6,7 @@ Namespace  raytracing.pixeldata
         Private blueField1 As Single
 
         Public Sub New(red As Single, green As Single, blue As Single)
-            If red > 1F OrElse green > 1F OrElse blue > 1F Then
+            If red > 1.0F OrElse green > 1.0F OrElse blue > 1.0F Then
                 Throw New ArgumentException("Color parameter(s) outside of expected range")
             End If
 
@@ -70,9 +67,9 @@ Namespace  raytracing.pixeldata
                 Dim bluePart As Integer = blueField1 * 255
 
                 ' Shift bits to right place
-                redPart = redPart << 16 And &H00FF0000 'Shift red 16-bits and mask out other stuff
-                greenPart = greenPart << 8 And &H0000FF00 'Shift Green 8-bits and mask out other stuff
-                bluePart = bluePart And &H000000FF 'Mask out anything not blue.
+                redPart = redPart << 16 And &HFF0000 'Shift red 16-bits and mask out other stuff
+                greenPart = greenPart << 8 And &HFF00 'Shift Green 8-bits and mask out other stuff
+                bluePart = bluePart And &HFF 'Mask out anything not blue.
 
                 Return CInt(&HFF000000UI) Or redPart Or greenPart Or bluePart '0xFF000000 for 100% Alpha. Bitwise OR everything together.
             End Get
@@ -90,7 +87,7 @@ Namespace  raytracing.pixeldata
             Dim g = argb >> 8 And &HFF
             Dim r = argb >> 16 And &HFF
 
-            Return New Color(r / 255F, g / 255F, b / 255F)
+            Return New Color(r / 255.0F, g / 255.0F, b / 255.0F)
         End Function
 
         Public Shared Widening Operator CType(c As Drawing.Color) As Color
@@ -159,10 +156,10 @@ Namespace  raytracing.pixeldata
         End Function
 
         Public Shared ReadOnly BLACK As Color = New Color(0F, 0F, 0F)
-        Public Shared ReadOnly WHITE As Color = New Color(1F, 1F, 1F)
-        Public Shared ReadOnly REDField As Color = New Color(1F, 0F, 0F)
-        Public Shared ReadOnly GREENField As Color = New Color(0F, 1F, 0F)
-        Public Shared ReadOnly BLUEField As Color = New Color(0F, 0F, 1F)
+        Public Shared ReadOnly WHITE As Color = New Color(1.0F, 1.0F, 1.0F)
+        Public Shared ReadOnly REDField As Color = New Color(1.0F, 0F, 0F)
+        Public Shared ReadOnly GREENField As Color = New Color(0F, 1.0F, 0F)
+        Public Shared ReadOnly BLUEField As Color = New Color(0F, 0F, 1.0F)
         Public Shared ReadOnly MAGENTA As Color = New Color(1.0F, 0.0F, 1.0F)
         Public Shared ReadOnly GRAY As Color = New Color(0.5F, 0.5F, 0.5F)
         Public Shared ReadOnly DARK_GRAY As Color = New Color(0.2F, 0.2F, 0.2F)
