@@ -4,8 +4,8 @@ Imports Vector3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 
 Namespace raytracing.solids
 
-    Public Class Sphere
-        Inherits Solid
+    Public Class Sphere : Inherits Solid
+
         Private radius As Single
 
         Public Sub New(position As Vector3, radius As Single, color As Color, reflectivity As Single, emission As Single)
@@ -14,10 +14,10 @@ Namespace raytracing.solids
         End Sub
 
         Public Overrides Function calculateIntersection(ray As Ray) As Vector3?
-            Dim t = Vector3.Dot(positionField.subtract(ray.Origin), ray.Direction)
+            Dim t = Vector3.Dot(_Position.subtract(ray.Origin), ray.Direction)
             Dim p = ray.Origin.add(ray.Direction.multiply(t))
 
-            Dim y As Single = positionField.subtract(p).length()
+            Dim y As Single = _Position.subtract(p).length()
             If y < radius Then
                 Dim x As Single = System.Math.Sqrt(radius * radius - y * y)
                 Dim t1 = t - x
@@ -32,7 +32,7 @@ Namespace raytracing.solids
         End Function
 
         Public Overrides Function getNormalAt(point As Vector3) As Vector3
-            Return point.subtract(positionField).normalize()
+            Return point.subtract(_Position).normalize()
         End Function
     End Class
 

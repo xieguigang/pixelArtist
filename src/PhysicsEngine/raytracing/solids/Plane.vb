@@ -4,8 +4,8 @@ Imports Vector3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 
 Namespace raytracing.solids
 
-    Public Class Plane
-        Inherits Solid
+    Public Class Plane : Inherits Solid
+
         Private checkerPattern As Boolean
 
         Public Sub New(height As Single, color As Color, checkerPattern As Boolean, reflectivity As Single, emission As Single)
@@ -14,7 +14,7 @@ Namespace raytracing.solids
         End Sub
 
         Public Overrides Function calculateIntersection(ray As Ray) As Vector3?
-            Dim t = -(ray.Origin.Y - positionField.Y) / ray.Direction.Y
+            Dim t = -(ray.Origin.Y - _Position.Y) / ray.Direction.Y
             If t > 0 AndAlso Single.IsFinite(t) Then
                 Return ray.Origin.add(ray.Direction.multiply(t))
             End If

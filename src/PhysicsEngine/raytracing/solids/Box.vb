@@ -64,7 +64,7 @@ Namespace raytracing.solids
         End Function
 
         Public Overrides Function getNormalAt(point As Vector3) As Vector3
-            Dim direction As Single() = point.subtract(positionField).toArray()
+            Dim direction As Single() = point.subtract(_Position).ToArray()
             Dim biggestValue = Single.NaN
 
             For i = 0 To 2
