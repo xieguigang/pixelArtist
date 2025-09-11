@@ -45,6 +45,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PhysicsEngine", "..\Physics
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Drawing-net4.8", "..\framework\gr\Drawing-net4.8\Drawing-net4.8.vbproj", "{1B4FF2FF-2759-8578-52B7-0FB94E0A81DD}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "TensorFlow", "..\framework\Data_science\MachineLearning\TensorFlow\TensorFlow.vbproj", "{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -641,6 +643,38 @@ Global
 		{1B4FF2FF-2759-8578-52B7-0FB94E0A81DD}.Rsharp_app_release|Any CPU.Build.0 = Rsharp_app_release|Any CPU
 		{1B4FF2FF-2759-8578-52B7-0FB94E0A81DD}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
 		{1B4FF2FF-2759-8578-52B7-0FB94E0A81DD}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.Debug|x64.ActiveCfg = Debug|x64
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.Debug|x64.Build.0 = Debug|x64
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.LipidSearch|Any CPU.ActiveCfg = LipidSearch|Any CPU
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.LipidSearch|Any CPU.Build.0 = LipidSearch|Any CPU
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.LipidSearch|x64.ActiveCfg = LipidSearch|x64
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.LipidSearch|x64.Build.0 = LipidSearch|x64
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.mzkit_win32|Any CPU.ActiveCfg = mzkit_win32|Any CPU
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.mzkit_win32|Any CPU.Build.0 = mzkit_win32|Any CPU
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.mzkit_win32|x64.ActiveCfg = mzkit_win32|x64
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.mzkit_win32|x64.Build.0 = mzkit_win32|x64
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.mzkit|Any CPU.ActiveCfg = mzkit|Any CPU
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.mzkit|Any CPU.Build.0 = mzkit|Any CPU
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.mzkit|x64.ActiveCfg = mzkit|x64
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.mzkit|x64.Build.0 = mzkit|x64
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.NPSearch|Any CPU.ActiveCfg = LipidSearch|Any CPU
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.NPSearch|Any CPU.Build.0 = LipidSearch|Any CPU
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.NPSearch|x64.ActiveCfg = LipidSearch|x64
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.NPSearch|x64.Build.0 = LipidSearch|x64
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.PlantMAT|Any CPU.ActiveCfg = LipidSearch|Any CPU
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.PlantMAT|Any CPU.Build.0 = LipidSearch|Any CPU
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.PlantMAT|x64.ActiveCfg = LipidSearch|x64
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.PlantMAT|x64.Build.0 = LipidSearch|x64
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.Release|x64.ActiveCfg = Release|x64
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.Release|x64.Build.0 = Release|x64
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.Rsharp_app_release|Any CPU.ActiveCfg = Rsharp_app_release|Any CPU
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.Rsharp_app_release|Any CPU.Build.0 = Rsharp_app_release|Any CPU
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.Rsharp_app_release|x64.ActiveCfg = Rsharp_app_release|x64
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3}.Rsharp_app_release|x64.Build.0 = Rsharp_app_release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -663,6 +697,7 @@ Global
 		{B00745A1-F92E-4335-9D3E-5D99862816A4} = {BE684798-F7F2-485A-A427-30A91F9A8794}
 		{5562417E-E8A4-4A1F-91A6-7A8FA8C027BC} = {91D5864B-8272-4711-B973-F91E44A3662F}
 		{1B4FF2FF-2759-8578-52B7-0FB94E0A81DD} = {91D5864B-8272-4711-B973-F91E44A3662F}
+		{33D91AE2-BF63-05BA-69E7-9B4A829C4AB3} = {BE684798-F7F2-485A-A427-30A91F9A8794}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EBB9D25F-356F-43FB-9189-AF9995F12F1C}

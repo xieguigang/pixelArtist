@@ -111,7 +111,6 @@ Public Class QLearningSnakeAI : Inherits QLearning(Of GameControl)
 
         ' QL_AI press the button on the gamepad
         Call _snakeGame.Invoke(action)
-        Call _stat.Current.__DEBUG_ECHO
 
         ' 20220910
         '
