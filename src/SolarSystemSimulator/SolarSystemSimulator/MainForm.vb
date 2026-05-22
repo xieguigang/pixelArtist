@@ -8,14 +8,9 @@
 ' ============================================================
 
 Imports System.Drawing
-Imports System.Drawing.Drawing2D
 Imports System.Windows.Forms
-Imports SolarSystemSimulator.SolarSystemSimulator
 
-
-
-Public Class MainForm
-    Inherits Form
+Public Class MainForm : Inherits Form
 
     ' ==================== UI 控件 ====================
 
