@@ -14,4 +14,11 @@
     <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\framework\Data_science\Graph\graph-netcore5.vbproj" />
+    <ProjectReference Include="..\..\framework\Data_science\Mathematica\Math\Math\Math.NET5.vbproj" />
+    <ProjectReference Include="..\..\framework\gr\physics\physics-netcore5.vbproj" />
+    <ProjectReference Include="..\..\framework\Microsoft.VisualBasic.Core\src\Core.vbproj" />
+  </ItemGroup>
+
 </Project>
