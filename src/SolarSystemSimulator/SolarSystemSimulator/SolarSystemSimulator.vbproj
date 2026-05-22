@@ -10,7 +10,7 @@
     <OptionStrict>Off</OptionStrict>
     <OptionInfer>On</OptionInfer>
     <UseWindowsForms>true</UseWindowsForms>
-    <StartupObject>SolarSystemSimulator.SolarSystemSimulator.MainForm</StartupObject>
+    <StartupObject>SolarSystemSimulator.MainForm</StartupObject>
     <Platforms>AnyCPU;x64</Platforms>
     <UseWPF>True</UseWPF>
   </PropertyGroup>
