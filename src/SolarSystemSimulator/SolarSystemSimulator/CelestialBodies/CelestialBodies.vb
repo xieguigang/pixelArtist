@@ -5,7 +5,6 @@
 ' 数据来源：NASA JPL 行星事实表
 ' ============================================================
 
-Imports System.Collections.Generic
 Imports System.Drawing
 
 ' ==================== 天体基类 ====================
