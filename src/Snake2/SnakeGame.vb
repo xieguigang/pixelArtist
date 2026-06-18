@@ -1,9 +1,5 @@
-Imports System
-Imports System.Collections.Generic
-Imports System.Drawing
 Imports System.Drawing.Drawing2D
 Imports System.IO
-Imports System.Windows.Forms
 
 ' ============================================================
 '  贪吃蛇像素游戏 - VB.NET WinForms 实现
@@ -12,82 +8,8 @@ Imports System.Windows.Forms
 '  - 障碍物、AI 蛇、蛇身切割、全局导航小地图
 ' ============================================================
 
-' ===== 食物类型枚举 =====
-Public Enum FoodType
-    Regular   ' 常规食物
-    Moving    ' 活动食物
-    Super     ' 超级食物
-End Enum
-
-' ===== 食物类 =====
-Public Class Food
-    Public Property Position As Point
-    Public Property Type As FoodType
-    Public Property Velocity As Point          ' 活动食物的速度方向
-    Public Property Speed As Integer = 1       ' 活动食物的速度 (1=快, 2=慢)
-    Public Property MoveCounter As Integer = 0 ' 移动计数器
-    Public Property SpawnTime As DateTime      ' 超级食物的生成时间
-    Public Property Color As Color
-
-    ' 超级食物是否已过期 (最多存在60秒)
-    Public ReadOnly Property IsExpired As Boolean
-        Get
-            Return Type = FoodType.Super AndAlso (DateTime.Now - SpawnTime).TotalSeconds >= 60
-        End Get
-    End Property
-End Class
-
-' ===== 蛇类 (玩家蛇和AI蛇共用) =====
-Public Class Snake
-    Public Property Body As New List(Of Point) ' 蛇身, Body(0)为蛇头
-    Public Property Direction As Point          ' 移动方向
-    Public Property IsPlayer As Boolean         ' 是否为玩家控制
-    Public Property PendingGrowth As Integer = 0 ' 待增长的节数
-    Public Property BodyColor As Color
-    Public Property HeadColor As Color
-    Public Property Alive As Boolean = True
-
-    Public ReadOnly Property Length As Integer
-        Get
-            Return Body.Count
-        End Get
-    End Property
-
-    Public ReadOnly Property Head As Point
-        Get
-            Return Body(0)
-        End Get
-    End Property
-
-    ' 移动一步: 头部前进, 尾部删除 (除非有待增长)
-    Public Sub Move()
-        Dim newHead As New Point(Head.X + Direction.X, Head.Y + Direction.Y)
-        Body.Insert(0, newHead)
-        If PendingGrowth > 0 Then
-            PendingGrowth -= 1
-        Else
-            Body.RemoveAt(Body.Count - 1)
-        End If
-    End Sub
-
-    ' 增加待增长节数
-    Public Sub Grow(amount As Integer)
-        PendingGrowth += amount
-    End Sub
-
-    ' 检查某点是否在蛇身上
-    Public Function ContainsBody(pos As Point, Optional skipHead As Boolean = False) As Boolean
-        Dim startIdx As Integer = If(skipHead, 1, 0)
-        For i As Integer = startIdx To Body.Count - 1
-            If Body(i) = pos Then Return True
-        Next
-        Return False
-    End Function
-End Class
-
 ' ===== 主窗体 =====
-Public Class GameForm
-    Inherits Form
+Public Class GameForm : Inherits Form
 
     ' ---------- 常量 ----------
     Private Const CellSize As Integer = 20              ' 每格像素大小
@@ -248,7 +170,7 @@ Public Class GameForm
         f.Color = MovingFoodColor
         Dim dirs() As Point = {New Point(1, 0), New Point(-1, 0), New Point(0, 1), New Point(0, -1)}
         f.Velocity = dirs(rand.Next(4))
-        f.Speed = rand.Next(1, 3)  ' 1=快(每tick移动), 2=慢(每2tick移动)
+        f.Speed = rand.Next(3, 5)  ' 1=快(每tick移动), 2=慢(每2tick移动)
         f.MoveCounter = 0
         foods.Add(f)
     End Sub
@@ -358,7 +280,10 @@ Public Class GameForm
         End While
 
         Dim movingCount = CountFoodOfType(FoodType.Moving)
-        While movingCount < 5
+
+        Const maxMoveFood As Integer = 300
+
+        While movingCount < maxMoveFood
             Dim before = foods.Count
             SpawnMovingFood()
             If foods.Count = before Then Exit While
