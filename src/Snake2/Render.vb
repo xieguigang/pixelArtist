@@ -1,6 +1,4 @@
-﻿Imports System.Runtime.CompilerServices
-
-Public Class Render
+﻿Public Class Render
 
     ' ---------- 颜色 ----------
     Friend Shared ReadOnly PlayerBodyColor As Color = Color.LimeGreen

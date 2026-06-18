@@ -71,6 +71,10 @@ Public Class Game
         Call LoadHighScore()
     End Sub
 
+    Public Sub RestartGame()
+        Call InitGame(render)
+    End Sub
+
     Public Sub GameTick()
         ' 2. AI蛇移动
         For i As Integer = aiSnakes.Count - 1 To 0 Step -1

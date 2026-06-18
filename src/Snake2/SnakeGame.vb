@@ -1,6 +1,4 @@
 Imports System.Drawing.Drawing2D
-Imports System.IO
-Imports System.Windows.Controls
 
 ' ============================================================
 '  贪吃蛇像素游戏 - VB.NET WinForms 实现
@@ -18,6 +16,7 @@ Public Class GameForm : Inherits Form
     }
     Dim game As Game
     Dim render As Render
+    Dim controller As Controller
 
     ' ============================================================
     '  构造函数
@@ -41,6 +40,7 @@ Public Class GameForm : Inherits Form
     Private Sub GameForm_Load(sender As Object, e As EventArgs) Handles Me.Load
         game = New Game()
         render = New Render(Me, game)
+        controller = New Controller(game)
 
         Call game.InitGame(render)
         Call render.UpdateCamera()
@@ -65,17 +65,11 @@ Public Class GameForm : Inherits Form
             End If
         End If
 
-
-
         ' 9. 更新相机
         render.UpdateCamera()
 
         ' 10. 渲染
         Me.Invalidate()
-    End Sub
-
-    Private Sub RestartGame()
-        game.InitGame(render)
     End Sub
 
     Protected Overrides Sub OnFormClosing(e As FormClosingEventArgs)
@@ -88,32 +82,10 @@ Public Class GameForm : Inherits Form
     ' ============================================================
     Protected Overrides Function ProcessCmdKey(ByRef msg As Message, keyData As Keys) As Boolean
         If game.gameOver Then
-            If keyData = Keys.R Or keyData = Keys.Space Then
-                RestartGame()
-            End If
-            Return MyBase.ProcessCmdKey(msg, keyData)
+            Call controller.GameReset(keyData)
+        Else
+            Call controller.GameControl(keyData)
         End If
-
-        Select Case keyData
-            Case Keys.Up, Keys.W
-                If game.playerSnake.Direction.Y <> 1 Then
-                    game.playerSnake.Direction = New Point(0, -1)
-                End If
-            Case Keys.Down, Keys.S
-                If game.playerSnake.Direction.Y <> -1 Then
-                    game.playerSnake.Direction = New Point(0, 1)
-                End If
-            Case Keys.Left, Keys.A
-                If game.playerSnake.Direction.X <> 1 Then
-                    game.playerSnake.Direction = New Point(-1, 0)
-                End If
-            Case Keys.Right, Keys.D
-                If game.playerSnake.Direction.X <> -1 Then
-                    game.playerSnake.Direction = New Point(1, 0)
-                End If
-            Case Keys.P
-                game.paused = Not game.paused
-        End Select
 
         Return MyBase.ProcessCmdKey(msg, keyData)
     End Function
@@ -126,7 +98,8 @@ Public Class GameForm : Inherits Form
         g.SmoothingMode = SmoothingMode.None
         ' 清屏
         g.Clear(Render.BackgroundColor)
-        render.Draw(g)
+
+        Call render.Draw(g)
     End Sub
 End Class
 
