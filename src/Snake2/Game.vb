@@ -1,4 +1,6 @@
-﻿Public Class Game
+﻿Imports System.IO
+
+Public Class Game
 
     ' ---------- 常量 ----------
     Public Const CellSize As Integer = 20              ' 每格像素大小
@@ -24,10 +26,14 @@
     Friend rand As New Random()
     Friend superFoodTimer As Integer = 0
 
+    Dim render As Render
+
     ' ============================================================
     '  游戏初始化
     ' ============================================================
-    Public Sub InitGame()
+    Public Sub InitGame(render As Render)
+        Me.render = render
+
         ' 创建玩家蛇 (地图中央, 长度3, 向右移动)
         playerSnake = New Snake()
         playerSnake.IsPlayer = True
@@ -62,7 +68,91 @@
             SpawnMovingFood()
         Next
 
-        UpdateCamera()
+        Call LoadHighScore()
+    End Sub
+
+    Public Sub GameTick()
+        ' 2. AI蛇移动
+        For i As Integer = aiSnakes.Count - 1 To 0 Step -1
+            Dim s = aiSnakes(i)
+            If s.Alive Then
+                UpdateAISnake(s)
+                CheckAICollisions(s)
+            End If
+        Next
+        aiSnakes.RemoveAll(Function(s) Not s.Alive)
+
+        ' 3. 活动食物移动
+        UpdateMovingFoods()
+
+        ' 4. 活动食物碰撞检测 (切割蛇身)
+        CheckMovingFoodCollisions()
+
+        ' 5. 移除过期超级食物
+        foods.RemoveAll(Function(f) f.IsExpired)
+
+        ' 6. 玩家与AI蛇碰撞检测
+        CheckPlayerAICollisions()
+
+        ' 7. 补充食物
+        Dim regularCount = CountFoodOfType(FoodType.Regular)
+        While regularCount < 3
+            Dim before = foods.Count
+            SpawnRegularFood()
+            If foods.Count = before Then Exit While
+            regularCount = CountFoodOfType(FoodType.Regular)
+        End While
+
+        Dim movingCount = CountFoodOfType(FoodType.Moving)
+
+        Const maxMoveFood As Integer = 300
+
+        While movingCount < maxMoveFood
+            Dim before = foods.Count
+            SpawnMovingFood()
+            If foods.Count = before Then Exit While
+            movingCount = CountFoodOfType(FoodType.Moving)
+        End While
+
+        ' 8. 超级食物生成
+        superFoodTimer += 1
+        If superFoodTimer >= SuperFoodSpawnIntervalTicks AndAlso Not HasSuperFood() Then
+            SpawnSuperFood()
+            superFoodTimer = 0
+        End If
+    End Sub
+
+    ' ============================================================
+    '  游戏结束 / 重启
+    ' ============================================================
+    Public Sub EndGame()
+        gameOver = True
+        If score > highScore Then
+            highScore = score
+            SaveHighScore()
+        End If
+    End Sub
+
+    ' ============================================================
+    '  最高分读写
+    ' ============================================================
+    Public Sub LoadHighScore()
+        Try
+            Dim path As String = Application.StartupPath & "/" & "snake_highscore.txt"
+            If File.Exists(path) Then
+                highScore = Integer.Parse(File.ReadAllText(path).Trim())
+            End If
+        Catch
+            highScore = 0
+        End Try
+    End Sub
+
+    Public Sub SaveHighScore()
+        Try
+            Dim path As String = Application.StartupPath & "/" & "snake_highscore.txt"
+            File.WriteAllText(path, highScore.ToString())
+        Catch
+        End Try
     End Sub
 
     ' 生成障碍物 (避开玩家出生区域)
@@ -94,15 +184,15 @@
         Dim attempts As Integer = 0
         While attempts < 200
             attempts += 1
-            Dim x As Integer = cameraX + rand.Next(ViewCols)
-            Dim y As Integer = cameraY + rand.Next(ViewRows)
+            Dim x As Integer = render.cameraX + rand.Next(ViewCols)
+            Dim y As Integer = render.cameraY + rand.Next(ViewRows)
             If x < 0 OrElse x >= MapCols OrElse y < 0 OrElse y >= MapRows Then Continue While
             Dim p As New Point(x, y)
             If IsCellFree(p) Then
                 Dim f As New Food()
                 f.Position = p
                 f.Type = FoodType.Regular
-                f.Color = RegularFoodColor
+                f.Color = Render.RegularFoodColor
                 foods.Add(f)
                 Return
             End If
@@ -116,7 +206,7 @@
         Dim f As New Food()
         f.Position = p
         f.Type = FoodType.Moving
-        f.Color = MovingFoodColor
+        f.Color = Render.MovingFoodColor
         Dim dirs() As Point = {New Point(1, 0), New Point(-1, 0), New Point(0, 1), New Point(0, -1)}
         f.Velocity = dirs(rand.Next(4))
         f.Speed = rand.Next(3, 5)  ' 1=快(每tick移动), 2=慢(每2tick移动)
@@ -131,7 +221,7 @@
         Dim f As New Food()
         f.Position = p
         f.Type = FoodType.Super
-        f.Color = SuperFoodColor
+        f.Color = Render.SuperFoodColor
         f.SpawnTime = DateTime.Now
         foods.Add(f)
     End Sub
@@ -185,7 +275,7 @@
     ' ============================================================
 
     ' 玩家蛇碰撞检测
-    Private Sub CheckPlayerCollisions()
+    Public Sub CheckPlayerCollisions()
         Dim head = playerSnake.Head
 
         ' 撞墙
@@ -404,8 +494,8 @@
         Dim newSnake As New Snake()
         newSnake.Body = tailPart
         newSnake.IsPlayer = False
-        newSnake.BodyColor = AIBodyColor
-        newSnake.HeadColor = AIHeadColor
+        newSnake.BodyColor = Render.AIBodyColor
+        newSnake.HeadColor = Render.AIHeadColor
         newSnake.Direction = tailDir
         newSnake.Alive = True
 
@@ -420,7 +510,7 @@
                 Dim f As New Food()
                 f.Position = head
                 f.Type = FoodType.Regular
-                f.Color = RegularFoodColor
+                f.Color = Render.RegularFoodColor
                 foods.Add(f)
             End If
         End If
