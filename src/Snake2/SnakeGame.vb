@@ -808,7 +808,7 @@ Public Class GameForm
     ' ============================================================
     Private Sub LoadHighScore()
         Try
-            Dim path As String = Path.Combine(Application.StartupPath, "snake_highscore.txt")
+            Dim path As String = Application.StartupPath & "/" & "snake_highscore.txt"
             If File.Exists(path) Then
                 highScore = Integer.Parse(File.ReadAllText(path).Trim())
             End If
@@ -819,7 +819,7 @@ Public Class GameForm
 
     Private Sub SaveHighScore()
         Try
-            Dim path As String = Path.Combine(Application.StartupPath, "snake_highscore.txt")
+            Dim path As String = Application.StartupPath & "/" & "snake_highscore.txt"
             File.WriteAllText(path, highScore.ToString())
         Catch
         End Try
