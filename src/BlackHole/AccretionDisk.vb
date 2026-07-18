@@ -2,7 +2,7 @@ Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 Imports pColor = Astrophysics.raytracing.pixeldata.Color
 
-Namespace BlackHole
+
 
     ''' <summary>
     ''' Thin Shakura-Sunyaev style accretion disk in the equatorial (XZ) plane. Provides the
@@ -100,4 +100,3 @@ Namespace BlackHole
 
     End Class
 
-End Namespace

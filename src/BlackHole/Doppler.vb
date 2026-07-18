@@ -1,8 +1,6 @@
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 
-Namespace BlackHole
-
     ''' <summary>
     ''' Relativistic Doppler shift, gravitational redshift and relativistic beaming for the
     ''' accretion disk. Given the disk material 3-velocity (beta, in geometric units where
@@ -53,5 +51,3 @@ Namespace BlackHole
         Public Boost As Double
         Public Approaching As Boolean
     End Structure
-
-End Namespace

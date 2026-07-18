@@ -1,8 +1,6 @@
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 
-Namespace BlackHole
-
     ''' <summary>
     ''' Central parameter store for the black-hole simulator. Holds the metric parameters
     ''' (spin, disk geometry), integration settings and the camera state, and exposes the
@@ -99,5 +97,3 @@ Namespace BlackHole
         End Sub
 
     End Class
-
-End Namespace

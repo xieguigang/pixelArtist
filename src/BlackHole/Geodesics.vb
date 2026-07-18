@@ -1,8 +1,6 @@
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 
-Namespace BlackHole
-
     ''' <summary>
     ''' A single disk crossing recorded along a photon's path.
     ''' </summary>
@@ -400,5 +398,3 @@ Namespace BlackHole
 #End Region
 
     End Class
-
-End Namespace
