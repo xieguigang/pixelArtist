@@ -168,8 +168,7 @@ Public Class MainForm : Inherits Form
         lblHint = New Label() With {
             .Text = "🖱 左键拖拽：旋转盒子" & vbCrLf &
                      "🔍 滚轮：缩放视角" & vbCrLf &
-                     "✋ 右键拖拽：平移场景" & vbCrLf & vbCrLf &
-                     "旋转盒子会改变重力相对盒面的方向，小球受力随之变化。",
+                     "✋ 右键拖拽：平移场景",
             .Dock = DockStyle.Fill,
             .ForeColor = Color.FromArgb(159, 179, 200)
         }

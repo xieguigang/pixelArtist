@@ -6,9 +6,7 @@
 '   - 球-盒六个内面：逐轴反射（乘 -restitution 损耗能量）+ 切向摩擦衰减；
 '   - 球-球：冲量法弹性碰撞（乘 restitution 损耗能量）+ 重叠位置分离。
 '
-' 重力在「世界系」始终指向窗口底部 (0,-1,0)。盒子本身只被 Camera 旋转（无平移），
-' 因此把世界向下向量用与 Camera 旋转「逆序」的 Euler 旋转（角度取负）变换到
-' 盒子局部系，即得到随盒子旋转而改变的局部重力方向 —— 旋转盒子即改变小球受力。
+' 重力固定在局部坐标系 -Y 方向 (0,-1,0)，始终指向窗口底部。
 '
 ' 复用 framework\gr\physics 的 Vector3（三维向量）与 PhysicsMaterial（摩擦/恢复系数）。
 
@@ -35,7 +33,7 @@ Public Class Simulation
     ''' <summary>小球集合</summary>
     Public balls As New List(Of Ball)
 
-    ''' <summary>每帧由 Camera 逆旋转 (0,-1,0) 得到的盒子局部重力向量</summary>
+    ''' <summary>盒子局部重力向量，固定指向 -Y 方向（窗口底部）</summary>
     Public gravityLocal As Vector3
 
     ''' <summary>用于初始化的小球半径</summary>
@@ -72,51 +70,17 @@ Public Class Simulation
     End Sub
 
     ''' <summary>
-    ''' 把世界系向下向量 (0,-1,0) 用与 Camera Euler 旋转逆序（先 Z、后 Y、后 X，
-    ''' 角度取负）的旋转变换到盒子局部坐标系。
+    ''' 重力始终指向盒子局部坐标系 -Y 方向（窗口底部），不随摄像机旋转变化。
     ''' </summary>
-    Private Function ComputeGravityLocal(camera As Camera) As Vector3
-        ' 世界向下（屏幕向下为正 Y 屏幕系；这里用局部系约定：屏幕下方为局部 -Y 的反向，
-        ' 直接取 (0,-1,0) 作为世界向下，逆旋转后即随盒子朝向变化）
-        Dim v = New Vector3(0, -1, 0)
-
-        ' 逆序 = 先撤销 Z，再撤销 Y，再撤销 X；角度取负
-        v = RotateZ(v, -camera.AngleZ)
-        v = RotateY(v, -camera.AngleY)
-        v = RotateX(v, -camera.AngleX)
-
-        Return v * gravityStrength
-    End Function
-
-    Private Shared Function RotateX(v As Vector3, angleDeg As Double) As Vector3
-        Dim rad = angleDeg * Math.PI / 180
-        Dim c = Math.Cos(rad), s = Math.Sin(rad)
-        Dim y = v.y * c - v.z * s
-        Dim z = v.y * s + v.z * c
-        Return New Vector3(v.x, y, z)
-    End Function
-
-    Private Shared Function RotateY(v As Vector3, angleDeg As Double) As Vector3
-        Dim rad = angleDeg * Math.PI / 180
-        Dim c = Math.Cos(rad), s = Math.Sin(rad)
-        Dim x = v.x * c + v.z * s
-        Dim z = -v.x * s + v.z * c
-        Return New Vector3(x, v.y, z)
-    End Function
-
-    Private Shared Function RotateZ(v As Vector3, angleDeg As Double) As Vector3
-        Dim rad = angleDeg * Math.PI / 180
-        Dim c = Math.Cos(rad), s = Math.Sin(rad)
-        Dim x = v.x * c - v.y * s
-        Dim y = v.x * s + v.y * c
-        Return New Vector3(x, y, v.z)
+    Private Function ComputeGravityLocal() As Vector3
+        Return New Vector3(0, -gravityStrength, 0)
     End Function
 
     ''' <summary>
     ''' 推进一个固定步长：重算局部重力 → 半隐式欧拉积分 → 球-墙碰撞 → 球-球碰撞。
     ''' </summary>
     Public Sub [Step](camera As Camera)
-        gravityLocal = ComputeGravityLocal(camera)
+        gravityLocal = ComputeGravityLocal()
 
         ' 1. 半隐式欧拉：先更新速度，再用新速度更新位置
         For Each b In balls
@@ -140,11 +104,10 @@ Public Class Simulation
     End Sub
 
     Private Sub ResolveWalls()
-        ' 物理坐标以盒子几何中心为原点：每轴范围 [-half, +half]。
-        ' 小球被钳位在 [-(half-r), +(half-r)]，使墙面正好在 ±half 处。
-        Dim half = BoxSize / 2.0
-        Dim lo = -half + ballRadiusMin()
-        Dim hi = half - ballRadiusMin()
+        ' 盒子局部坐标系范围 [0, BoxSize]^3，小球被钳位在 [r, BoxSize-r]。
+        Dim rMin = ballRadiusMin()
+        Dim lo = rMin
+        Dim hi = BoxSize - rMin
 
         For Each b In balls
             ' ---- X 轴 ----
