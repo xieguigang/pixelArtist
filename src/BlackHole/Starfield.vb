@@ -1,6 +1,6 @@
 Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
-Imports raytracing.rendering
+Imports Astrophysics.raytracing.rendering
 Imports pColor = Astrophysics.raytracing.pixeldata.Color
 
 Namespace BlackHole
