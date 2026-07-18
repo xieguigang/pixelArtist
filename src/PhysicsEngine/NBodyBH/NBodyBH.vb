@@ -1,17 +1,9 @@
-﻿
-
-
-Imports System.Drawing
+﻿Imports System.Drawing
 Imports System.IO
 
 ''' <summary>
-''' NBodyBH.java
-''' 
 ''' Reads in a universe of N bodies from stdin, and performs an
 ''' N-Body simulation in O(N log N) using the Barnes-Hut algorithm.
-''' 
-''' Compilation:  javac NBodyBH.java
-''' Execution:    java NBodyBH <inputs/>
 ''' </summary>
 Public Class NBodyBH
 

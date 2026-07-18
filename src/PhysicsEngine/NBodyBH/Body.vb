@@ -2,8 +2,6 @@
 Imports System.Drawing
 
 ''' <summary>
-''' Body.java
-''' 
 ''' Represents a Body (a point mass) and its position, 
 ''' velocity, mass, color, and the net force acting upon it.
 ''' 

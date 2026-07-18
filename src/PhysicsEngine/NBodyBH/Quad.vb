@@ -1,9 +1,5 @@
 ﻿''' <summary>
-''' Quad.java
-''' 
 ''' Represents quadrants for the Barnes-Hut algorithm. 
-''' 
-''' Dependencies: StdDraw.java
 ''' 
 ''' @author chindesaurus
 ''' @version 1.00
