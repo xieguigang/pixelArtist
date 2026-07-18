@@ -168,10 +168,10 @@ Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
         Private Shared Function BLToEmbedding(st As BLState, a As Double) As vec3
             Dim rho = System.Math.Sqrt(st.r * st.r + a * a)
             Dim sinTh = System.Math.Sin(st.th)
-            Dim cosignThh = System.Math.Cos(st.th)
+            Dim cosTh = System.Math.Cos(st.th)
             Dim x = rho * sinTh * System.Math.Cos(st.ph)
             Dim z = rho * sinTh * System.Math.Sin(st.ph)
-            Dim y = st.r * cosignThh
+            Dim y = st.r * cosTh
             Return New vec3(x, y, z)
         End Function
 
@@ -180,18 +180,18 @@ Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
             Dim rho = System.Math.Sqrt(r0 * r0 + a * a)
             Dim rhoR = r0 / rho
             Dim sinTh = System.Math.Sin(th0)
-            Dim cosignThh = System.Math.Cos(th0)
+            Dim cosTh = System.Math.Cos(th0)
             Dim cosPh = System.Math.Cos(ph0)
             Dim sinPh = System.Math.Sin(ph0)
 
-            Dim A(,) As Double = {
-                {rhoR * sinTh * cosPh, rho * cosignThh * cosPh, -rho * sinTh * sinPh},
-                {cosignThh, -r0 * sinTh, 0},
-                {rhoR * sinTh * sinPh, rho * cosignThh * sinPh, rho * sinTh * cosPh}
+            Dim jac(,) As Double = {
+                {rhoR * sinTh * cosPh, rho * cosTh * cosPh, -rho * sinTh * sinPh},
+                {cosTh, -r0 * sinTh, 0},
+                {rhoR * sinTh * sinPh, rho * cosTh * sinPh, rho * sinTh * cosPh}
             }
             Dim b() As Double = {dir.X, dir.Y, dir.Z}
             Dim x() As Double = {0, 0, 0}
-            Solve3x3(A, b, x)
+            Solve3x3(jac, b, x)
             rdot = x(0)
             thdot = x(1)
             phidot = x(2)
@@ -261,15 +261,15 @@ Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
             ' From Theta:  Q = rhsignTh + c2*(a^2 - L^2/s2)
             ' Substitute into R to obtain a quadratic in L.
             Dim K = (s2 - c2) / s2
-            Dim C2 = a * a - Delta0 * K
-            Dim C1 = -2 * a * (A0 - Delta0)
-            Dim C0 = A0 * A0 - Delta0 * (rhsignTh + a * a * (1 + c2)) - rhsignR
+            Dim qc2 = a * a - Delta0 * K
+            Dim qc1 = -2 * a * (A0 - Delta0)
+            Dim qc0 = A0 * A0 - Delta0 * (rhsignTh + a * a * (1 + c2)) - rhsignR
 
-            Dim disc = C1 * C1 - 4 * C2 * C0
+            Dim disc = qc1 * qc1 - 4 * qc2 * qc0
             If disc < 0 Then disc = 0
             Dim sq = System.Math.Sqrt(disc)
-            Dim L1 = If(C2 <> 0, (-C1 + sq) / (2 * C2), -C0 / C1)
-            Dim L2 = If(C2 <> 0, (-C1 - sq) / (2 * C2), L1)
+            Dim L1 = If(qc2 <> 0, (-qc1 + sq) / (2 * qc2), -qc0 / qc1)
+            Dim L2 = If(qc2 <> 0, (-qc1 - sq) / (2 * qc2), L1)
 
             ' Choose the root whose predicted dphi/dlambda matches the Jacobian phidot.
             Dim bestL = L1
@@ -294,10 +294,10 @@ Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
             Dim Delta = r * r - 2 * M * r + a * a
             If System.Math.Abs(Sigma) < 1.0E-9 Then Sigma = 1.0E-9
             Dim T = (r * r + a * a) - a * L
-            Dim R = T * T - Delta * (Q + (a - L) * (a - L))
-            Dim Th = Q - c2 * (a * a - L * L / s2)
-            dr = signR * System.Math.Sqrt(System.Math.Max(R, 0)) / Sigma
-            dth = signTh * System.Math.Sqrt(System.Math.Max(Th, 0)) / Sigma
+            Dim radR = T * T - Delta * (Q + (a - L) * (a - L))
+            Dim thetaR = Q - c2 * (a * a - L * L / s2)
+            dr = signR * System.Math.Sqrt(System.Math.Max(radR, 0)) / Sigma
+            dth = signTh * System.Math.Sqrt(System.Math.Max(thetaR, 0)) / Sigma
             dph = (-(a - L / s2) + a * T / Delta) / Sigma
         End Sub
 

@@ -4,7 +4,6 @@ Imports System.Threading
 Imports System.Threading.Tasks
 Imports System.Windows.Forms
 Imports BlackHole
-Imports BlackHole.BlackHole
 
 Public Class FormMain
 
