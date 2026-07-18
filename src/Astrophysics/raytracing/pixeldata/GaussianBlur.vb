@@ -1,4 +1,6 @@
-﻿Namespace  raytracing.pixeldata
+﻿Imports System.Threading.Tasks
+
+Namespace  raytracing.pixeldata
     Public Class GaussianBlur
 
         Private kernel As Single()
@@ -45,25 +47,25 @@
             kernel = buildKernel(radius)
 
             Dim result As PixelBuffer = New PixelBuffer(width, height)
-            For y = 0 To height - 1
-                For x = 0 To width - 1
-                    Dim blurredColor As Color = New Color(0, 0, 0)
-                    Dim originalPixel = PixelBuffer.getPixel(x, y)
-                    For i = -radius To radius
-                        Dim sampleX = x + i
-                        ' Clamp to the edge so the kernel stays normalized at borders.
-                        If sampleX < 0 Then sampleX = 0
-                        If sampleX >= width Then sampleX = width - 1
+            Parallel.For(0, height, Sub(y)
+                                        For x = 0 To width - 1
+                                            Dim blurredColor As Color = New Color(0, 0, 0)
+                                            Dim originalPixel = PixelBuffer.getPixel(x, y)
+                                            For i = -radius To radius
+                                                Dim sampleX = x + i
+                                                ' Clamp to the edge so the kernel stays normalized at borders.
+                                                If sampleX < 0 Then sampleX = 0
+                                                If sampleX >= width Then sampleX = width - 1
 
-                        Dim pixel = PixelBuffer.getPixel(sampleX, y)
-                        If pixel IsNot Nothing Then
-                            blurredColor.addSelf(pixel.Color.multiply(kernel(i + radius)))
-                        End If
-                    Next
+                                                Dim pixel = PixelBuffer.getPixel(sampleX, y)
+                                                If pixel IsNot Nothing Then
+                                                    blurredColor.addSelf(pixel.Color.multiply(kernel(i + radius)))
+                                                End If
+                                            Next
 
-                    result.setPixel(x, y, New PixelData(blurredColor, originalPixel.Depth, originalPixel.Emission))
-                Next
-            Next
+                                            result.setPixel(x, y, New PixelData(blurredColor, originalPixel.Depth, originalPixel.Emission))
+                                        Next
+                                    End Sub)
             _PixelBuffer = result
         End Sub
 
@@ -71,25 +73,25 @@
             kernel = buildKernel(radius)
 
             Dim result As PixelBuffer = New PixelBuffer(width, height)
-            For x = 0 To width - 1
-                For y = 0 To height - 1
-                    Dim blurredColor As Color = New Color(0, 0, 0)
-                    Dim originalPixel = PixelBuffer.getPixel(x, y)
-                    For i = -radius To radius
-                        Dim sampleY = y + i
-                        ' Clamp to the edge so the kernel stays normalized at borders.
-                        If sampleY < 0 Then sampleY = 0
-                        If sampleY >= height Then sampleY = height - 1
+            Parallel.For(0, width, Sub(x)
+                                        For y = 0 To height - 1
+                                            Dim blurredColor As Color = New Color(0, 0, 0)
+                                            Dim originalPixel = PixelBuffer.getPixel(x, y)
+                                            For i = -radius To radius
+                                                Dim sampleY = y + i
+                                                ' Clamp to the edge so the kernel stays normalized at borders.
+                                                If sampleY < 0 Then sampleY = 0
+                                                If sampleY >= height Then sampleY = height - 1
 
-                        Dim pixel = PixelBuffer.getPixel(x, sampleY)
-                        If pixel IsNot Nothing Then
-                            blurredColor.addSelf(pixel.Color.multiply(kernel(i + radius)))
-                        End If
-                    Next
+                                                Dim pixel = PixelBuffer.getPixel(x, sampleY)
+                                                If pixel IsNot Nothing Then
+                                                    blurredColor.addSelf(pixel.Color.multiply(kernel(i + radius)))
+                                                End If
+                                            Next
 
-                    result.setPixel(x, y, New PixelData(blurredColor, originalPixel.Depth, originalPixel.Emission))
-                Next
-            Next
+                                            result.setPixel(x, y, New PixelData(blurredColor, originalPixel.Depth, originalPixel.Emission))
+                                        Next
+                                    End Sub)
             _PixelBuffer = result
         End Sub
 

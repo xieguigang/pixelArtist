@@ -154,14 +154,14 @@ Public Class Geodesics
 
 #Region "Kerr (Carter constants, first-order system)"
 
-    Friend Structure BLState
+    Public Structure BLState
         Public r As Double
         Public th As Double
         Public ph As Double
     End Structure
 
     ''' <summary>Convert embedding Cartesian (spin axis = Y) to Boyer-Lindquist (r, theta, phi).</summary>
-    Friend Shared Sub EmbeddingToBL(x As Double, y As Double, z As Double, a As Double, ByRef r As Double, ByRef th As Double, ByRef ph As Double)
+    Public Shared Sub EmbeddingToBL(x As Double, y As Double, z As Double, a As Double, ByRef r As Double, ByRef th As Double, ByRef ph As Double)
         Dim S2 = x * x + y * y + z * z
         Dim u = 0.5 * ((S2 - a * a) + System.Math.Sqrt(System.Math.Max(0, (S2 - a * a) * (S2 - a * a) + 4 * a * a * y * y)))
         r = System.Math.Sqrt(System.Math.Max(0, u))
@@ -172,7 +172,7 @@ Public Class Geodesics
     End Sub
 
     ''' <summary>Convert Boyer-Lindquist (r, theta, phi) to embedding Cartesian (spin axis = Y).</summary>
-    Friend Shared Function BLToEmbedding(st As BLState, a As Double) As vec3
+    Public Shared Function BLToEmbedding(st As BLState, a As Double) As vec3
         Dim rho = System.Math.Sqrt(st.r * st.r + a * a)
         Dim sinTh = System.Math.Sin(st.th)
         Dim cosTh = System.Math.Cos(st.th)
@@ -183,7 +183,7 @@ Public Class Geodesics
     End Function
 
     ''' <summary>Solve J * (rdot, thdot, phidot) = dir for the initial Boyer-Lindquist velocity.</summary>
-    Private Shared Sub CartesianVelToBL(pos As vec3, dir As vec3, r0 As Double, th0 As Double, ph0 As Double, a As Double, ByRef rdot As Double, ByRef thdot As Double, ByRef phidot As Double)
+    Public Shared Sub CartesianVelToBL(pos As vec3, dir As vec3, r0 As Double, th0 As Double, ph0 As Double, a As Double, ByRef rdot As Double, ByRef thdot As Double, ByRef phidot As Double)
         Dim rho = System.Math.Sqrt(r0 * r0 + a * a)
         Dim rhoR = r0 / rho
         Dim sinTh = System.Math.Sin(th0)
@@ -254,7 +254,7 @@ Public Class Geodesics
     ''' Energy is normalised to E = 1. The correct angular-momentum root is selected by
     ''' matching the predicted dphi/dlambda to the Jacobian-derived phidot.
     ''' </summary>
-    Friend Shared Sub SolveConserved(r0 As Double, th0 As Double, a As Double, rdot As Double, thdot As Double, phidot As Double, ByRef L As Double, ByRef Q As Double)
+    Public Shared Sub SolveConserved(r0 As Double, th0 As Double, a As Double, rdot As Double, thdot As Double, phidot As Double, ByRef L As Double, ByRef Q As Double)
         Dim s2 = System.Math.Sin(th0) : s2 = s2 * s2
         Dim c2 = System.Math.Cos(th0) : c2 = c2 * c2
         If s2 < 0.000000000001 Then s2 = 0.000000000001

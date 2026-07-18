@@ -75,12 +75,14 @@ Public Class BlackBody
     Private Shared lutR() As Single = Nothing
     Private Shared lutG() As Single = Nothing
     Private Shared lutB() As Single = Nothing
+    Private Shared ReadOnly lutSync As New Object()
     Private Shared ReadOnly lutMin As Double = 500.0
     Private Shared ReadOnly lutMax As Double = 40000.0
     Private Shared ReadOnly lutStep As Double = 50.0
 
     Private Shared Sub BuildLUT()
-        If lutR IsNot Nothing Then Return
+        SyncLock lutSync
+            If lutR IsNot Nothing Then Return
         Dim n = CInt(System.Math.Ceiling((lutMax - lutMin) / lutStep)) + 1
         lutR = New Single(n - 1) {}
         lutG = New Single(n - 1) {}
@@ -92,6 +94,7 @@ Public Class BlackBody
             lutG(i) = c.Green
             lutB(i) = c.Blue
         Next
+        End SyncLock
     End Sub
 
     ''' <summary>Analytic Tanner Helland blackbody colour (used only to build the LUT).</summary>

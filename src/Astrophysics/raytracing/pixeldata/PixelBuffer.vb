@@ -1,4 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.ComponentModel.Collection
+Imports System.Threading.Tasks
 
 Namespace raytracing.pixeldata
 
@@ -30,29 +31,28 @@ Namespace raytracing.pixeldata
         End Function
 
         Public Overridable Sub filterByEmission(minEmission As Single)
-            For i = 0 To pixels.Length - 1
-                For j = 0 To pixels(i).Length - 1
-                    Dim pxl = pixels(i)(j)
-                    If pxl IsNot Nothing AndAlso pxl.Emission < minEmission Then
-                        pixels(i)(j) = New PixelData(Color.BLACK, pxl.Depth, pxl.Emission)
-                    End If
-                Next
-            Next
+            Parallel.For(0, pixels.Length, Sub(i)
+                                            For j = 0 To pixels(i).Length - 1
+                                                Dim pxl = pixels(i)(j)
+                                                If pxl IsNot Nothing AndAlso pxl.Emission < minEmission Then
+                                                    pixels(i)(j) = New PixelData(Color.BLACK, pxl.Depth, pxl.Emission)
+                                                End If
+                                            Next
+                                        End Sub)
         End Sub
 
         ''' <summary>
         ''' Changes will be applied to the buffer itself </summary>
         Public Overridable Function add(other As PixelBuffer) As PixelBuffer
-            For i = 0 To pixels.Length - 1
-                For j = 0 To pixels(i).Length - 1
-                    Dim pxl = pixels(i)(j)
-                    Dim otherPxl = other.pixels(i)(j)
-                    If pxl IsNot Nothing AndAlso otherPxl IsNot Nothing Then
-                        'float brightnessB4 = pixels[i][j].getColor().getLuminance();
-                        pixels(i)(j).add(otherPxl)
-                    End If
-                Next
-            Next
+            Parallel.For(0, pixels.Length, Sub(i)
+                                            For j = 0 To pixels(i).Length - 1
+                                                Dim pxl = pixels(i)(j)
+                                                Dim otherPxl = other.pixels(i)(j)
+                                                If pxl IsNot Nothing AndAlso otherPxl IsNot Nothing Then
+                                                    pixels(i)(j).add(otherPxl)
+                                                End If
+                                            Next
+                                        End Sub)
 
             Return Me
         End Function
@@ -60,11 +60,11 @@ Namespace raytracing.pixeldata
         ''' <summary>
         ''' Changes will be applied to the buffer itself </summary>
         Public Overridable Function multiply(brightness As Single) As PixelBuffer
-            For i = 0 To pixels.Length - 1
-                For j = 0 To pixels(i).Length - 1
-                    pixels(i)(j).multiply(brightness)
-                Next
-            Next
+            Parallel.For(0, pixels.Length, Sub(i)
+                                            For j = 0 To pixels(i).Length - 1
+                                                pixels(i)(j).multiply(brightness)
+                                            Next
+                                        End Sub)
 
             Return Me
         End Function
@@ -124,14 +124,14 @@ Namespace raytracing.pixeldata
         Public Function clone() As PixelBuffer
             Dim lClone As New PixelBuffer(_Width, _Height)
 
-            For i As Integer = 0 To _Width - 1
-                For j As Integer = 0 To _Height - 1
-                    Dim p = pixels(i)(j)
-                    If p IsNot Nothing Then
-                        lClone.pixels(i)(j) = New PixelData(p.Color, p.Depth, p.Emission)
-                    End If
-                Next
-            Next
+            Parallel.For(0, _Width, Sub(i)
+                                        For j As Integer = 0 To _Height - 1
+                                            Dim p = pixels(i)(j)
+                                            If p IsNot Nothing Then
+                                                lClone.pixels(i)(j) = New PixelData(p.Color, p.Depth, p.Emission)
+                                            End If
+                                        Next
+                                    End Sub)
 
             Return lClone
         End Function

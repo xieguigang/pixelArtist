@@ -98,15 +98,15 @@ Public Class GeodesicsPacket
         Dim hdt = dt / 2.0
         Dim inv6 = dt / 6.0
 
-        For step = 0 To maxSteps - 1
+        For stepN = 0 To maxSteps - 1
             ' ---- termination on current position (active lanes only) ----
             Dim r2 = px * px + py * py + pz * pz
-            Dim r = Vector.Sqrt(r2)
+            Dim r = Vector.SquareRoot(r2)
             Dim dotVP = vx * px + vy * py + vz * pz
             Dim cmpCap = Vector.LessThan(r, RsVec)
             Dim cmpEscR = Vector.GreaterThan(r, RmaxVec)
-            Dim cmpEarly = Vector.BitwiseAnd(Vector.GreaterThan(r, R16), Vector.GreaterThan(dotVP, zero))
-            Dim cmpTerm = Vector.BitwiseOr(cmpCap, Vector.BitwiseOr(cmpEscR, cmpEarly))
+            Dim cmpEarly = Vector.BitwiseAnd(Of Double)(Vector.GreaterThan(r, R16), Vector.GreaterThan(dotVP, zero))
+            Dim cmpTerm = Vector.BitwiseOr(Of Double)(cmpCap, Vector.BitwiseOr(Of Double)(cmpEscR, cmpEarly))
             Dim capBit = Vector.ConditionalSelect(cmpCap, one, zero)
             Dim termBit = Vector.ConditionalSelect(cmpTerm, one, zero) * active
 
@@ -192,7 +192,7 @@ Public Class GeodesicsPacket
     Private Shared Sub AccelS(px As Vector(Of Double), py As Vector(Of Double), pz As Vector(Of Double), h2 As Vector(Of Double), active As Vector(Of Double),
                                ByRef ax As Vector(Of Double), ByRef ay As Vector(Of Double), ByRef az As Vector(Of Double))
         Dim r2 = px * px + py * py + pz * pz
-        Dim r = Vector.Sqrt(r2)
+        Dim r = Vector.SquareRoot(r2)
         Dim denom = r2 * r2 * r
         Dim inv = (-1.5) * h2 / denom
         ' guard r ~ 0 to avoid division by zero (matches scalar: r < 1e-9 -> 0)
@@ -211,41 +211,48 @@ Public Class GeodesicsPacket
         Dim Rmax = model.EscapeRadius
         Dim rHor = M + Math.Sqrt(Math.Max(0, M * M - aGeom * aGeom))
 
-        Dim oR(L - 1) As Double, oTh(L - 1) As Double, oPh(L - 1) As Double
-        Dim Lv(L - 1) As Double, Qv(L - 1) As Double, sR(L - 1) As Double, sTh(L - 1) As Double
+        Dim kxR(L - 1) As Double
+        Dim kxTh(L - 1) As Double
+        Dim kxPh(L - 1) As Double
+        Dim Lv(L - 1) As Double
+        Dim Qv(L - 1) As Double
+        Dim sR(L - 1) As Double
+        Dim sTh(L - 1) As Double
         Dim act(L - 1) As Double
-        Dim pEx(L - 1) As Double, pEy(L - 1) As Double, pEz(L - 1) As Double
+        Dim pEx(L - 1) As Double
+        Dim pEy(L - 1) As Double
+        Dim pEz(L - 1) As Double
 
         For i = 0 To L - 1
             If i < n Then
                 Dim o = origins(i)
                 Dim dv = dirs(i).Normalize()
                 Dim r0, th0, ph0 As Double
-                EmbeddingToBL(o.X, o.Y, o.Z, aGeom, r0, th0, ph0)
+                Geodesics.EmbeddingToBL(o.X, o.Y, o.Z, aGeom, r0, th0, ph0)
                 Dim rdot, thdot, phidot As Double
-                CartesianVelToBL(o, dv, r0, th0, ph0, aGeom, rdot, thdot, phidot)
+                Geodesics.CartesianVelToBL(o, dv, r0, th0, ph0, aGeom, rdot, thdot, phidot)
                 Dim Lc, Qc As Double
-                SolveConserved(r0, th0, aGeom, rdot, thdot, phidot, Lc, Qc)
+                Geodesics.SolveConserved(r0, th0, aGeom, rdot, thdot, phidot, Lc, Qc)
                 If Double.IsNaN(Lc) OrElse Double.IsInfinity(Lc) Then Lc = 0
                 If Double.IsNaN(Qc) OrElse Double.IsInfinity(Qc) Then Qc = 0
-                oR(i) = r0 : oTh(i) = th0 : oPh(i) = ph0
+                kxR(i) = r0 : kxTh(i) = th0 : kxPh(i) = ph0
                 Lv(i) = Lc : Qv(i) = Qc
                 sR(i) = If(rdot >= 0, 1.0, -1.0)
                 sTh(i) = If(thdot >= 0, 1.0, -1.0)
                 act(i) = 1.0
-                Dim e = BLToEmbedding(New BLState With {.r = r0, .th = th0, .ph = ph0}, aGeom)
+                Dim e = Geodesics.BLToEmbedding(New Geodesics.BLState With {.r = r0, .th = th0, .ph = ph0}, aGeom)
                 pEx(i) = e.X : pEy(i) = e.Y : pEz(i) = e.Z
             Else
-                oR(i) = rHor : oTh(i) = Math.PI / 2 : oPh(i) = 0
+                kxR(i) = rHor : kxTh(i) = Math.PI / 2 : kxPh(i) = 0
                 Lv(i) = 0 : Qv(i) = 0 : sR(i) = 1 : sTh(i) = 1
                 act(i) = 0.0
                 pEx(i) = 0 : pEy(i) = 0 : pEz(i) = 0
             End If
         Next
 
-        Dim r = New Vector(Of Double)(oR)
-        Dim th = New Vector(Of Double)(oTh)
-        Dim ph = New Vector(Of Double)(oPh)
+        Dim r = New Vector(Of Double)(kxR)
+        Dim th = New Vector(Of Double)(kxTh)
+        Dim ph = New Vector(Of Double)(kxPh)
         Dim Lvec = New Vector(Of Double)(Lv)
         Dim Qvec = New Vector(Of Double)(Qv)
         Dim signR = New Vector(Of Double)(sR)
@@ -269,7 +276,7 @@ Public Class GeodesicsPacket
         Dim hdt = dt / 2.0
         Dim inv6 = dt / 6.0
 
-        For step = 0 To maxSteps - 1
+        For stepN = 0 To maxSteps - 1
             ' current embedding of the state (used for escape direction + disk crossing base)
             Dim csX, csY, csZ As Vector(Of Double)
             BLToEmbV(r, th, ph, aGeom, csX, csY, csZ)
@@ -281,8 +288,8 @@ Public Class GeodesicsPacket
             Dim notNanBit = Vector.ConditionalSelect(Vector.Equals(r, r), one, zero)
             Dim isNanBit = one - notNanBit
             Dim isInfBit = Vector.ConditionalSelect(Vector.Equals(Vector.Abs(r), infVec), one, zero)
-            Dim cmpBad = Vector.BitwiseOr(isNanBit, isInfBit)
-            Dim cmpTerm = Vector.BitwiseOr(cmpCap, Vector.BitwiseOr(cmpEscR, Vector.BitwiseOr(cmpEarly, cmpBad)))
+            Dim cmpBad = Vector.BitwiseOr(Of Double)(isNanBit, isInfBit)
+            Dim cmpTerm = Vector.BitwiseOr(Of Double)(cmpCap, Vector.BitwiseOr(Of Double)(cmpEscR, Vector.BitwiseOr(Of Double)(cmpEarly, cmpBad)))
             Dim capBit = Vector.ConditionalSelect(cmpCap, one, zero)
             Dim termBit = Vector.ConditionalSelect(cmpTerm, one, zero) * active
 
@@ -380,17 +387,22 @@ Public Class GeodesicsPacket
         Dim c = sc.Item2
         Dim s2 = s * s
         Dim c2 = c * c
-        Dim Sigma = r * r + a * a * c2
-        Dim Delta = r * r - 2 * M * r + a * a
-        Dim T = (r * r + a * a) - a * L
-        Dim radR = T * T - Delta * (Q + (a - L) * (a - L))
+        ' broadcast the scalar geometry constants into vectors so the arithmetic
+        ' stays entirely vectorised (no scalar + vector mixing)
+        Dim aVec = New Vector(Of Double)(a)
+        Dim a2 = New Vector(Of Double)(a * a)
+        Dim twoM = New Vector(Of Double)(2 * M)
+        Dim Sigma = r * r + a2 * c2
+        Dim Delta = r * r - twoM * r + a2
+        Dim T = (r * r + a2) - aVec * L
+        Dim radR = T * T - Delta * (Q + (aVec - L) * (aVec - L))
         ' guard s2 ~ 0 to avoid division by zero (matches scalar s2 clamp)
         Dim sGuard = Vector.GreaterThan(s2, New Vector(Of Double)(0.0000001))
-        Dim fullThetaR = Q - c2 * (a * a - L * L / s2)
+        Dim fullThetaR = Q - c2 * (a2 - L * L / s2)
         Dim thetaR = Vector.ConditionalSelect(sGuard, fullThetaR, Q)
-        dr = signR * Vector.Sqrt(radR) / Sigma
-        dth = signTh * Vector.Sqrt(thetaR) / Sigma
-        dph = (-(a - L / s2) + a * T / Delta) / Sigma
+        dr = signR * Vector.SquareRoot(radR) / Sigma
+        dth = signTh * Vector.SquareRoot(thetaR) / Sigma
+        dph = (-(aVec - L / s2) + aVec * T / Delta) / Sigma
         dr = dr * active
         dth = dth * active
         dph = dph * active
@@ -398,7 +410,7 @@ Public Class GeodesicsPacket
 
     Private Shared Sub BLToEmbV(r As Vector(Of Double), th As Vector(Of Double), ph As Vector(Of Double), a As Double,
                                 ByRef ex As Vector(Of Double), ByRef ey As Vector(Of Double), ByRef ez As Vector(Of Double))
-        Dim rho = Vector.Sqrt(r * r + a * a)
+        Dim rho = Vector.SquareRoot(r * r + New Vector(Of Double)(a * a))
         Dim sc = Vector.SinCos(th)
         Dim sinTh = sc.Item1, cosTh = sc.Item2
         Dim scp = Vector.SinCos(ph)
@@ -409,16 +421,20 @@ Public Class GeodesicsPacket
     End Sub
 
     Private Shared Function KerrRV(r As Vector(Of Double), a As Double, L As Vector(Of Double), Q As Vector(Of Double)) As Vector(Of Double)
-        Dim Delta = r * r - 2 * M * r + a * a
-        Dim T = (r * r + a * a) - a * L
-        Return T * T - Delta * (Q + (a - L) * (a - L))
+        Dim aVec = New Vector(Of Double)(a)
+        Dim a2 = New Vector(Of Double)(a * a)
+        Dim twoM = New Vector(Of Double)(2 * M)
+        Dim Delta = r * r - twoM * r + a2
+        Dim T = (r * r + a2) - aVec * L
+        Return T * T - Delta * (Q + (aVec - L) * (aVec - L))
     End Function
 
     Private Shared Function KerrThetaV(th As Vector(Of Double), a As Double, L As Vector(Of Double), Q As Vector(Of Double)) As Vector(Of Double)
         Dim sc = Vector.SinCos(th)
         Dim s = sc.Item1 : Dim s2 = s * s
         Dim c = sc.Item2 : Dim c2 = c * c
-        Return Q - c2 * (a * a - L * L / s2)
+        Dim a2 = New Vector(Of Double)(a * a)
+        Return Q - c2 * (a2 - L * L / s2)
     End Function
 
 End Class
