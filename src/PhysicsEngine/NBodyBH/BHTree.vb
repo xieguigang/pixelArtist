@@ -26,7 +26,7 @@ Public Class BHTree
     ''' Each BHTree represents a quadrant and an aggregate body 
     ''' that represents all bodies inside the quadrant.
     ''' </summary>
-    ''' <paramname="q"> the quadrant this node is contained within </param>
+    ''' <param name="q"> the quadrant this node is contained within </param>
     Public Sub New(q As Quad)
         quad = q
         body = Nothing

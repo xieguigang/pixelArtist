@@ -20,9 +20,9 @@ Public Class Quad
     ''' Constructor: creates a new Quad with the given 
     ''' parameters (assume it is square).
     ''' </summary>
-    ''' <paramname="xmid">   x-coordinate of center of quadrant </param>
-    ''' <paramname="ymid">   y-coordinate of center of quadrant </param>
-    ''' <paramname="length"> the side length of the quadrant </param>
+    ''' <param name="xmid">   x-coordinate of center of quadrant </param>
+    ''' <param name="ymid">   y-coordinate of center of quadrant </param>
+    ''' <param name="length"> the side length of the quadrant </param>
     Public Sub New(xmid As Double, ymid As Double, length As Double)
         Me.xmid = xmid
         Me.ymid = ymid
@@ -40,8 +40,8 @@ Public Class Quad
     ''' <summary>
     ''' Does this quadrant contain (x, y)?
     ''' </summary>
-    ''' <paramname="x"> x-coordinate of point to test </param>
-    ''' <paramname="y"> y-coordinate of point to test </param>
+    ''' <param name="x"> x-coordinate of point to test </param>
+    ''' <param name="y"> y-coordinate of point to test </param>
     ''' <returns>  true if quadrant contains (x, y), else false </returns>
     Public Overridable Function contains(x As Double, y As Double) As Boolean
         Dim halfLen = length_Conflict / 2.0
