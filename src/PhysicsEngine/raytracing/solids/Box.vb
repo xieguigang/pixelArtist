@@ -52,7 +52,13 @@ Namespace raytracing.solids
                 End If
             Next
             If intersectFlag Then
-                Return ray.Origin.Add(ray.Direction.Multiply(tnear))
+                ' If the near intersection is behind the ray origin the ray starts
+                ' inside the box, so the visible surface is the far intersection.
+                Dim tHit = If(tnear > 0, tnear, tfar)
+                If tHit < 0 Then
+                    Return Nothing
+                End If
+                Return ray.Origin.Add(ray.Direction.Multiply(tHit))
             Else
                 Return Nothing
             End If

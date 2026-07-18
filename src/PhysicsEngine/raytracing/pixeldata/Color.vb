@@ -46,18 +46,21 @@
             Return New Color(System.Math.Min(1, Red + brightness), System.Math.Min(1, Green + brightness), System.Math.Min(1, Blue + brightness))
         End Function
 
+        ' 0xFF000000 as a signed 32-bit integer (avoids OverflowException from a UInteger literal).
+        Private Const ALPHA As Integer = -16777216
+
         Public Overridable ReadOnly Property RGB As Integer
             Get
-                Dim redPart As Integer = Red * 255
-                Dim greenPart As Integer = Green * 255
-                Dim bluePart As Integer = Blue * 255
+                Dim redPart As Integer = CInt(Red * 255)
+                Dim greenPart As Integer = CInt(Green * 255)
+                Dim bluePart As Integer = CInt(Blue * 255)
 
                 ' Shift bits to right place
                 redPart = redPart << 16 And &HFF0000 'Shift red 16-bits and mask out other stuff
                 greenPart = greenPart << 8 And &HFF00 'Shift Green 8-bits and mask out other stuff
                 bluePart = bluePart And &HFF 'Mask out anything not blue.
 
-                Return CInt(&HFF000000UI) Or redPart Or greenPart Or bluePart '0xFF000000 for 100% Alpha. Bitwise OR everything together.
+                Return ALPHA Or redPart Or greenPart Or bluePart '100% Alpha. Bitwise OR everything together.
             End Get
         End Property
 

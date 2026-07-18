@@ -20,12 +20,18 @@ Namespace raytracing.solids
             Dim y As Single = _Position.Subtract(p).Length()
             If y < radius Then
                 Dim x As Single = System.Math.Sqrt(radius * radius - y * y)
-                Dim t1 = t - x
-                If t1 > 0 Then
-                    Return ray.Origin.Add(ray.Direction.Multiply(t1))
-                Else
+                Dim near = t - x
+                Dim far = t + x
+
+                ' Both intersections behind the ray origin -> no hit in front.
+                If far <= 0 Then
                     Return Nothing
                 End If
+
+                ' If the near intersection is behind the origin we are inside the
+                ' sphere, so the visible surface is the far intersection.
+                Dim tHit = If(near > 0, near, far)
+                Return ray.Origin.Add(ray.Direction.Multiply(tHit))
             Else
                 Return Nothing
             End If

@@ -56,7 +56,7 @@ Namespace raytracing.rendering
                     Dim uv = getNormalizedScreenCoordinates(x, y, width, height)
                     Dim pixelData = computePixelInfo(scene, uv(0), uv(1))
 
-                    Dim c = Drawing.Color.FromArgb(CInt(pixelData.Color.Red) * 255, CInt(pixelData.Color.Green) * 255, CInt(pixelData.Color.Blue) * 255)
+                    Dim c = Drawing.Color.FromArgb(pixelData.Color.RGB)
                     gfx.FillRectangle(New SolidBrush(c), x, y, blockSize, blockSize)
                     y += blockSize
                 End While
@@ -149,12 +149,19 @@ Namespace raytracing.rendering
         Private Shared Function getDiffuseBrightness(scene As Scene, hit As RayHit) As Single
             Dim sceneLight = scene.Light
 
-            ' Raytrace to light to check if something blocks the light
-            Dim lightBlocker As RayHit = scene.raycast(New Ray(sceneLight.Position, hit.Position.Subtract(sceneLight.Position).Normalize()))
+            ' Direction from the surface point toward the light (normalized).
+            Dim toLight = sceneLight.Position.Subtract(hit.Position).Normalize()
+
+            ' Raytrace to light to check if something blocks the light.
+            ' Offset the ray origin slightly along the light direction to avoid
+            ' self-intersection precision artifacts at the light source.
+            Dim shadowOrigin = sceneLight.Position.Add(toLight.Multiply(0.001F))
+            Dim lightBlocker As RayHit = scene.raycast(New Ray(shadowOrigin, toLight))
             If lightBlocker IsNot Nothing AndAlso lightBlocker.Solid IsNot hit.Solid Then
                 Return GLOBAL_ILLUMINATION ' GOBAL_ILLUMINATION = Minimum brightness
             Else
-                Return System.Math.Max(GLOBAL_ILLUMINATION, System.Math.Min(1, vec3.Dot(hit.Normal, sceneLight.Position.Subtract(hit.Position))))
+                ' Lambertian diffuse term: N . L with a unit light direction.
+                Return System.Math.Max(GLOBAL_ILLUMINATION, System.Math.Min(1, vec3.Dot(hit.Normal, toLight)))
             End If
         End Function
 

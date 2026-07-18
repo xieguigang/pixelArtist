@@ -69,22 +69,54 @@ Namespace raytracing.pixeldata
             Return Me
         End Function
 
-        Public Overridable Function resize(newWidth As Integer, newHeight As Integer, linear As Boolean) As PixelBuffer ' Linear resizing isn't actually implemented yet.
+        Public Overridable Function resize(newWidth As Integer, newHeight As Integer, linear As Boolean) As PixelBuffer
             Dim copy As PixelBuffer = New PixelBuffer(newWidth, newHeight)
             For i = 0 To newWidth - 1
                 For j = 0 To newHeight - 1
-                    copy.pixels(i)(j) = pixels(CSng(i) / newWidth * _Width)(CSng(j) / newHeight * _Height)
+                    If linear Then
+                        copy.pixels(i)(j) = sampleBilinear(CSng(i) / newWidth * _Width, CSng(j) / newHeight * _Height)
+                    Else
+                        Dim sx = CInt(System.Math.Round(CSng(i) / newWidth * _Width))
+                        Dim sy = CInt(System.Math.Round(CSng(j) / newHeight * _Height))
+                        sx = System.Math.Max(0, System.Math.Min(_Width - 1, sx))
+                        sy = System.Math.Max(0, System.Math.Min(_Height - 1, sy))
+                        copy.pixels(i)(j) = pixels(sx)(sy)
+                    End If
                 Next
             Next
             Return copy
         End Function
 
+        Private Function sampleBilinear(fx As Single, fy As Single) As PixelData
+            Dim x0 = System.Math.Max(0, CInt(System.Math.Floor(fx)))
+            Dim y0 = System.Math.Max(0, CInt(System.Math.Floor(fy)))
+            Dim x1 = System.Math.Min(_Width - 1, x0 + 1)
+            Dim y1 = System.Math.Min(_Height - 1, y0 + 1)
+            Dim tx = fx - x0
+            Dim ty = fy - y0
+
+            Dim p00 = If(pixels(x0)(y0), New PixelData(Color.BLACK, 0, 0))
+            Dim p10 = If(pixels(x1)(y0), New PixelData(Color.BLACK, 0, 0))
+            Dim p01 = If(pixels(x0)(y1), New PixelData(Color.BLACK, 0, 0))
+            Dim p11 = If(pixels(x1)(y1), New PixelData(Color.BLACK, 0, 0))
+
+            ' Bilinear blend of the color; depth/emission are carried from the
+            ' nearest sample to avoid mixing +Infinity (sky) depths.
+            Dim top = Color.lerp(p00.Color, p10.Color, tx)
+            Dim bottom = Color.lerp(p01.Color, p11.Color, tx)
+            Dim blended = Color.lerp(top, bottom, ty)
+
+            Return New PixelData(blended, p00.Depth, p00.Emission)
+        End Function
+
         Public Overridable Sub countEmptyPixels()
             Dim emptyPixels = 0
-            For i = 0 To pixels.Length - 1
-                If pixels(i) Is Nothing Then
-                    emptyPixels += 1
-                End If
+            For i = 0 To _Width - 1
+                For j = 0 To _Height - 1
+                    If pixels(i)(j) Is Nothing Then
+                        emptyPixels += 1
+                    End If
+                Next
             Next
             Console.WriteLine("Found " & emptyPixels.ToString() & " empty pixels.")
         End Sub
@@ -92,8 +124,13 @@ Namespace raytracing.pixeldata
         Public Function clone() As PixelBuffer
             Dim lClone As New PixelBuffer(_Width, _Height)
 
-            For i As Integer = 0 To pixels.Length - 1
-                Array.Copy(pixels(i), 0, lClone.pixels(i), 0, pixels(i).Length)
+            For i As Integer = 0 To _Width - 1
+                For j As Integer = 0 To _Height - 1
+                    Dim p = pixels(i)(j)
+                    If p IsNot Nothing Then
+                        lClone.pixels(i)(j) = New PixelData(p.Color, p.Depth, p.Emission)
+                    End If
+                Next
             Next
 
             Return lClone
