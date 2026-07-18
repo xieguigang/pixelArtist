@@ -35,20 +35,6 @@ Public Class Geodesics
     ' Geometric units: Rs = 2M = 1  ->  M = 0.5
     Private Const M As Double = 0.5
 
-    ' Temporary debug state (used by the test harness only).
-    Public Shared LastL As Double = 0
-    Public Shared LastQ As Double = 0
-    Public Shared LastSteps As Integer = 0
-    Public Shared LastExit As String = ""
-    Public Shared LastR0 As Double = 0
-    Public Shared LastR1 As Double = 0
-    Public Shared LastDr0 As Double = 0
-    Public Shared LastSigma0 As Double = 0
-    Public Shared LastRmin As Double = 0
-    Public Shared LastRfin As Double = 0
-    Public Shared LastSignRfin As Double = 0
-    Public Shared LastRfinVal As Double = 0
-
     ''' <summary>
     ''' Trace a photon launched from <paramref name="origin"/> (embedding Cartesian, Rs = 1)
     ''' along unit <paramref name="direction"/>. Dispatches to Schwarzschild or Kerr depending
@@ -360,60 +346,52 @@ Public Class Geodesics
         Dim rdot, thdot, phidot As Double
         CartesianVelToBL(origin, direction.Normalize(), r0, th0, ph0, a, rdot, thdot, phidot)
 
-            Dim L, Q As Double
-            SolveConserved(r0, th0, a, rdot, thdot, phidot, L, Q)
-            If Double.IsNaN(L) OrElse Double.IsNaN(Q) OrElse Double.IsInfinity(L) OrElse Double.IsInfinity(Q) Then
-                L = 0 : Q = 0
-            End If
+        Dim L, Q As Double
+        SolveConserved(r0, th0, a, rdot, thdot, phidot, L, Q)
+        If Double.IsNaN(L) OrElse Double.IsNaN(Q) OrElse Double.IsInfinity(L) OrElse Double.IsInfinity(Q) Then
+            L = 0 : Q = 0
+        End If
 
         Dim signR = If(rdot >= 0, 1.0, -1.0)
         Dim signTh = If(thdot >= 0, 1.0, -1.0)
 
-        LastL = L : LastQ = Q
-
         Dim st As New BLState With {.r = r0, .th = th0, .ph = ph0}
         Dim prevEmb = BLToEmbedding(st, a)
-
-        LastR0 = r0
-        Dim idr0, ith0, iph0 As Double
-        KerrDeriv(st, a, L, Q, signR, signTh, idr0, ith0, iph0)
-        LastDr0 = idr0
 
         For i = 0 To maxSteps - 1
             If Double.IsNaN(st.r) OrElse Double.IsInfinity(st.r) Then Exit For
             If st.r <= rHor Then
                 res.Captured = True
-                LastExit = "capture@" & i
-                LastSteps = i
                 Return res
             End If
             If st.r > Rmax Then
                 res.Escaped = True
-                res.EscapeDir = (BLToEmbedding(st, a).Subtract(prevEmb)).Normalize()
-                If res.EscapeDir.Length() < 0.000001 Then res.EscapeDir = New vec3(0, 0, 1)
-                LastExit = "escape@" & i
-                LastSteps = i
+                res.EscapeDir = EscapeDirFrom(st, prevEmb, a)
                 Return res
             End If
             ' Early-out: once clearly outbound beyond the strong-lensing region, the
             ' trajectory asymptotes and we can sample the background immediately.
             If st.r > 16 AndAlso signR > 0 Then
                 res.Escaped = True
-                Dim eOut = (BLToEmbedding(st, a).Subtract(prevEmb)).Normalize()
-                If Double.IsNaN(eOut.X) OrElse eOut.Length() < 0.000001 Then eOut = New vec3(0, 0, 1)
-                res.EscapeDir = eOut
-                LastExit = "escapeEarly@" & i
-                LastSteps = i
+                res.EscapeDir = EscapeDirFrom(st, prevEmb, a)
                 Return res
             End If
 
             Dim ns As New BLState
             RK4Kerr(st, a, L, Q, signR, signTh, dt, ns)
-            If i = 0 Then LastR1 = ns.r
 
-            ' Turning-point handling for r and theta.
-            If KerrR(ns.r, a, L, Q) < 0 Then signR = -signR
-            If KerrTheta(ns.th, a, L, Q) < 0 Then signTh = -signTh
+            ' Turning-point handling. The radial/theta equations use dr = sign * sqrt(R)/Sigma,
+            ' so inside the classically-forbidden region (R < 0) the step would be imaginary.
+            ' When a step overshoots a turning point we reflect: keep the coordinate at its
+            ' pre-step value and reverse the direction, instead of freezing at dr = 0.
+            If KerrR(ns.r, a, L, Q) < 0 Then
+                ns = New BLState With {.r = st.r, .th = st.th, .ph = st.ph}
+                signR = -signR
+            End If
+            If KerrTheta(ns.th, a, L, Q) < 0 Then
+                ns.th = st.th
+                signTh = -signTh
+            End If
 
             Dim curEmb = BLToEmbedding(ns, a)
 
@@ -436,15 +414,18 @@ Public Class Geodesics
             st = ns
         Next
 
-        LastExit = "maxsteps"
-        LastSteps = maxSteps
+        ' Ran out of steps: treat as escaped with the current (asymptotic) direction.
         res.Escaped = True
+        res.EscapeDir = EscapeDirFrom(st, prevEmb, a)
+        Return res
+    End Function
+
+    Private Shared Function EscapeDirFrom(st As BLState, prevEmb As vec3, a As Double) As vec3
         Dim ed = (BLToEmbedding(st, a).Subtract(prevEmb)).Normalize()
         If Double.IsNaN(ed.X) OrElse Double.IsNaN(ed.Y) OrElse Double.IsNaN(ed.Z) OrElse ed.Length() < 0.000001 Then
             ed = New vec3(0, 0, 1)
         End If
-        res.EscapeDir = ed
-        Return res
+        Return ed
     End Function
 
 #End Region
