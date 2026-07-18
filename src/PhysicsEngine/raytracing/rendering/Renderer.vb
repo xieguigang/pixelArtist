@@ -108,7 +108,7 @@ Namespace raytracing.rendering
             Dim eyePos As vec3 = New vec3(0, 0, -1 / System.Math.Tan(ToRadians(scene.Camera.FieldOfView / 2)))
             Dim cam As Camera = scene.Camera
 
-            Dim rayDir As vec3 = (New vec3(u, v, 0)).Subtract(eyePos).Normalize().rotateYP(cam.AngleY, cam.AngleX)
+            Dim rayDir As vec3 = (New vec3(u, v, 0)).Subtract(eyePos).Normalize().RotateYawPitch(cam.AngleY, cam.AngleX)
             Dim hit As RayHit = scene.raycast(New Ray(eyePos.Add(cam.position), rayDir))
             If hit IsNot Nothing Then
                 Return computePixelInfoAtHit(scene, hit, MAX_REFLECTION_BOUNCES)
