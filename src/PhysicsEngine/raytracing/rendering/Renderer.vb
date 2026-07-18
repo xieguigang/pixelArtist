@@ -149,14 +149,15 @@ Namespace raytracing.rendering
         Private Shared Function getDiffuseBrightness(scene As Scene, hit As RayHit) As Single
             Dim sceneLight = scene.Light
 
-            ' Direction from the surface point toward the light (normalized).
-            Dim toLight = sceneLight.Position.Subtract(hit.Position).Normalize()
+            ' Unit direction from the light toward the surface point.
+            Dim lightToHit = hit.Position.Subtract(sceneLight.Position).Normalize()
+            ' Unit direction from the surface point toward the light.
+            Dim toLight = lightToHit.Multiply(-1.0F)
 
-            ' Raytrace to light to check if something blocks the light.
-            ' Offset the ray origin slightly along the light direction to avoid
-            ' self-intersection precision artifacts at the light source.
-            Dim shadowOrigin = sceneLight.Position.Add(toLight.Multiply(0.001F))
-            Dim lightBlocker As RayHit = scene.raycast(New Ray(shadowOrigin, toLight))
+            ' Raytrace toward the light to check for occluders. Offset the origin
+            ' slightly along the ray to avoid self-intersection precision artifacts.
+            Dim shadowOrigin = sceneLight.Position.Add(lightToHit.Multiply(0.001F))
+            Dim lightBlocker As RayHit = scene.raycast(New Ray(shadowOrigin, lightToHit))
             If lightBlocker IsNot Nothing AndAlso lightBlocker.Solid IsNot hit.Solid Then
                 Return GLOBAL_ILLUMINATION ' GOBAL_ILLUMINATION = Minimum brightness
             Else

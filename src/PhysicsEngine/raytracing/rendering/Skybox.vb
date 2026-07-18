@@ -1,7 +1,6 @@
-﻿Imports System.Drawing
-Imports System.IO
-Imports Astrophysics.raytracing.pixeldata
+﻿Imports System.IO
 Imports BufferedImage = Microsoft.VisualBasic.Imaging.BitmapImage.BitmapBuffer
+Imports Color = Astrophysics.raytracing.pixeldata.Color
 Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 
 Namespace raytracing.rendering
