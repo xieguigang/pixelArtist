@@ -40,6 +40,14 @@ Public Class Geodesics
     Public Shared LastQ As Double = 0
     Public Shared LastSteps As Integer = 0
     Public Shared LastExit As String = ""
+    Public Shared LastR0 As Double = 0
+    Public Shared LastR1 As Double = 0
+    Public Shared LastDr0 As Double = 0
+    Public Shared LastSigma0 As Double = 0
+    Public Shared LastRmin As Double = 0
+    Public Shared LastRfin As Double = 0
+    Public Shared LastSignRfin As Double = 0
+    Public Shared LastRfinVal As Double = 0
 
     ''' <summary>
     ''' Trace a photon launched from <paramref name="origin"/> (embedding Cartesian, Rs = 1)
@@ -115,6 +123,13 @@ Public Class Geodesics
                 Return res
             End If
             If r > Rmax Then
+                res.Escaped = True
+                res.EscapeDir = v.Normalize()
+                Return res
+            End If
+            ' Early-out: once clearly outbound beyond the strong-lensing region, the
+            ' trajectory asymptotes and we can sample the background immediately.
+            If r > 16 AndAlso vec3.Dot(v, p) > 0 Then
                 res.Escaped = True
                 res.EscapeDir = v.Normalize()
                 Return res
@@ -307,22 +322,22 @@ Public Class Geodesics
         dph = (-(a - L / s2) + a * T / Delta) / Sigma
     End Sub
 
-    Private Shared Sub RK4Kerr(ByRef st As BLState, a As Double, L As Double, Q As Double, ByRef signR As Double, ByRef signTh As Double, dt As Double)
+    Private Shared Sub RK4Kerr(current As BLState, a As Double, L As Double, Q As Double, signR As Double, signTh As Double, dt As Double, ByRef nextState As BLState)
         Dim k1r, k1t, k1p As Double
-        KerrDeriv(st, a, L, Q, signR, signTh, k1r, k1t, k1p)
-        Dim s2 As New BLState With {.r = st.r + k1r * dt / 2, .th = st.th + k1t * dt / 2, .ph = st.ph + k1p * dt / 2}
+        KerrDeriv(current, a, L, Q, signR, signTh, k1r, k1t, k1p)
+        Dim s2 As New BLState With {.r = current.r + k1r * dt / 2, .th = current.th + k1t * dt / 2, .ph = current.ph + k1p * dt / 2}
         Dim k2r, k2t, k2p As Double
         KerrDeriv(s2, a, L, Q, signR, signTh, k2r, k2t, k2p)
-        Dim s3 As New BLState With {.r = st.r + k2r * dt / 2, .th = st.th + k2t * dt / 2, .ph = st.ph + k2p * dt / 2}
+        Dim s3 As New BLState With {.r = current.r + k2r * dt / 2, .th = current.th + k2t * dt / 2, .ph = current.ph + k2p * dt / 2}
         Dim k3r, k3t, k3p As Double
         KerrDeriv(s3, a, L, Q, signR, signTh, k3r, k3t, k3p)
-        Dim s4 As New BLState With {.r = st.r + k3r * dt, .th = st.th + k3t * dt, .ph = st.ph + k3p * dt}
+        Dim s4 As New BLState With {.r = current.r + k3r * dt, .th = current.th + k3t * dt, .ph = current.ph + k3p * dt}
         Dim k4r, k4t, k4p As Double
         KerrDeriv(s4, a, L, Q, signR, signTh, k4r, k4t, k4p)
 
-        st.r += dt / 6 * (k1r + 2 * k2r + 2 * k3r + k4r)
-        st.th += dt / 6 * (k1t + 2 * k2t + 2 * k3t + k4t)
-        st.ph += dt / 6 * (k1p + 2 * k2p + 2 * k3p + k4p)
+        nextState.r = current.r + dt / 6 * (k1r + 2 * k2r + 2 * k3r + k4r)
+        nextState.th = current.th + dt / 6 * (k1t + 2 * k2t + 2 * k3t + k4t)
+        nextState.ph = current.ph + dt / 6 * (k1p + 2 * k2p + 2 * k3p + k4p)
     End Sub
 
     Private Shared Function TraceKerr(origin As vec3, direction As vec3, model As BlackHoleModel) As PhotonResult
@@ -359,6 +374,11 @@ Public Class Geodesics
         Dim st As New BLState With {.r = r0, .th = th0, .ph = ph0}
         Dim prevEmb = BLToEmbedding(st, a)
 
+        LastR0 = r0
+        Dim idr0, ith0, iph0 As Double
+        KerrDeriv(st, a, L, Q, signR, signTh, idr0, ith0, iph0)
+        LastDr0 = idr0
+
         For i = 0 To maxSteps - 1
             If Double.IsNaN(st.r) OrElse Double.IsInfinity(st.r) Then Exit For
             If st.r <= rHor Then
@@ -375,9 +395,21 @@ Public Class Geodesics
                 LastSteps = i
                 Return res
             End If
+            ' Early-out: once clearly outbound beyond the strong-lensing region, the
+            ' trajectory asymptotes and we can sample the background immediately.
+            If st.r > 16 AndAlso signR > 0 Then
+                res.Escaped = True
+                Dim eOut = (BLToEmbedding(st, a).Subtract(prevEmb)).Normalize()
+                If Double.IsNaN(eOut.X) OrElse eOut.Length() < 0.000001 Then eOut = New vec3(0, 0, 1)
+                res.EscapeDir = eOut
+                LastExit = "escapeEarly@" & i
+                LastSteps = i
+                Return res
+            End If
 
             Dim ns As New BLState
-            RK4Kerr(st, a, L, Q, signR, signTh, dt)
+            RK4Kerr(st, a, L, Q, signR, signTh, dt, ns)
+            If i = 0 Then LastR1 = ns.r
 
             ' Turning-point handling for r and theta.
             If KerrR(ns.r, a, L, Q) < 0 Then signR = -signR
