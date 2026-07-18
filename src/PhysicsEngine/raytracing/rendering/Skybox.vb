@@ -23,7 +23,7 @@ Namespace raytracing.rendering
             End If
 
             Try
-                sphereImage = BufferedImage.FromImage(Image.FromFile(resourceName))
+                sphereImage = BufferedImage.FromImage(Microsoft.VisualBasic.Imaging.Image.FromFile(resourceName))
                 loadedField = True
             Catch e As Exception
                 sphereImage = Nothing
