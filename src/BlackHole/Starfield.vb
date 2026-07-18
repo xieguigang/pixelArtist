@@ -87,16 +87,52 @@ Public Class Starfield
         g += CSng(0.015 * band)
         b += CSng(0.035 * band)
 
-        For Each st In stars
-            Dim c = vec3.Dot(d, st.Dir)
+        ' SIMD dot-product accumulation: process LANES stars per vector lane.
+        Dim lanes = Vector(Of Double).Count
+        Dim zeroV = Vector(Of Double).Zero
+        Dim oneV = Vector(Of Double).One
+        Dim thr = New Vector(Of Double)(0.99995)
+        Dim invK = New Vector(Of Double)(1.0 / 0.00005)
+        Dim dx = d.X, dy = d.Y, dz = d.Z
+        Dim accR = zeroV, accG = zeroV, accB = zeroV
+        Dim n = starCount
+        Dim idx = 0
+        While idx <= n - lanes
+            Dim sx = New Vector(Of Double)(dimX, idx)
+            Dim sy = New Vector(Of Double)(dimY, idx)
+            Dim sz = New Vector(Of Double)(dimZ, idx)
+            Dim dot = sx * dx + sy * dy + sz * dz
+            Dim cmp = Vector.GreaterThan(dot, thr)
+            Dim kk = (dot - thr) * invK
+            kk = Vector.ConditionalSelect(cmp, kk, zeroV)
+            kk = Vector.Min(kk, oneV)
+            Dim mR = New Vector(Of Double)(dR, idx)
+            Dim mG = New Vector(Of Double)(dG, idx)
+            Dim mB = New Vector(Of Double)(dB, idx)
+            accR = accR + kk * mR
+            accG = accG + kk * mG
+            accB = accB + kk * mB
+            idx += lanes
+        End While
+        ' Remainder (fewer than LANES stars) handled scalarly.
+        For i = idx To n - 1
+            Dim c = dimX(i) * dx + dimY(i) * dy + dimZ(i) * dz
             If c > 0.99995 Then
-                Dim k = CSng((c - 0.99995) / 0.00005)
-                k = System.Math.Min(1, k)
-                r += CSng(st.Col.Red * st.Mag * k)
-                g += CSng(st.Col.Green * st.Mag * k)
-                b += CSng(st.Col.Blue * st.Mag * k)
+                Dim k = (c - 0.99995) / 0.00005
+                k = System.Math.Min(1.0, k)
+                r += CSng(dR(i) * k)
+                g += CSng(dG(i) * k)
+                b += CSng(dB(i) * k)
             End If
         Next
+
+        Dim sum(lanes - 1) As Double
+        accR.CopyTo(sum)
+        For i = 0 To lanes - 1 : r += CSng(sum(i)) : Next
+        accG.CopyTo(sum)
+        For i = 0 To lanes - 1 : g += CSng(sum(i)) : Next
+        accB.CopyTo(sum)
+        For i = 0 To lanes - 1 : b += CSng(sum(i)) : Next
 
         Return BlackBody.Safe(r, g, b)
     End Function
