@@ -1,6 +1,4 @@
-﻿Imports PhysicsEngine.raytracing.math
-Imports PhysicsEngine.raytracing.pixeldata
-Imports Vector3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
+﻿Imports Vector3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 
 Namespace raytracing.solids
 

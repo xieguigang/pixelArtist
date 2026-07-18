@@ -1,8 +1,4 @@
-﻿Imports System.Runtime.CompilerServices
-Imports Microsoft.VisualBasic.Imaging.Drawing3D.Models
-Imports PhysicsEngine.raytracing.math
-
-Namespace raytracing
+﻿Namespace raytracing
 
     Module Extensions
 
