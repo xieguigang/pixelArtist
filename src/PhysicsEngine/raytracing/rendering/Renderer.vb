@@ -1,13 +1,14 @@
-﻿Imports Microsoft.VisualBasic.Imaging
+﻿Imports Astrophysics.raytracing.math
+Imports Astrophysics.raytracing.pixeldata
+Imports Microsoft.VisualBasic.Imaging
 Imports Microsoft.VisualBasic.Math
-Imports PhysicsEngine.raytracing.math
-Imports PhysicsEngine.raytracing.pixeldata
 Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
-Imports Vector3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
+Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 
 Namespace raytracing.rendering
 
     Public Class Renderer
+
         Private Const GLOBAL_ILLUMINATION As Single = 0.3F
         Private Const SKY_EMISSION As Single = 0.5F
         Private Const MAX_REFLECTION_BOUNCES As Integer = 5
@@ -103,11 +104,11 @@ Namespace raytracing.rendering
         End Function
 
         Public Shared Function computePixelInfo(scene As Scene, u As Single, v As Single) As pixeldata.PixelData
-            Dim eyePos As Vector3 = New Vector3(0, 0, -1 / System.Math.Tan(ToRadians(scene.Camera.FOV / 2)))
+            Dim eyePos As vec3 = New vec3(0, 0, -1 / System.Math.Tan(ToRadians(scene.Camera.FOV / 2)))
             Dim cam = scene.Camera
 
-            Dim rayDir As Vector3 = (New Vector3(u, v, 0)).subtract(eyePos).normalize().rotateYP(cam.Yaw, cam.Pitch)
-            Dim hit As RayHit = scene.raycast(New Ray(eyePos.add(cam.Position), rayDir))
+            Dim rayDir As vec3 = (New vec3(u, v, 0)).Subtract(eyePos).Normalize().rotateYP(cam.Yaw, cam.Pitch)
+            Dim hit As RayHit = scene.raycast(New Ray(eyePos.Add(cam.Position), rayDir))
             If hit IsNot Nothing Then
                 Return computePixelInfoAtHit(scene, hit, MAX_REFLECTION_BOUNCES)
             ElseIf SHOW_SKYBOX Then
@@ -122,15 +123,15 @@ Namespace raytracing.rendering
             Dim hitPos = hit.Position
             Dim rayDir = hit.Ray.Direction
             Dim hitSolid = hit.Solid
-            Dim hitColor = hitSolid.getTextureColor(hitPos.subtract(hitSolid.Position))
+            Dim hitColor = hitSolid.getTextureColor(hitPos.Subtract(hitSolid.Position))
             Dim brightness = getDiffuseBrightness(scene, hit)
             Dim specularBrightness = getSpecularBrightness(scene, hit)
             Dim reflectivity = hitSolid.Reflectivity
             Dim emission = hitSolid.Emission
 
             Dim reflection As pixeldata.PixelData
-            Dim reflectionVector = rayDir.subtract(hit.Normal.multiply(2 * Vector3.dot(rayDir, hit.Normal)))
-            Dim reflectionRayOrigin = hitPos.add(reflectionVector.multiply(0.001F)) ' Add a little to avoid hitting the same solid again
+            Dim reflectionVector = rayDir.Subtract(hit.Normal.Multiply(2 * vec3.Dot(rayDir, hit.Normal)))
+            Dim reflectionRayOrigin = hitPos.Add(reflectionVector.Multiply(0.001F)) ' Add a little to avoid hitting the same solid again
             Dim reflectionHit As RayHit = If(recursionLimit > 0, scene.raycast(New Ray(reflectionRayOrigin, reflectionVector)), Nothing)
             If reflectionHit IsNot Nothing Then
                 reflection = computePixelInfoAtHit(scene, reflectionHit, recursionLimit - 1)
@@ -141,28 +142,28 @@ Namespace raytracing.rendering
 
             Dim pixelColor = Color.lerp(hitColor, reflection.Color, reflectivity).multiply(brightness).add(specularBrightness).add(hitColor.multiply(emission)).add(reflection.Color.multiply(reflection.Emission * reflectivity)) ' Indirect illumination
 
-            Return New pixeldata.PixelData(pixelColor, Vector3.distance(scene.Camera.Position, hitPos), System.Math.Min(1, emission + reflection.Emission * reflectivity + specularBrightness))
+            Return New pixeldata.PixelData(pixelColor, vec3.Distance(scene.Camera.Position, hitPos), System.Math.Min(1, emission + reflection.Emission * reflectivity + specularBrightness))
         End Function
 
         Private Shared Function getDiffuseBrightness(scene As Scene, hit As RayHit) As Single
             Dim sceneLight = scene.Light
 
             ' Raytrace to light to check if something blocks the light
-            Dim lightBlocker As RayHit = scene.raycast(New Ray(sceneLight.Position, hit.Position.subtract(sceneLight.Position).normalize()))
+            Dim lightBlocker As RayHit = scene.raycast(New Ray(sceneLight.Position, hit.Position.Subtract(sceneLight.Position).Normalize()))
             If lightBlocker IsNot Nothing AndAlso lightBlocker.Solid IsNot hit.Solid Then
                 Return GLOBAL_ILLUMINATION ' GOBAL_ILLUMINATION = Minimum brightness
             Else
-                Return System.Math.Max(GLOBAL_ILLUMINATION, System.Math.Min(1, Vector3.dot(hit.Normal, sceneLight.Position.subtract(hit.Position))))
+                Return System.Math.Max(GLOBAL_ILLUMINATION, System.Math.Min(1, vec3.Dot(hit.Normal, sceneLight.Position.Subtract(hit.Position))))
             End If
         End Function
 
         Private Shared Function getSpecularBrightness(scene As Scene, hit As RayHit) As Single
             Dim hitPos = hit.Position
-            Dim cameraDirection As Vector3 = scene.Camera.Position.subtract(hitPos).normalize()
-            Dim lightDirection As Vector3 = hitPos.subtract(scene.Light.Position).normalize()
-            Dim lightReflectionVector = lightDirection.subtract(hit.Normal.multiply(2 * Vector3.dot(lightDirection, hit.Normal)))
+            Dim cameraDirection As vec3 = scene.Camera.Position.Subtract(hitPos).Normalize()
+            Dim lightDirection As vec3 = hitPos.Subtract(scene.Light.Position).Normalize()
+            Dim lightReflectionVector = lightDirection.Subtract(hit.Normal.Multiply(2 * vec3.Dot(lightDirection, hit.Normal)))
 
-            Dim specularFactor = System.Math.Max(0, System.Math.Min(1, Vector3.dot(lightReflectionVector, cameraDirection)))
+            Dim specularFactor = System.Math.Max(0, System.Math.Min(1, vec3.Dot(lightReflectionVector, cameraDirection)))
             Return CSng(System.Math.Pow(specularFactor, 2)) * hit.Solid.Reflectivity
         End Function
     End Class

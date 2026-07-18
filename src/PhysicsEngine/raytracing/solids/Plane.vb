@@ -1,4 +1,6 @@
-﻿Imports Vector3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
+﻿Imports Astrophysics.raytracing.math
+Imports Astrophysics.raytracing.pixeldata
+Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 
 Namespace raytracing.solids
 
@@ -7,24 +9,24 @@ Namespace raytracing.solids
         Private checkerPattern As Boolean
 
         Public Sub New(height As Single, color As Color, checkerPattern As Boolean, reflectivity As Single, emission As Single)
-            MyBase.New(New Vector3(0, height, 0), color, reflectivity, emission)
+            MyBase.New(New vec3(0, height, 0), color, reflectivity, emission)
             Me.checkerPattern = checkerPattern
         End Sub
 
-        Public Overrides Function calculateIntersection(ray As Ray) As Vector3?
+        Public Overrides Function calculateIntersection(ray As Ray) As vec3?
             Dim t = -(ray.Origin.Y - _Position.Y) / ray.Direction.Y
             If t > 0 AndAlso Single.IsFinite(t) Then
-                Return ray.Origin.add(ray.Direction.multiply(t))
+                Return ray.Origin.Add(ray.Direction.Multiply(t))
             End If
 
             Return Nothing
         End Function
 
-        Public Overrides Function getNormalAt(point As Vector3) As Vector3
-            Return New Vector3(0, 1, 0)
+        Public Overrides Function getNormalAt(point As vec3) As vec3
+            Return New vec3(0, 1, 0)
         End Function
 
-        Public Overrides Function getTextureColor(point As Vector3) As Color
+        Public Overrides Function getTextureColor(point As vec3) As Color
             If checkerPattern Then
                 ' in first or third quadrant of the checkerplane
                 If point.X > 0 And point.Z > 0 OrElse point.X < 0 And point.Z < 0 Then

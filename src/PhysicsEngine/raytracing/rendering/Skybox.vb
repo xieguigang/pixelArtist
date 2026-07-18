@@ -1,7 +1,7 @@
 ﻿Imports System.IO
-Imports PhysicsEngine.raytracing.pixeldata
+Imports Astrophysics.raytracing.pixeldata
 Imports BufferedImage = Microsoft.VisualBasic.Imaging.BitmapImage.BitmapBuffer
-Imports Vector3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
+Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 
 Namespace raytracing.rendering
 
@@ -13,7 +13,7 @@ Namespace raytracing.rendering
         Public Sub New(resourceName As String)
         End Sub
 
-        Public Overridable Function getColor(d As Vector3) As Color
+        Public Overridable Function getColor(d As vec3) As Color
             ' Convert Unit vector to texture coordinates (Wikipedia UV Unwrapping page)
             Dim u As Single = 0.5 + System.Math.Atan2(d.Z, d.X) / (2 * System.Math.PI)
             Dim v As Single = 0.5 - System.Math.Asin(d.Y) / System.Math.PI

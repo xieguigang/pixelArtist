@@ -1,9 +1,13 @@
 ﻿Namespace raytracing.pixeldata
 
+    ''' <summary>
+    ''' Color data in float type
+    ''' </summary>
     Public Class Color
-        Private redField1 As Single
-        Private greenField1 As Single
-        Private blueField1 As Single
+
+        Public Overridable ReadOnly Property Red As Single
+        Public Overridable ReadOnly Property Green As Single
+        Public Overridable ReadOnly Property Blue As Single
 
         Public Sub New(red As Single, green As Single, blue As Single)
             If red > 1.0F OrElse green > 1.0F OrElse blue > 1.0F Then
@@ -14,57 +18,39 @@
                 Throw New ArgumentException("One or more color parameters are NaN")
             End If
 
-            redField1 = red
-            greenField1 = green
-            blueField1 = blue
+            _Red = red
+            _Green = green
+            _Blue = blue
         End Sub
 
-        Public Overridable ReadOnly Property Red As Single
-            Get
-                Return redField1
-            End Get
-        End Property
-
-        Public Overridable ReadOnly Property Green As Single
-            Get
-                Return greenField1
-            End Get
-        End Property
-
-        Public Overridable ReadOnly Property Blue As Single
-            Get
-                Return blueField1
-            End Get
-        End Property
-
         Public Overridable Function multiply(other As Color) As Color
-            Return New Color(redField1 * other.redField1, greenField1 * other.greenField1, blueField1 * other.blueField1)
+            Return New Color(Red * other.Red, Green * other.Green, Blue * other.Blue)
         End Function
 
         Public Overridable Function multiply(brightness As Single) As Color
             brightness = System.Math.Min(1, brightness)
-            Return New Color(redField1 * brightness, greenField1 * brightness, blueField1 * brightness)
+            Return New Color(Red * brightness, Green * brightness, Blue * brightness)
         End Function
 
         Public Overridable Function add(other As Color) As Color
-            Return New Color(System.Math.Min(1, redField1 + other.redField1), System.Math.Min(1, greenField1 + other.greenField1), System.Math.Min(1, blueField1 + other.blueField1))
+            Return New Color(System.Math.Min(1, Red + other.Red), System.Math.Min(1, Green + other.Green), System.Math.Min(1, Blue + other.Blue))
         End Function
 
         Public Overridable Sub addSelf(other As Color)
-            redField1 = System.Math.Min(1, redField1 + other.redField1)
-            greenField1 = System.Math.Min(1, greenField1 + other.greenField1)
-            blueField1 = System.Math.Min(1, blueField1 + other.blueField1)
+            _Red = System.Math.Min(1, Red + other.Red)
+            _Green = System.Math.Min(1, Green + other.Green)
+            _Blue = System.Math.Min(1, Blue + other.Blue)
         End Sub
 
         Public Overridable Function add(brightness As Single) As Color
-            Return New Color(System.Math.Min(1, redField1 + brightness), System.Math.Min(1, greenField1 + brightness), System.Math.Min(1, blueField1 + brightness))
+            Return New Color(System.Math.Min(1, Red + brightness), System.Math.Min(1, Green + brightness), System.Math.Min(1, Blue + brightness))
         End Function
 
         Public Overridable ReadOnly Property RGB As Integer
             Get
-                Dim redPart As Integer = redField1 * 255
-                Dim greenPart As Integer = greenField1 * 255
-                Dim bluePart As Integer = blueField1 * 255
+                Dim redPart As Integer = Red * 255
+                Dim greenPart As Integer = Green * 255
+                Dim bluePart As Integer = Blue * 255
 
                 ' Shift bits to right place
                 redPart = redPart << 16 And &HFF0000 'Shift red 16-bits and mask out other stuff
@@ -78,7 +64,7 @@
         ' https://en.wikipedia.org/wiki/Grayscale#Luma_coding_in_video_systems
         Public Overridable ReadOnly Property Luminance As Single
             Get
-                Return redField1 * 0.2126F + greenField1 * 0.7152F + blueField1 * 0.0722F
+                Return Red * 0.2126F + Green * 0.7152F + Blue * 0.0722F
             End Get
         End Property
 

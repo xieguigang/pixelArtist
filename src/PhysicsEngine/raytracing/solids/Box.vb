@@ -1,4 +1,6 @@
-﻿Imports Vector3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
+﻿Imports Astrophysics.raytracing.math
+Imports Astrophysics.raytracing.pixeldata
+Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 
 Namespace raytracing.solids
 
@@ -6,15 +8,15 @@ Namespace raytracing.solids
     ' http://ray-tracing-conept.blogspot.com/2015/01/ray-box-intersection-and-normal.html
     Public Class Box : Inherits Solid
 
-        Private min, max As Vector3
+        Private min, max As vec3
 
-        Public Sub New(position As Vector3, scale As Vector3, color As Color, reflectivity As Single, emission As Single)
+        Public Sub New(position As vec3, scale As vec3, color As Color, reflectivity As Single, emission As Single)
             MyBase.New(position, color, reflectivity, emission)
-            max = position.add(scale.multiply(0.5F))
-            min = position.subtract(scale.multiply(0.5F))
+            max = position.Add(scale.Multiply(0.5F))
+            min = position.Subtract(scale.Multiply(0.5F))
         End Sub
 
-        Public Overrides Function calculateIntersection(ray As Ray) As Vector3?
+        Public Overrides Function calculateIntersection(ray As Ray) As vec3?
             Dim t1, t2, temp As Single, tnear = Single.NegativeInfinity, tfar = Single.PositiveInfinity
             Dim intersectFlag = True
             Dim rayDirection As Single() = ray.Direction.ToArray()
@@ -50,19 +52,19 @@ Namespace raytracing.solids
                 End If
             Next
             If intersectFlag Then
-                Return ray.Origin.add(ray.Direction.multiply(tnear))
+                Return ray.Origin.Add(ray.Direction.Multiply(tnear))
             Else
                 Return Nothing
             End If
         End Function
 
 
-        Public Overridable Function contains(point As Vector3) As Boolean
+        Public Overridable Function contains(point As vec3) As Boolean
             Return point.X >= min.X AndAlso point.Y >= min.Y AndAlso point.Z >= min.Z AndAlso point.X <= max.X AndAlso point.Y <= max.Y AndAlso point.Z <= max.Z
         End Function
 
-        Public Overrides Function getNormalAt(point As Vector3) As Vector3
-            Dim direction As Single() = point.subtract(_Position).ToArray()
+        Public Overrides Function getNormalAt(point As vec3) As vec3
+            Dim direction As Single() = point.Subtract(_Position).ToArray()
             Dim biggestValue = Single.NaN
 
             For i = 0 To 2
@@ -72,19 +74,19 @@ Namespace raytracing.solids
             Next
 
             If biggestValue = 0 Then
-                Return New Vector3(0, 0, 0)
+                Return New vec3(0, 0, 0)
             Else
                 For i = 0 To 2
                     If System.Math.Abs(direction(i)) = biggestValue Then
                         Dim normal = New Single() {0, 0, 0}
                         normal(i) = If(direction(i) > 0, 1, -1)
 
-                        Return New Vector3(normal(0), normal(1), normal(2))
+                        Return New vec3(normal(0), normal(1), normal(2))
                     End If
                 Next
             End If
 
-            Return New Vector3(0, 0, 0)
+            Return New vec3(0, 0, 0)
         End Function
     End Class
 

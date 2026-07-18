@@ -1,6 +1,6 @@
-﻿Imports PhysicsEngine.raytracing.math
-Imports PhysicsEngine.raytracing.solids
-Imports Vector3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
+﻿Imports Astrophysics.raytracing.math
+Imports Astrophysics.raytracing.solids
+Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 
 Namespace raytracing.rendering
 
@@ -13,7 +13,7 @@ Namespace raytracing.rendering
         Public Sub New()
             solids = New List(Of Solid)()
             cameraField = New Camera()
-            lightField = New Light(New Vector3(-1, 2, -1))
+            lightField = New Light(New vec3(-1, 2, -1))
             skyboxField = New Skybox("Sky.jpg")
         End Sub
 
@@ -33,7 +33,7 @@ Namespace raytracing.rendering
                 End If
 
                 Dim hitPos = solid.calculateIntersection(ray)
-                If hitPos IsNot Nothing AndAlso (closestHit Is Nothing OrElse Vector3.distance(closestHit.Position, ray.Origin) > Vector3.distance(hitPos, ray.Origin)) Then
+                If hitPos IsNot Nothing AndAlso (closestHit Is Nothing OrElse vec3.Distance(closestHit.Position, ray.Origin) > vec3.Distance(hitPos, ray.Origin)) Then
                     closestHit = New RayHit(ray, solid, hitPos)
                 End If
             Next
