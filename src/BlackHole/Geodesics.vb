@@ -35,6 +35,12 @@ Public Class Geodesics
     ' Geometric units: Rs = 2M = 1  ->  M = 0.5
     Private Const M As Double = 0.5
 
+    ' Temporary debug state (used by the test harness only).
+    Public Shared LastL As Double = 0
+    Public Shared LastQ As Double = 0
+    Public Shared LastSteps As Integer = 0
+    Public Shared LastExit As String = ""
+
     ''' <summary>
     ''' Trace a photon launched from <paramref name="origin"/> (embedding Cartesian, Rs = 1)
     ''' along unit <paramref name="direction"/>. Dispatches to Schwarzschild or Kerr depending
@@ -348,6 +354,8 @@ Public Class Geodesics
         Dim signR = If(rdot >= 0, 1.0, -1.0)
         Dim signTh = If(thdot >= 0, 1.0, -1.0)
 
+        LastL = L : LastQ = Q
+
         Dim st As New BLState With {.r = r0, .th = th0, .ph = ph0}
         Dim prevEmb = BLToEmbedding(st, a)
 
@@ -355,12 +363,16 @@ Public Class Geodesics
             If Double.IsNaN(st.r) OrElse Double.IsInfinity(st.r) Then Exit For
             If st.r <= rHor Then
                 res.Captured = True
+                LastExit = "capture@" & i
+                LastSteps = i
                 Return res
             End If
             If st.r > Rmax Then
                 res.Escaped = True
                 res.EscapeDir = (BLToEmbedding(st, a).Subtract(prevEmb)).Normalize()
                 If res.EscapeDir.Length() < 0.000001 Then res.EscapeDir = New vec3(0, 0, 1)
+                LastExit = "escape@" & i
+                LastSteps = i
                 Return res
             End If
 
@@ -392,6 +404,8 @@ Public Class Geodesics
             st = ns
         Next
 
+        LastExit = "maxsteps"
+        LastSteps = maxSteps
         res.Escaped = True
         Dim ed = (BLToEmbedding(st, a).Subtract(prevEmb)).Normalize()
         If Double.IsNaN(ed.X) OrElse Double.IsNaN(ed.Y) OrElse Double.IsNaN(ed.Z) OrElse ed.Length() < 0.000001 Then
