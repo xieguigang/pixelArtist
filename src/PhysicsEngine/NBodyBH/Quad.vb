@@ -9,8 +9,8 @@ Public Class Quad
 
     Private xmid As Double
     Private ymid As Double
-    'JAVA TO C# CONVERTER NOTE: Fields cannot have the same name as methods:
-    Private length_Conflict As Double
+
+    Private m_length As Double
 
     ''' <summary>
     ''' Constructor: creates a new Quad with the given 
@@ -22,7 +22,7 @@ Public Class Quad
     Public Sub New(xmid As Double, ymid As Double, length As Double)
         Me.xmid = xmid
         Me.ymid = ymid
-        length_Conflict = length
+        m_length = length
     End Sub
 
     ''' <summary>
@@ -30,7 +30,7 @@ Public Class Quad
     ''' </summary>
     ''' <returns> side length of the quadrant </returns>
     Public Overridable Function length() As Double
-        Return length_Conflict
+        Return m_length
     End Function
 
     ''' <summary>
@@ -40,7 +40,7 @@ Public Class Quad
     ''' <param name="y"> y-coordinate of point to test </param>
     ''' <returns>  true if quadrant contains (x, y), else false </returns>
     Public Overridable Function contains(x As Double, y As Double) As Boolean
-        Dim halfLen = length_Conflict / 2.0
+        Dim halfLen = m_length / 2.0
         Return x <= xmid + halfLen AndAlso x >= xmid - halfLen AndAlso y <= ymid + halfLen AndAlso y >= ymid - halfLen
     End Function
 
@@ -49,9 +49,9 @@ Public Class Quad
     ''' </summary>
     ''' <returns> the northwest quadrant of this Quad </returns>
     Public Overridable Function NW() As Quad
-        Dim x = xmid - length_Conflict / 4.0
-        Dim y = ymid + length_Conflict / 4.0
-        Dim len = length_Conflict / 2.0
+        Dim x = xmid - m_length / 4.0
+        Dim y = ymid + m_length / 4.0
+        Dim len = m_length / 2.0
         Dim lNW As Quad = New Quad(x, y, len)
         Return lNW
     End Function
@@ -61,9 +61,9 @@ Public Class Quad
     ''' </summary>
     ''' <returns> the northeast quadrant of this Quad </returns>
     Public Overridable Function NE() As Quad
-        Dim x = xmid + length_Conflict / 4.0
-        Dim y = ymid + length_Conflict / 4.0
-        Dim len = length_Conflict / 2.0
+        Dim x = xmid + m_length / 4.0
+        Dim y = ymid + m_length / 4.0
+        Dim len = m_length / 2.0
         Dim lNE As Quad = New Quad(x, y, len)
         Return lNE
     End Function
@@ -73,9 +73,9 @@ Public Class Quad
     ''' </summary>
     ''' <returns> the southwest quadrant of this Quad </returns>
     Public Overridable Function SW() As Quad
-        Dim x = xmid - length_Conflict / 4.0
-        Dim y = ymid - length_Conflict / 4.0
-        Dim len = length_Conflict / 2.0
+        Dim x = xmid - m_length / 4.0
+        Dim y = ymid - m_length / 4.0
+        Dim len = m_length / 2.0
         Dim lSW As Quad = New Quad(x, y, len)
         Return lSW
     End Function
@@ -85,9 +85,9 @@ Public Class Quad
     ''' </summary>
     ''' <returns> the southeast quadrant of this Quad </returns>
     Public Overridable Function SE() As Quad
-        Dim x = xmid + length_Conflict / 4.0
-        Dim y = ymid - length_Conflict / 4.0
-        Dim len = length_Conflict / 2.0
+        Dim x = xmid + m_length / 4.0
+        Dim y = ymid - m_length / 4.0
+        Dim len = m_length / 2.0
         Dim lSE As Quad = New Quad(x, y, len)
         Return lSE
     End Function
@@ -105,9 +105,9 @@ Public Class Quad
     ''' <returns> string representation of this quadrant </returns>
     Public Overrides Function ToString() As String
         Dim ret = vbLf
-        For row As Integer = 0 To length_Conflict - 1
-            For col As Integer = 0 To length_Conflict - 1
-                If row = 0 OrElse col = 0 OrElse row = length_Conflict - 1 OrElse col = length_Conflict - 1 Then
+        For row As Integer = 0 To m_length - 1
+            For col As Integer = 0 To m_length - 1
+                If row = 0 OrElse col = 0 OrElse row = m_length - 1 OrElse col = m_length - 1 Then
                     ret += "*"
                 Else
                     ret += " "
