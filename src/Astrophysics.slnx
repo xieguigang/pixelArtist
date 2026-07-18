@@ -24,6 +24,6 @@
     <Platform Solution="*|x64" Project="x64" />
   </Project>
   <Project Path="BlackHole/BlackHole.vbproj" Id="6cfef705-33c5-4d33-8ac2-6512bf972f8e">
-    <Platform Solution="Debug|x64" Project="x64" />
+    <Platform Solution="*|x64" Project="x64" />
   </Project>
 </Solution>
