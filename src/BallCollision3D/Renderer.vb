@@ -55,16 +55,18 @@ Public Class Renderer
         g.SmoothingMode = SmoothingMode.AntiAlias
         g.Clear(Color.FromArgb(10, 14, 26))
 
-        Dim half = sim.BoxSize / 2.0
+        ' 线框盒子必须与物理碰撞空间一致：局部系 [0, BoxSize]^3，
+        ' 这样旋转/投影后线框正好包裹住在此范围内活动的小球。
+        Dim s = sim.BoxSize
         Dim corners = New Point3D() {
-            New Point3D(-half, -half, -half),
-            New Point3D(half, -half, -half),
-            New Point3D(half, half, -half),
-            New Point3D(-half, half, -half),
-            New Point3D(-half, -half, half),
-            New Point3D(half, -half, half),
-            New Point3D(half, half, half),
-            New Point3D(-half, half, half)
+            New Point3D(0, 0, 0),
+            New Point3D(s, 0, 0),
+            New Point3D(s, s, 0),
+            New Point3D(0, s, 0),
+            New Point3D(0, 0, s),
+            New Point3D(s, 0, s),
+            New Point3D(s, s, s),
+            New Point3D(0, s, s)
         }
 
         ' 旋转 + 投影盒子顶点

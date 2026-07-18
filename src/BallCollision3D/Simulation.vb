@@ -140,8 +140,11 @@ Public Class Simulation
     End Sub
 
     Private Sub ResolveWalls()
-        Dim lo = ballRadiusMin()
-        Dim hi = BoxSize - lo
+        ' 物理坐标以盒子几何中心为原点：每轴范围 [-half, +half]。
+        ' 小球被钳位在 [-(half-r), +(half-r)]，使墙面正好在 ±half 处。
+        Dim half = BoxSize / 2.0
+        Dim lo = -half + ballRadiusMin()
+        Dim hi = half - ballRadiusMin()
 
         For Each b In balls
             ' ---- X 轴 ----
