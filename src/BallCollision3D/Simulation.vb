@@ -37,7 +37,7 @@ Public Class Simulation
     Public gravityLocal As Vector3
 
     ''' <summary>用于初始化的小球半径</summary>
-    Public ballRadius As Double = 12.0
+    Public ballRadius As Double = 4.0
 
     ''' <summary>滑动最大速率，用于颜色谱自适应（避免过早饱和）</summary>
     Public maxSpeed As Double = 1.0

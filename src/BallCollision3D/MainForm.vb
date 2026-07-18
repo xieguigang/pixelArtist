@@ -111,7 +111,7 @@ Public Class MainForm : Inherits Form
         grpParams.Font = New Font("Microsoft YaHei", 9)
 
         lblCount = New Label() With {.Text = "小球数量", .Dock = DockStyle.Top, .Height = 20, .ForeColor = Color.FromArgb(230, 240, 255)}
-        numCount = New NumericUpDown() With {.Dock = DockStyle.Top, .Height = 24, .Minimum = 1, .Maximum = 60, .Value = 15}
+        numCount = New NumericUpDown() With {.Dock = DockStyle.Top, .Height = 24, .Minimum = 1, .Maximum = 9999, .Value = 500}
         numCount.BackColor = Color.FromArgb(30, 38, 60)
         numCount.ForeColor = Color.White
 
