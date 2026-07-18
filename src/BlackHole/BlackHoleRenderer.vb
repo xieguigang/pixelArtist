@@ -102,12 +102,12 @@ Public Class BlackHoleRenderer
         Return bmp
     End Function
 
-    Private Shared Function Clamp255(v As Single) As Integer
-        Dim i = CInt(v * 255)
-        If i < 0 Then i = 0
-        If i > 255 Then i = 255
-        Return i
-    End Function
+        Private Shared Function Clamp255(v As Single) As Integer
+            If Single.IsNaN(v) OrElse Single.IsInfinity(v) Then Return 0
+            If v < 0 Then v = 0
+            If v > 1 Then v = 1
+            Return CInt(v * 255)
+        End Function
 
 End Class
 
