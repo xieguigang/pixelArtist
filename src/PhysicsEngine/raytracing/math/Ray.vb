@@ -1,5 +1,5 @@
 ﻿Imports Microsoft.VisualBasic.Imaging.Drawing3D.Models
-Imports Vector3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
+Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 
 Namespace raytracing.math
 
@@ -11,14 +11,14 @@ Namespace raytracing.math
     ''' </remarks>
     Public Class Ray
 
-        Public Overridable ReadOnly Property Origin As Vector3
-        Public Overridable ReadOnly Property Direction As Vector3
+        Public Overridable ReadOnly Property Origin As vec3
+        Public Overridable ReadOnly Property Direction As vec3
 
-        Public Sub New(origin As Vector3, direction As Vector3)
+        Public Sub New(origin As vec3, direction As vec3)
             _Origin = origin
 
-            If direction.length() <> 1 Then
-                direction = direction.normalize()
+            If direction.Length() <> 1 Then
+                direction = direction.Normalize()
             End If
             _Direction = direction
         End Sub

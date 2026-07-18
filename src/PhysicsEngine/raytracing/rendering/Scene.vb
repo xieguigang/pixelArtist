@@ -1,20 +1,23 @@
 ﻿Imports Astrophysics.raytracing.math
 Imports Astrophysics.raytracing.solids
+Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 
 Namespace raytracing.rendering
 
     Public Class Scene
-        Private cameraField As Camera
-        Private lightField As Light
-        Private solids As List(Of Solid)
-        Private skyboxField As Skybox
+
+        ReadOnly solids As List(Of Solid)
+
+        Public Overridable ReadOnly Property Camera As Camera
+        Public Overridable ReadOnly Property Light As Light
+        Public Overridable ReadOnly Property Skybox As Skybox
 
         Public Sub New()
             solids = New List(Of Solid)()
-            cameraField = New Camera()
-            lightField = New Light(New vec3(-1, 2, -1))
-            skyboxField = New Skybox("Sky.jpg")
+            Camera = New Camera()
+            Light = New Light(New vec3(-1, 2, -1))
+            Skybox = New Skybox("Sky.jpg")
         End Sub
 
         Public Overridable Sub addSolid(solid As Solid)
@@ -40,23 +43,6 @@ Namespace raytracing.rendering
             Return closestHit
         End Function
 
-        Public Overridable ReadOnly Property Camera As Camera
-            Get
-                Return cameraField
-            End Get
-        End Property
-
-        Public Overridable ReadOnly Property Light As Light
-            Get
-                Return lightField
-            End Get
-        End Property
-
-        Public Overridable ReadOnly Property Skybox As Skybox
-            Get
-                Return skyboxField
-            End Get
-        End Property
     End Class
 
 End Namespace

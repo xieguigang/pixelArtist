@@ -1,6 +1,7 @@
 ﻿Imports Astrophysics.raytracing.math
 Imports Astrophysics.raytracing.pixeldata
 Imports Microsoft.VisualBasic.Imaging
+Imports Microsoft.VisualBasic.Imaging.Drawing3D
 Imports Microsoft.VisualBasic.Math
 Imports SolidBrush = Microsoft.VisualBasic.Imaging.SolidBrush
 Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
@@ -104,11 +105,11 @@ Namespace raytracing.rendering
         End Function
 
         Public Shared Function computePixelInfo(scene As Scene, u As Single, v As Single) As pixeldata.PixelData
-            Dim eyePos As vec3 = New vec3(0, 0, -1 / System.Math.Tan(ToRadians(scene.Camera.FOV / 2)))
-            Dim cam = scene.Camera
+            Dim eyePos As vec3 = New vec3(0, 0, -1 / System.Math.Tan(ToRadians(scene.Camera.FieldOfView / 2)))
+            Dim cam As Camera = scene.Camera
 
-            Dim rayDir As vec3 = (New vec3(u, v, 0)).Subtract(eyePos).Normalize().rotateYP(cam.Yaw, cam.Pitch)
-            Dim hit As RayHit = scene.raycast(New Ray(eyePos.Add(cam.Position), rayDir))
+            Dim rayDir As vec3 = (New vec3(u, v, 0)).Subtract(eyePos).Normalize().rotateYP(cam.AngleY, cam.AngleX)
+            Dim hit As RayHit = scene.raycast(New Ray(eyePos.Add(cam.position), rayDir))
             If hit IsNot Nothing Then
                 Return computePixelInfoAtHit(scene, hit, MAX_REFLECTION_BOUNCES)
             ElseIf SHOW_SKYBOX Then
