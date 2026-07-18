@@ -1,3 +1,4 @@
+Imports System.Numerics
 Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 
 ''' <summary>
@@ -153,14 +154,14 @@ Public Class Geodesics
 
 #Region "Kerr (Carter constants, first-order system)"
 
-    Private Structure BLState
+    Friend Structure BLState
         Public r As Double
         Public th As Double
         Public ph As Double
     End Structure
 
     ''' <summary>Convert embedding Cartesian (spin axis = Y) to Boyer-Lindquist (r, theta, phi).</summary>
-    Private Shared Sub EmbeddingToBL(x As Double, y As Double, z As Double, a As Double, ByRef r As Double, ByRef th As Double, ByRef ph As Double)
+    Friend Shared Sub EmbeddingToBL(x As Double, y As Double, z As Double, a As Double, ByRef r As Double, ByRef th As Double, ByRef ph As Double)
         Dim S2 = x * x + y * y + z * z
         Dim u = 0.5 * ((S2 - a * a) + System.Math.Sqrt(System.Math.Max(0, (S2 - a * a) * (S2 - a * a) + 4 * a * a * y * y)))
         r = System.Math.Sqrt(System.Math.Max(0, u))
@@ -171,7 +172,7 @@ Public Class Geodesics
     End Sub
 
     ''' <summary>Convert Boyer-Lindquist (r, theta, phi) to embedding Cartesian (spin axis = Y).</summary>
-    Private Shared Function BLToEmbedding(st As BLState, a As Double) As vec3
+    Friend Shared Function BLToEmbedding(st As BLState, a As Double) As vec3
         Dim rho = System.Math.Sqrt(st.r * st.r + a * a)
         Dim sinTh = System.Math.Sin(st.th)
         Dim cosTh = System.Math.Cos(st.th)
@@ -253,7 +254,7 @@ Public Class Geodesics
     ''' Energy is normalised to E = 1. The correct angular-momentum root is selected by
     ''' matching the predicted dphi/dlambda to the Jacobian-derived phidot.
     ''' </summary>
-    Private Shared Sub SolveConserved(r0 As Double, th0 As Double, a As Double, rdot As Double, thdot As Double, phidot As Double, ByRef L As Double, ByRef Q As Double)
+    Friend Shared Sub SolveConserved(r0 As Double, th0 As Double, a As Double, rdot As Double, thdot As Double, phidot As Double, ByRef L As Double, ByRef Q As Double)
         Dim s2 = System.Math.Sin(th0) : s2 = s2 * s2
         Dim c2 = System.Math.Cos(th0) : c2 = c2 * c2
         If s2 < 0.000000000001 Then s2 = 0.000000000001
@@ -426,6 +427,38 @@ Public Class Geodesics
             ed = New vec3(0, 0, 1)
         End If
         Return ed
+    End Function
+
+#End Region
+
+#Region "Packet tracing (SIMD) dispatch"
+
+    ''' <summary>
+    ''' When True (default) the renderer uses the SIMD photon-packet integrator in
+    ''' GeodesicsPacket. Set to False to fall back to the scalar Trace for A/B
+    ''' correctness comparison (the two implementations should agree within
+    ''' floating-point tolerance).
+    ''' </summary>
+    Public Shared Property UsePacketTracing As Boolean = True
+
+    ''' <summary>Number of photons integrated in lock-step per SIMD packet (Vector(Of Double).Count).</summary>
+    Public Shared ReadOnly Property LANES As Integer = Vector(Of Double).Count
+
+    ''' <summary>
+    ''' Trace a packet of photons. origins/dirs must have the same length (1..LANES).
+    ''' Returns a PhotonResult per input ray.
+    ''' </summary>
+    Public Shared Function TracePacket(origins() As vec3, dirs() As vec3, model As BlackHoleModel) As PhotonResult()
+        If UsePacketTracing Then
+            Return GeodesicsPacket.TracePacket(origins, dirs, model)
+        Else
+            Dim n = origins.Length
+            Dim res(n - 1) As PhotonResult
+            For i = 0 To n - 1
+                res(i) = Trace(origins(i), dirs(i), model)
+            Next
+            Return res
+        End If
     End Function
 
 #End Region

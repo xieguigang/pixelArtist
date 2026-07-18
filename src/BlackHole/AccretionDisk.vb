@@ -52,7 +52,50 @@ End Class
 Public Class BlackBody
 
     ''' <summary>Blackbody RGB (each channel 0..1) for a temperature in Kelvin (Tanner Helland approximation).</summary>
+    ''' <remarks>
+    ''' The original transcendental formula is precomputed once into a temperature->RGB
+    ''' lookup table (see BuildLUT). This removes the per-hit / per-star Math.Pow / Math.Log
+    ''' calls from the rendering hot path; Color() now does a table lookup with linear
+    ''' interpolation, which is visually identical to the analytic formula.
+    ''' </remarks>
     Public Shared Function Color(kelvin As Double) As pColor
+        BuildLUT()
+        Dim t = System.Math.Max(lutMin, System.Math.Min(lutMax, kelvin))
+        Dim f = (t - lutMin) / lutStep
+        Dim i0 = CInt(System.Math.Floor(f))
+        If i0 >= lutR.Length - 1 Then i0 = lutR.Length - 2
+        If i0 < 0 Then i0 = 0
+        Dim frac = CSng(f - i0)
+        Dim r = lutR(i0) + (lutR(i0 + 1) - lutR(i0)) * frac
+        Dim g = lutG(i0) + (lutG(i0 + 1) - lutG(i0)) * frac
+        Dim b = lutB(i0) + (lutB(i0 + 1) - lutB(i0)) * frac
+        Return Safe(r, g, b)
+    End Function
+
+    Private Shared lutR() As Single = Nothing
+    Private Shared lutG() As Single = Nothing
+    Private Shared lutB() As Single = Nothing
+    Private Shared ReadOnly lutMin As Double = 500.0
+    Private Shared ReadOnly lutMax As Double = 40000.0
+    Private Shared ReadOnly lutStep As Double = 50.0
+
+    Private Shared Sub BuildLUT()
+        If lutR IsNot Nothing Then Return
+        Dim n = CInt(System.Math.Ceiling((lutMax - lutMin) / lutStep)) + 1
+        lutR = New Single(n - 1) {}
+        lutG = New Single(n - 1) {}
+        lutB = New Single(n - 1) {}
+        For i = 0 To n - 1
+            Dim kelvin = lutMin + i * lutStep
+            Dim c = ColorRaw(kelvin)
+            lutR(i) = c.Red
+            lutG(i) = c.Green
+            lutB(i) = c.Blue
+        Next
+    End Sub
+
+    ''' <summary>Analytic Tanner Helland blackbody colour (used only to build the LUT).</summary>
+    Private Shared Function ColorRaw(kelvin As Double) As pColor
         Dim temp = kelvin / 100.0
         Dim r, g, b As Double
 

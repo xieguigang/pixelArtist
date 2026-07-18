@@ -1,7 +1,9 @@
+Imports System.Threading.Tasks
 Imports gb = Astrophysics.raytracing.pixeldata.GaussianBlur
 Imports pb = Astrophysics.raytracing.pixeldata.PixelBuffer
 Imports pColor = Astrophysics.raytracing.pixeldata.Color
 Imports pd = Astrophysics.raytracing.pixeldata.PixelData
+Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 
 ''' <summary>
 ''' Ray-traces the black hole scene: for every pixel a camera ray is generated, traced
@@ -17,14 +19,39 @@ Public Class BlackHoleRenderer
         height = System.Math.Max(1, height)
 
         Dim buf = New pb(width, height)
+        Dim lanes = Geodesics.LANES
+        Dim total = width * height
+        Dim packetCount = CInt(System.Math.Ceiling(total / CDbl(lanes)))
 
-        Parallel.For(0, height, Sub(y)
-                                    If token.IsCancellationRequested Then Return
-                                    For x = 0 To width - 1
-                                        Dim uv = NormCoords(x, y, width, height)
-                                        buf.setPixel(x, y, ComputePixel(model, sky, uv.u, uv.v))
-                                    Next
-                                End Sub)
+        ' Trace photons in SIMD packets, parallelised across packets. Each packet holds
+        ' LANES consecutive pixels so the per-packet writes keep good cache locality.
+        Parallel.For(0, packetCount, Sub(pk)
+                                     If token.IsCancellationRequested Then Return
+                                     Dim baseIdx = pk * lanes
+                                     Dim n = System.Math.Min(lanes, total - baseIdx)
+                                     Dim origins(n - 1) As vec3
+                                     Dim dirs(n - 1) As vec3
+                                     Dim us(n - 1) As Single
+                                     Dim vs(n - 1) As Single
+                                     For l = 0 To n - 1
+                                         Dim idx = baseIdx + l
+                                         Dim x = idx Mod width
+                                         Dim y = idx \ width
+                                         Dim uv = NormCoords(x, y, width, height)
+                                         Dim ray = model.GetRay(uv.u, uv.v)
+                                         origins(l) = ray.Origin
+                                         dirs(l) = ray.Direction
+                                         us(l) = uv.u
+                                         vs(l) = uv.v
+                                     Next
+                                     Dim results = Geodesics.TracePacket(origins, dirs, model)
+                                     For l = 0 To n - 1
+                                         Dim idx = baseIdx + l
+                                         Dim x = idx Mod width
+                                         Dim y = idx \ width
+                                         buf.setPixel(x, y, ComputePixel(results(l), model, sky))
+                                     Next
+                                 End Sub)
 
         If token.IsCancellationRequested Then Return Nothing
 
@@ -51,24 +78,25 @@ Public Class BlackHoleRenderer
         Return (u, v)
     End Function
 
-    Private Shared Function ComputePixel(model As BlackHoleModel, sky As Starfield, u As Single, v As Single) As pd
-        Dim ray = model.GetRay(u, v)
-        Dim res = Geodesics.Trace(ray.Origin, ray.Direction, model)
-
+    ''' <summary>
+    ''' Composite one traced photon (already integrated by Geodesics.TracePacket) with the
+    ''' accretion-disk emission (doppler shifted), the shadow, and the escaped star field.
+    ''' </summary>
+    Private Shared Function ComputePixel(result As PhotonResult, model As BlackHoleModel, sky As Starfield) As pd
         Dim color As pColor
-        If res.Captured Then
+        If result.Captured Then
             color = pColor.BLACK
         Else
-            color = sky.GetColor(res.EscapeDir.Normalize())
+            color = sky.GetColor(result.EscapeDir.Normalize())
         End If
 
         Dim emission As Single = 0.0F
 
         If model.DiskEnabled Then
-            For i = 0 To res.DiskHits.Count - 1
+            For i = 0 To result.DiskHits.Count - 1
                 Dim c As pColor = Nothing
                 Dim em As Single = 0.0F
-                AccretionDisk.ComputeEmission(res.DiskHits(i), model, c, em)
+                AccretionDisk.ComputeEmission(result.DiskHits(i), model, c, em)
                 Dim alpha = If(i = 0, 1.0F, 0.6F)
                 color = BlackBody.Safe(
                     color.Red * (1 - alpha) + c.Red * alpha,

@@ -1,3 +1,4 @@
+Imports System.Numerics
 Imports Astrophysics.raytracing.rendering
 Imports pColor = Astrophysics.raytracing.pixeldata.Color
 Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
@@ -18,6 +19,12 @@ Public Class Starfield
     Private stars As New List(Of Star)()
     Private skybox As Skybox = Nothing
 
+    ' Star catalogue stored as parallel arrays so GetColor can process several
+    ' stars per SIMD vector lane instead of one at a time.
+    Private starCount As Integer = 0
+    Private dimX() As Double, dimY() As Double, dimZ() As Double
+    Private dR() As Double, dG() As Double, dB() As Double
+
     Public Sub New(Optional starCount As Integer = 450, Optional skyboxPath As String = Nothing)
         Dim rnd = New System.Random(1337)
         For i = 0 To starCount - 1
@@ -34,6 +41,24 @@ Public Class Starfield
             Dim col = BlackBody.Color(kelvin)
 
             stars.Add(New Star With {.Dir = dir, .Mag = mag, .Col = col})
+        Next
+
+        ' Flatten the catalogue into parallel arrays for SIMD sampling.
+        Me.starCount = stars.Count
+        dimX = New Double(starCount - 1) {}
+        dimY = New Double(starCount - 1) {}
+        dimZ = New Double(starCount - 1) {}
+        dR = New Double(starCount - 1) {}
+        dG = New Double(starCount - 1) {}
+        dB = New Double(starCount - 1) {}
+        For i = 0 To starCount - 1
+            Dim st = stars(i)
+            dimX(i) = st.Dir.X
+            dimY(i) = st.Dir.Y
+            dimZ(i) = st.Dir.Z
+            dR(i) = CDbl(st.Col.Red * st.Mag)
+            dG(i) = CDbl(st.Col.Green * st.Mag)
+            dB(i) = CDbl(st.Col.Blue * st.Mag)
         Next
 
         If Not String.IsNullOrEmpty(skyboxPath) Then
