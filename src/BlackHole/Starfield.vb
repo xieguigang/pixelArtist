@@ -3,7 +3,7 @@ Imports vec3 = Microsoft.VisualBasic.Imaging.Drawing3D.Point3D
 Imports Astrophysics.raytracing.rendering
 Imports pColor = Astrophysics.raytracing.pixeldata.Color
 
-Namespace BlackHole
+
 
     ''' <summary>
     ''' Background sky: a procedural star field (deterministic) with a faint nebula gradient.
@@ -81,4 +81,3 @@ Namespace BlackHole
 
     End Class
 
-End Namespace

@@ -7,7 +7,7 @@ Imports pb = Astrophysics.raytracing.pixeldata.PixelBuffer
 Imports pd = Astrophysics.raytracing.pixeldata.PixelData
 Imports gb = Astrophysics.raytracing.pixeldata.GaussianBlur
 
-Namespace BlackHole
+
 
     ''' <summary>
     ''' Ray-traces the black hole scene: for every pixel a camera ray is generated, traced
@@ -117,4 +117,3 @@ Namespace BlackHole
 
     End Class
 
-End Namespace

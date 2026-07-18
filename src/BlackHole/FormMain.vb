@@ -3,7 +3,7 @@ Imports System.Diagnostics
 Imports System.Threading
 Imports System.Threading.Tasks
 Imports System.Windows.Forms
-Imports BlackHole.BlackHole
+Imports BlackHole
 Imports BlackHole.BlackHole
 
 Public Class FormMain
