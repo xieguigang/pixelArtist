@@ -22,7 +22,7 @@ Namespace BlackHole
             width = System.Math.Max(1, width)
             height = System.Math.Max(1, height)
 
-            Dim buf = New pb.PixelBuffer(width, height)
+            Dim buf = New pb(width, height)
 
             Parallel.For(0, height, Sub(y)
                                         If token.IsCancellationRequested Then Return
@@ -37,7 +37,7 @@ Namespace BlackHole
             If model.BloomIntensity > 0 Then
                 Dim emis = buf.clone()
                 emis.filterByEmission(0.15F)
-                Dim blur = New gb.GaussianBlur(emis)
+                Dim blur = New gb(emis)
                 blur.blur(model.BloomRadius, 1)
                 buf.add(blur.PixelBuffer.multiply(CSng(model.BloomIntensity)))
             End If
@@ -57,7 +57,7 @@ Namespace BlackHole
             Return (u, v)
         End Function
 
-        Private Shared Function ComputePixel(model As BlackHoleModel, sky As Starfield, u As Single, v As Single) As PixelData
+        Private Shared Function ComputePixel(model As BlackHoleModel, sky As Starfield, u As Single, v As Single) As pd
             Dim ray = model.GetRay(u, v)
             Dim res = Geodesics.Trace(ray.Origin, ray.Direction, model)
 
@@ -84,10 +84,10 @@ Namespace BlackHole
                 Next
             End If
 
-            Return New pd.PixelData(color, 1.0F, emission)
+            Return New pd(color, 1.0F, emission)
         End Function
 
-        Private Shared Function ToBitmap(buf As pb.PixelBuffer) As Bitmap
+        Private Shared Function ToBitmap(buf As pb) As Bitmap
             Dim w = buf.Width
             Dim h = buf.Height
             Dim bmp As New Bitmap(w, h)
@@ -95,7 +95,7 @@ Namespace BlackHole
             For y = 0 To h - 1
                 For x = 0 To w - 1
                     Dim p = buf.getPixel(x, y)
-                    If p Is Nothing Then p = New pd.PixelData(pColor.BLACK, 0, 0)
+                    If p Is Nothing Then p = New pd(pColor.BLACK, 0, 0)
                     Dim c = p.Color
                     bmp.SetPixel(x, y, Color.FromArgb(
                         255,

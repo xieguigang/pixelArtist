@@ -160,9 +160,9 @@ Namespace BlackHole
             Dim S2 = x * x + y * y + z * z
             Dim u = 0.5 * ((S2 - a * a) + System.Math.Sqrt(System.Math.Max(0, (S2 - a * a) * (S2 - a * a) + 4 * a * a * y * y)))
             r = System.Math.Sqrt(System.Math.Max(0, u))
-            Dim cosTh = If(r > 1.0E-9, y / r, 0)
-            cosTh = System.Math.Max(-1, System.Math.Min(1, cosTh))
-            th = System.Math.Acos(cosTh)
+            Dim cosignThh = If(r > 1.0E-9, y / r, 0)
+            cosignThh = System.Math.Max(-1, System.Math.Min(1, cosignThh))
+            th = System.Math.Acos(cosignThh)
             ph = System.Math.Atan2(z, x)
         End Sub
 
@@ -170,10 +170,10 @@ Namespace BlackHole
         Private Shared Function BLToEmbedding(st As BLState, a As Double) As vec3
             Dim rho = System.Math.Sqrt(st.r * st.r + a * a)
             Dim sinTh = System.Math.Sin(st.th)
-            Dim cosTh = System.Math.Cos(st.th)
+            Dim cosignThh = System.Math.Cos(st.th)
             Dim x = rho * sinTh * System.Math.Cos(st.ph)
             Dim z = rho * sinTh * System.Math.Sin(st.ph)
-            Dim y = st.r * cosTh
+            Dim y = st.r * cosignThh
             Return New vec3(x, y, z)
         End Function
 
@@ -182,14 +182,14 @@ Namespace BlackHole
             Dim rho = System.Math.Sqrt(r0 * r0 + a * a)
             Dim rhoR = r0 / rho
             Dim sinTh = System.Math.Sin(th0)
-            Dim cosTh = System.Math.Cos(th0)
+            Dim cosignThh = System.Math.Cos(th0)
             Dim cosPh = System.Math.Cos(ph0)
             Dim sinPh = System.Math.Sin(ph0)
 
             Dim A(,) As Double = {
-                {rhoR * sinTh * cosPh, rho * cosTh * cosPh, -rho * sinTh * sinPh},
-                {cosTh, -r0 * sinTh, 0},
-                {rhoR * sinTh * sinPh, rho * cosTh * sinPh, rho * sinTh * cosPh}
+                {rhoR * sinTh * cosPh, rho * cosignThh * cosPh, -rho * sinTh * sinPh},
+                {cosignThh, -r0 * sinTh, 0},
+                {rhoR * sinTh * sinPh, rho * cosignThh * sinPh, rho * sinTh * cosPh}
             }
             Dim b() As Double = {dir.X, dir.Y, dir.Z}
             Dim x() As Double = {0, 0, 0}
@@ -257,15 +257,15 @@ Namespace BlackHole
             Dim Sigma0 = r0 * r0 + a * a * c2
             Dim Delta0 = r0 * r0 - 2 * M * r0 + a * a
             Dim A0 = r0 * r0 + a * a
-            Dim rhsR = (rdot * rdot) * Sigma0 * Sigma0
-            Dim rhsT = (thdot * thdot) * Sigma0 * Sigma0
+            Dim rhsignR = (rdot * rdot) * Sigma0 * Sigma0
+            Dim rhsignTh = (thdot * thdot) * Sigma0 * Sigma0
 
-            ' From Theta:  Q = rhsT + c2*(a^2 - L^2/s2)
+            ' From Theta:  Q = rhsignTh + c2*(a^2 - L^2/s2)
             ' Substitute into R to obtain a quadratic in L.
             Dim K = (s2 - c2) / s2
             Dim C2 = a * a - Delta0 * K
             Dim C1 = -2 * a * (A0 - Delta0)
-            Dim C0 = A0 * A0 - Delta0 * (rhsT + a * a * (1 + c2)) - rhsR
+            Dim C0 = A0 * A0 - Delta0 * (rhsignTh + a * a * (1 + c2)) - rhsignR
 
             Dim disc = C1 * C1 - 4 * C2 * C0
             If disc < 0 Then disc = 0
@@ -277,7 +277,7 @@ Namespace BlackHole
             Dim bestL = L1
             Dim bestErr = Double.MaxValue
             For Each cand In {L1, L2}
-                Dim Qc = rhsT + c2 * (a * a - cand * cand / s2)
+                Dim Qc = rhsignTh + c2 * (a * a - cand * cand / s2)
                 Dim T = A0 - a * cand
                 Dim dph = (-(a - cand / s2) + a * T / Delta0) / Sigma0
                 Dim err = System.Math.Abs(dph - phidot)
@@ -286,7 +286,7 @@ Namespace BlackHole
             L = bestL
         End Sub
 
-        Private Shared Sub KerrDeriv(st As BLState, a As Double, L As Double, Q As Double, sR As Double, sT As Double, ByRef dr As Double, ByRef dth As Double, ByRef dph As Double)
+        Private Shared Sub KerrDeriv(st As BLState, a As Double, L As Double, Q As Double, signR As Double, signTh As Double, ByRef dr As Double, ByRef dth As Double, ByRef dph As Double)
             Dim r = st.r
             Dim th = st.th
             Dim s2 = System.Math.Sin(th) : s2 = s2 * s2
@@ -298,23 +298,23 @@ Namespace BlackHole
             Dim T = (r * r + a * a) - a * L
             Dim R = T * T - Delta * (Q + (a - L) * (a - L))
             Dim Th = Q - c2 * (a * a - L * L / s2)
-            dr = sR * System.Math.Sqrt(System.Math.Max(R, 0)) / Sigma
-            dth = sT * System.Math.Sqrt(System.Math.Max(Th, 0)) / Sigma
+            dr = signR * System.Math.Sqrt(System.Math.Max(R, 0)) / Sigma
+            dth = signTh * System.Math.Sqrt(System.Math.Max(Th, 0)) / Sigma
             dph = (-(a - L / s2) + a * T / Delta) / Sigma
         End Sub
 
-        Private Shared Sub RK4Kerr(ByRef st As BLState, a As Double, L As Double, Q As Double, ByRef sR As Double, ByRef sT As Double, dt As Double)
+        Private Shared Sub RK4Kerr(ByRef st As BLState, a As Double, L As Double, Q As Double, ByRef signR As Double, ByRef signTh As Double, dt As Double)
             Dim k1r, k1t, k1p As Double
-            KerrDeriv(st, a, L, Q, sR, sT, k1r, k1t, k1p)
+            KerrDeriv(st, a, L, Q, signR, signTh, k1r, k1t, k1p)
             Dim s2 As New BLState With {.r = st.r + k1r * dt / 2, .th = st.th + k1t * dt / 2, .ph = st.ph + k1p * dt / 2}
             Dim k2r, k2t, k2p As Double
-            KerrDeriv(s2, a, L, Q, sR, sT, k2r, k2t, k2p)
+            KerrDeriv(s2, a, L, Q, signR, signTh, k2r, k2t, k2p)
             Dim s3 As New BLState With {.r = st.r + k2r * dt / 2, .th = st.th + k2t * dt / 2, .ph = st.ph + k2p * dt / 2}
             Dim k3r, k3t, k3p As Double
-            KerrDeriv(s3, a, L, Q, sR, sT, k3r, k3t, k3p)
+            KerrDeriv(s3, a, L, Q, signR, signTh, k3r, k3t, k3p)
             Dim s4 As New BLState With {.r = st.r + k3r * dt, .th = st.th + k3t * dt, .ph = st.ph + k3p * dt}
             Dim k4r, k4t, k4p As Double
-            KerrDeriv(s4, a, L, Q, sR, sT, k4r, k4t, k4p)
+            KerrDeriv(s4, a, L, Q, signR, signTh, k4r, k4t, k4p)
 
             st.r += dt / 6 * (k1r + 2 * k2r + 2 * k3r + k4r)
             st.th += dt / 6 * (k1t + 2 * k2t + 2 * k3t + k4t)
@@ -344,8 +344,8 @@ Namespace BlackHole
             Dim L, Q As Double
             SolveConserved(r0, th0, a, rdot, thdot, phidot, L, Q)
 
-            Dim sR = If(rdot >= 0, 1.0, -1.0)
-            Dim sT = If(thdot >= 0, 1.0, -1.0)
+            Dim signR = If(rdot >= 0, 1.0, -1.0)
+            Dim signTh = If(thdot >= 0, 1.0, -1.0)
 
             Dim st As New BLState With {.r = r0, .th = th0, .ph = ph0}
             Dim prevEmb = BLToEmbedding(st, a)
@@ -364,11 +364,11 @@ Namespace BlackHole
                 End If
 
                 Dim ns As New BLState
-                RK4Kerr(st, a, L, Q, sR, sT, dt)
+                RK4Kerr(st, a, L, Q, signR, signTh, dt)
 
                 ' Turning-point handling for r and theta.
-                If KerrR(ns.r, a, L, Q) < 0 Then sR = -sR
-                If KerrTheta(ns.th, a, L, Q) < 0 Then sT = -sT
+                If KerrR(ns.r, a, L, Q) < 0 Then signR = -signR
+                If KerrTheta(ns.th, a, L, Q) < 0 Then signTh = -signTh
 
                 Dim curEmb = BLToEmbedding(ns, a)
 
