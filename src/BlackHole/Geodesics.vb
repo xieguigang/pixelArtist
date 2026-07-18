@@ -290,8 +290,9 @@ Public Class Geodesics
         Dim c2 = System.Math.Cos(th) : c2 = c2 * c2
         If s2 < 0.000000000001 Then s2 = 0.000000000001
         Dim Sigma = r * r + a * a * c2
-        Dim Delta = r * r - 2 * M * r + a * a
-        If System.Math.Abs(Sigma) < 0.000000001 Then Sigma = 0.000000001
+            Dim Delta = r * r - 2 * M * r + a * a
+            If System.Math.Abs(Delta) < 0.000000001 Then Delta = 0.000000001
+            If System.Math.Abs(Sigma) < 0.000000001 Then Sigma = 0.000000001
         Dim T = (r * r + a * a) - a * L
         Dim radR = T * T - Delta * (Q + (a - L) * (a - L))
         Dim thetaR = Q - c2 * (a * a - L * L / s2)
@@ -338,8 +339,11 @@ Public Class Geodesics
         Dim rdot, thdot, phidot As Double
         CartesianVelToBL(origin, direction.Normalize(), r0, th0, ph0, a, rdot, thdot, phidot)
 
-        Dim L, Q As Double
-        SolveConserved(r0, th0, a, rdot, thdot, phidot, L, Q)
+            Dim L, Q As Double
+            SolveConserved(r0, th0, a, rdot, thdot, phidot, L, Q)
+            If Double.IsNaN(L) OrElse Double.IsNaN(Q) OrElse Double.IsInfinity(L) OrElse Double.IsInfinity(Q) Then
+                L = 0 : Q = 0
+            End If
 
         Dim signR = If(rdot >= 0, 1.0, -1.0)
         Dim signTh = If(thdot >= 0, 1.0, -1.0)
@@ -389,8 +393,11 @@ Public Class Geodesics
         Next
 
         res.Escaped = True
-        res.EscapeDir = (BLToEmbedding(st, a).Subtract(prevEmb)).Normalize()
-        If res.EscapeDir.Length() < 0.000001 Then res.EscapeDir = New vec3(0, 0, 1)
+        Dim ed = (BLToEmbedding(st, a).Subtract(prevEmb)).Normalize()
+        If Double.IsNaN(ed.X) OrElse Double.IsNaN(ed.Y) OrElse Double.IsNaN(ed.Z) OrElse ed.Length() < 0.000001 Then
+            ed = New vec3(0, 0, 1)
+        End If
+        res.EscapeDir = ed
         Return res
     End Function
 
