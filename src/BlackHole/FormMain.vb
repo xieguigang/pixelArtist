@@ -1,9 +1,4 @@
-﻿Imports System.Drawing
-Imports System.Diagnostics
-Imports System.Threading
-Imports System.Threading.Tasks
-Imports System.Windows.Forms
-Imports BlackHole
+﻿Imports System.Threading
 
 Public Class FormMain
 
