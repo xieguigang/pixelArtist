@@ -31,7 +31,7 @@ Public Class FormPlotViewer
         }
         Dim image = app.Plot("2500,1600").AsGDIImage
 
-        PictureBox1.BackgroundImage = image.CTypeImage
+        PictureBox1.BackgroundImage = image.CTypeGdiImage
     End Sub
 
     Private Sub FormPlotViewer_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
