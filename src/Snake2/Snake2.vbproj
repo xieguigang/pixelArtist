@@ -35,6 +35,16 @@
     <Import Include="System.Windows.Forms" />
   </ItemGroup>
 
+  <ItemGroup>
+    <!--
+      游戏把玩家蛇、食物、障碍物等都声明成了 Friend：它们本来是"游戏内部实现"，
+      但对一个外部的"操作逻辑"（例如让果蝇大脑模型接管玩家蛇）来说，
+      读取这些状态与设置方向正是它的全部工作。这里只把内部可见性开放给
+      FlywireSnake 这一个友元程序集，不改变游戏自身的公开 API 与行为。
+    -->
+    <InternalsVisibleTo Include="FlywireSnake" />
+  </ItemGroup>
+
 
 
 </Project>
