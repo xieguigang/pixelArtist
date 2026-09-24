@@ -6,4 +6,7 @@
   <Project Path="Snake2/Snake2.vbproj">
     <Platform Solution="*|x64" Project="x64" />
   </Project>
+  <Project Path="SnakeGame/SnakeGame.vbproj" Id="93d49172-c40c-47f8-af22-c807697857c8">
+    <Platform Solution="Release|x64" Project="x64" />
+  </Project>
 </Solution>

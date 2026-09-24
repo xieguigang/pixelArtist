@@ -1,4 +1,5 @@
 Imports System.Drawing.Drawing2D
+Imports Snake2
 
 ' ============================================================
 '  贪吃蛇像素游戏 - VB.NET WinForms 实现
@@ -33,7 +34,7 @@ Public Class GameForm : Inherits Form
         Me.MaximizeBox = False
         Me.StartPosition = FormStartPosition.CenterScreen
         Me.Text = "贪吃蛇像素游戏"
-        Me.BackColor = Render.BackgroundColor
+        Me.BackColor = render.BackgroundColor
         Me.KeyPreview = True
     End Sub
 
@@ -97,7 +98,7 @@ Public Class GameForm : Inherits Form
         Dim g As Graphics = e.Graphics
         g.SmoothingMode = SmoothingMode.None
         ' 清屏
-        g.Clear(Render.BackgroundColor)
+        g.Clear(render.BackgroundColor)
 
         Call render.Draw(g)
     End Sub

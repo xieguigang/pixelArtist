@@ -9,8 +9,9 @@
     Friend Shared ReadOnly MovingFoodColor As Color = Color.Cyan
     Friend Shared ReadOnly SuperFoodColor As Color = Color.Magenta
     Friend Shared ReadOnly ObstacleColor As Color = Color.DimGray
-    Friend Shared ReadOnly BackgroundColor As Color = Color.Black
     Friend Shared ReadOnly GridColor As Color = Color.FromArgb(25, 25, 25)
+
+    Public Shared ReadOnly BackgroundColor As Color = Color.Black
 
     ' ---------- 相机 ----------
     Friend cameraX As Integer = 0

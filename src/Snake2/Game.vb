@@ -15,18 +15,20 @@ Public Class Game
     Public Const ObstacleCount As Integer = 300        ' 障碍物数量
 
     ' ---------- 游戏状态 ----------
-    Friend playerSnake As Snake
     Friend aiSnakes As New List(Of Snake)
     Friend foods As New List(Of Food)
     Friend obstacles As New HashSet(Of Point)
     Friend score As Integer = 0
     Friend highScore As Integer = 0
-    Friend gameOver As Boolean = False
-    Friend paused As Boolean = False
+
     Friend rand As New Random()
     Friend superFoodTimer As Integer = 0
 
     Dim render As Render
+
+    Public playerSnake As Snake
+    Public gameOver As Boolean = False
+    Public paused As Boolean = False
 
     ' ============================================================
     '  游戏初始化
