@@ -1,37 +1,41 @@
 ﻿Imports System.ComponentModel
-Imports Microsoft.VisualBasic.Data.ChartPlots
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Canvas
-Imports Microsoft.VisualBasic.Data.ChartPlots.Graphic.Legend
-Imports Microsoft.VisualBasic.Data.ChartPlots.Plots
+Imports Microsoft.VisualBasic.Data.Plots
 Imports Microsoft.VisualBasic.Drawing
 Imports Microsoft.VisualBasic.Imaging
-Imports Microsoft.VisualBasic.Math.Interpolation
-Imports DashStyle = System.Drawing.Drawing2D.DashStyle
+Imports Microsoft.VisualBasic.Linq
 
+''' <summary>
+''' Q-Learning 训练得分曲线查看器。
+'''
+''' 原先使用 ChartPlots 的 LinePlot2D + CSS 主题渲染，现在改用 DataPlot 的
+''' 折线图（<see cref="LinePlot"/>）：样条平滑 + 填充由 <see cref="AreaPlot"/> 承担，
+''' 主题改为强类型的 <see cref="PlotTheme"/>。
+''' </summary>
 Public Class FormPlotViewer
 
     Public Sub PlotScore(scores As IEnumerable(Of Double))
-        Dim line As New SerialData With {
-            .color = Color.Blue,
-            .lineType = DashStyle.Solid,
-            .pointSize = 16,
-            .shape = LegendStyles.Circle,
-            .title = "Score",
-            .width = 8,
-            .pts = scores _
-                .Select(Function(d, i) New PointData(i, d)) _
-                .ToArray
+        Dim data = scores.SafeQuery.ToArray
+        Dim line As New Series With {
+            .Name = "Score",
+            .Color = Color.Blue,
+            .MarkerShape = MarkerShape.None,
+            .PointSize = 16,
+            .X = Enumerable.Range(0, data.Length).Select(Function(i) CDbl(i)).ToArray,
+            .Y = data
         }
-        Dim theme As New Theme With {.padding = "padding: 200px 500px 300px 300px;"}
-        Dim app As New LinePlot2D({line}, theme, fill:=True, fillPie:=True, Splines.B_Spline) With {
-            .legendTitle = "Score",
-            .main = "Q-Learning AI Game Score",
-            .xlabel = "Iteration",
-            .ylabel = "Game Score"
-        }
-        Dim image = app.Plot("2500,1600").AsGDIImage
 
-        PictureBox1.BackgroundImage = image.CTypeGdiImage
+        Using area As New AreaPlot(2500, 1600, PlotTheme.Light())
+            area.Title = "Q-Learning AI Game Score"
+            area.XLabel = "Iteration"
+            area.YLabel = "Game Score"
+            area.Smooth = True
+
+            area.Plot({line}.ToList())
+
+            Dim image = area.AsGraphicsData().AsGDIImage
+
+            PictureBox1.BackgroundImage = image.CTypeGdiImage
+        End Using
     End Sub
 
     Private Sub FormPlotViewer_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
